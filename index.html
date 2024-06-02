@@ -69,6 +69,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Transformer" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/06/02/Transformer/" class="article-date">
+  <time class="dt-published" datetime="2024-06-02T13:04:55.000Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/06/02/Transformer/">Transformer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Transformer的理解"><a href="#Transformer的理解" class="headerlink" title="Transformer的理解"></a>Transformer的理解</h1><h1 id="transformer"><a href="#transformer" class="headerlink" title="transformer"></a>transformer</h1><p><img src="https://img-blog.csdnimg.cn/direct/8a8c78c6941948a1827a013fe1da2bb3.png" alt="在这里插入图片描述"></p>
+<h1 id="ENCODER"><a href="#ENCODER" class="headerlink" title="ENCODER"></a>ENCODER</h1><p><img src="https://img-blog.csdnimg.cn/direct/e93387aeabd749789fcb9379ef913203.png" alt="在这里插入图片描述"></p>
+<h2 id="输入部分"><a href="#输入部分" class="headerlink" title="输入部分"></a>输入部分</h2><p>对拆分后的语句x &#x3D; [batch_size, seq_len]进行以下操作</p>
+<ol>
+<li>Embedding<br>将离散的输入（如单词索引或其他类别特征）转换为稠密的实数向量，以便可以在神经网络中使用。</li>
+<li>位置编码<br>与RNN相比，RNN是一个字一个字的输入，自然每个字的顺序关系信息就会保留下来。但在Encoder中，一个句子的每一个字（词）是并行计算的（下一节解释），所以我们在输入的时候需要提前引入位置信息。<br>位置信息由： pos（一句话中的第几个字） 和 i （这个字编码成向量后的第i维) 来确定<br>下面是Positional Encoding的公式：<br>i为 偶 数 时 ,  $PE_{pos, i}&#x3D; sin( pos&#x2F; 10000^{2i&#x2F; d_{model}})$<br>i为 奇 数 时 ,  $PE_{pos, i}&#x3D; cos( pos&#x2F; 10000^{2i&#x2F; d_{model}})$<br>$d_{model}$指想用多长的 vector 来表达一个词(embedding_dim)</li>
+</ol>
+<p>通过输入部分<br>x： [batch_size, seq_len, embedding_dim]</p>
+<p><img src="https://img-blog.csdnimg.cn/direct/2cd5cdb5641248179485166cd2044e44.png" alt="在这里插入图片描述"></p>
+<h2 id="多头注意力机制"><a href="#多头注意力机制" class="headerlink" title="多头注意力机制"></a>多头注意力机制</h2><ol>
+<li>单头注意力机制<br>对一句话中第i个字的字向量$a_i$，产生三个矩阵Q, K ，V<br>Q,K,V的维度都为[batch_size, seq_len, embedding_dim]</li>
+</ol>
+<p>将$a_i$分别与上面三个矩阵相乘，得到三个向量$q_i, k_i, v_i$<br>如果要计算第1个字向量与句子中所有字向量的注意力：<br>将查询向量$q_1$与 所有的字向量的键向量$k_i$相乘得到$alpha_{10}, alpha_{11},…,alpha_{1,seqlen}$<br>将这写数值进行softmax处理后， 分别与$v_i$相乘再合加得到最终结果$b_1$</p>
+<p><img src="https://img-blog.csdnimg.cn/direct/1e55284965a44375b70d7f35a5869142.png" alt="在这里插入图片描述"></p>
+<ol start="2">
+<li>多头注意力机制<br>把$Q,K,V$三个大矩阵变成n个小矩阵（seq_len, embedding_dim&#x2F;n)     n&#x3D;8<br>用上节相同的方式计算8个矩阵，然后把每一个head-Attention计算出来的b矩阵拼在一起，作为输出</li>
+</ol>
+<h2 id="Add-LN"><a href="#Add-LN" class="headerlink" title="Add&amp;LN"></a>Add&amp;LN</h2><p>Add是用了残差神经网络的思想，也就是把Multi-Head Attention的输入的a矩阵直接加上Multi-Head Attention的输出b矩阵（好处是可以让网络训练的更深）得到的和 $\bar{b}$矩阵</p>
+<p>再在经过Layer normalization（归一化，作用加快训练速度，加速收敛）把<br> 每一行（也就是每个句子）做归一为标准正态分布，最后得到$\hat{b}$<br>BN 和 LN：</p>
+<ol>
+<li>LN： 在一个样本内做归一化 适于RNN,transformer</li>
+<li>BN： 对batch_size里面的样本按对应的特征做归一化  适于CNN<br><img src="https://img-blog.csdnimg.cn/direct/8f699727d3214959addb03e90822d558.png" alt="在这里插入图片描述"></li>
+</ol>
+<h2 id="Feed-forward前馈神经网络"><a href="#Feed-forward前馈神经网络" class="headerlink" title="Feed_forward前馈神经网络"></a>Feed_forward前馈神经网络</h2><p>把Add &amp; Layer normalization输出$\hat{b}$，经过两个全连接层，再经过Add &amp; Layer normalization得到最后输出 o 矩阵</p>
+<h1 id="DECODER"><a href="#DECODER" class="headerlink" title="DECODER"></a>DECODER</h1><h2 id="masked-多头注意力机制"><a href="#masked-多头注意力机制" class="headerlink" title="masked_多头注意力机制"></a>masked_多头注意力机制</h2><p> 比如我们在中英文翻译时候，会先把”我是学生”整个句子输入到Encoder中，得到最后一层的输出后，才会在Decoder输入”S I am a student”（s表示开始）,但是”S I am a student”这个句子我们不会一起输入，而是在T0时刻先输入”S”预测，预测第一个词”I”；在下一个T1时刻，同时输入”S”和”I”到Decoder预测下一个单词”am”；然后在T2时刻把”S,I,am”同时输入到Decoder预测下一个单词”a”,依次把整个句子输入到Decoder,预测出”I am a student E”</p>
+<h2 id="多头注意力机制-1"><a href="#多头注意力机制-1" class="headerlink" title="多头注意力机制"></a>多头注意力机制</h2><p>Decoder 的 Multi-Head Attention 的输入来自两部分，<br>K，V 矩阵来自Encoder的输出，<br>Q 矩阵来自 Masked Multi-Head Attention 的输出<br><img src="https://img-blog.csdnimg.cn/direct/3f06bddb5c124448b71e5df6a4c2429d.png" alt="在这里插入图片描述"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/06/02/Transformer/" data-id="clwxkajkk0000z8v43gsqdgkt" data-title="Transformer" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-first-blog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/06/02/first-blog/" class="article-date">
@@ -225,6 +289,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/06/02/Transformer/">Transformer</a>
+          </li>
         
           <li>
             <a href="/2024/06/02/first-blog/">first-blog</a>
