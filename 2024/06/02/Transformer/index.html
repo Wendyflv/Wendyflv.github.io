@@ -6,12 +6,12 @@
   
   <title>Transformer | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Transformer的理解transformer ENCODER 输入部分对拆分后的语句x &#x3D; [batch_size, seq_len]进行以下操作  Embedding将离散的输入（如单词索引或其他类别特征）转换为稠密的实数向量，以便可以在神经网络中使用。 位置编码与RNN相比，RNN是一个字一个字的输入，自然每个字的顺序关系信息就会保留下来。但在Encoder中，一个句子的每一个">
+  <meta name="description" content="Transformer的理解transformer ENCODER 输入部分对拆分后的语句x &#x3D; [batch_size, seq_len]进行以下操作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Transformer">
 <meta property="og:url" content="http://example.com/2024/06/02/Transformer/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Transformer的理解transformer ENCODER 输入部分对拆分后的语句x &#x3D; [batch_size, seq_len]进行以下操作  Embedding将离散的输入（如单词索引或其他类别特征）转换为稠密的实数向量，以便可以在神经网络中使用。 位置编码与RNN相比，RNN是一个字一个字的输入，自然每个字的顺序关系信息就会保留下来。但在Encoder中，一个句子的每一个">
+<meta property="og:description" content="Transformer的理解transformer ENCODER 输入部分对拆分后的语句x &#x3D; [batch_size, seq_len]进行以下操作">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/direct/8a8c78c6941948a1827a013fe1da2bb3.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/direct/e93387aeabd749789fcb9379ef913203.png">
@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/direct/8f699727d3214959addb03e90822d558.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/direct/3f06bddb5c124448b71e5df6a4c2429d.png">
 <meta property="article:published_time" content="2024-06-02T13:04:55.000Z">
-<meta property="article:modified_time" content="2024-06-02T13:12:03.599Z">
+<meta property="article:modified_time" content="2024-06-04T10:52:18.726Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/direct/8a8c78c6941948a1827a013fe1da2bb3.png">
@@ -103,6 +103,8 @@
         <h1 id="Transformer的理解"><a href="#Transformer的理解" class="headerlink" title="Transformer的理解"></a>Transformer的理解</h1><h1 id="transformer"><a href="#transformer" class="headerlink" title="transformer"></a>transformer</h1><p><img src="https://img-blog.csdnimg.cn/direct/8a8c78c6941948a1827a013fe1da2bb3.png" alt="在这里插入图片描述"></p>
 <h1 id="ENCODER"><a href="#ENCODER" class="headerlink" title="ENCODER"></a>ENCODER</h1><p><img src="https://img-blog.csdnimg.cn/direct/e93387aeabd749789fcb9379ef913203.png" alt="在这里插入图片描述"></p>
 <h2 id="输入部分"><a href="#输入部分" class="headerlink" title="输入部分"></a>输入部分</h2><p>对拆分后的语句x &#x3D; [batch_size, seq_len]进行以下操作</p>
+<span id="more"></span>
+
 <ol>
 <li>Embedding<br>将离散的输入（如单词索引或其他类别特征）转换为稠密的实数向量，以便可以在神经网络中使用。</li>
 <li>位置编码<br>与RNN相比，RNN是一个字一个字的输入，自然每个字的顺序关系信息就会保留下来。但在Encoder中，一个句子的每一个字（词）是并行计算的（下一节解释），所以我们在输入的时候需要提前引入位置信息。<br>位置信息由： pos（一句话中的第几个字） 和 i （这个字编码成向量后的第i维) 来确定<br>下面是Positional Encoding的公式：<br>i为 偶 数 时 ,  $PE_{pos, i}&#x3D; sin( pos&#x2F; 10000^{2i&#x2F; d_{model}})$<br>i为 奇 数 时 ,  $PE_{pos, i}&#x3D; cos( pos&#x2F; 10000^{2i&#x2F; d_{model}})$<br>$d_{model}$指想用多长的 vector 来表达一个词(embedding_dim)</li>
@@ -139,6 +141,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          预训练模型
+        
+      </div>
+    </a>
   
   
     <a href="/2024/06/02/first-blog/" id="article-nav-older" class="article-nav-link-wrap">
@@ -181,15 +192,23 @@
       <ul>
         
           <li>
+            <a href="/2024/06/03/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%BE%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%81%8D%E5%8E%86/">数据结构-图的创建与遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/03/%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">前馈神经网络</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/">预训练模型</a>
+          </li>
+        
+          <li>
             <a href="/2024/06/02/Transformer/">Transformer</a>
           </li>
         
           <li>
             <a href="/2024/06/02/first-blog/">first-blog</a>
-          </li>
-        
-          <li>
-            <a href="/2024/06/02/hello-world/">Hello World</a>
           </li>
         
       </ul>

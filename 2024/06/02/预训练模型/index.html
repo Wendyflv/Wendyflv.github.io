@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>预训练模型 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="预训练模型预训练简介预训练：通过子监督学习从大规模数据里获取与具体任务无关的预训练模型的过程。 预训练任务：  掩码语言模型（编码器）：将一些位置的token替换成特殊的[MASK]字符，预测这些被替换的字符  只计算掩码部分的loss，其余部分不计算loss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="预训练模型">
+<meta property="og:url" content="http://example.com/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="预训练模型预训练简介预训练：通过子监督学习从大规模数据里获取与具体任务无关的预训练模型的过程。 预训练任务：  掩码语言模型（编码器）：将一些位置的token替换成特殊的[MASK]字符，预测这些被替换的字符  只计算掩码部分的loss，其余部分不计算loss">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png">
+<meta property="og:image" content="c:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602213105457.png">
+<meta property="article:published_time" content="2024-06-02T13:18:57.000Z">
+<meta property="article:modified_time" content="2024-06-04T10:51:23.586Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-预训练模型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2024-06-02T13:18:57.000Z" itemprop="datePublished">2024-06-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      预训练模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="预训练模型"><a href="#预训练模型" class="headerlink" title="预训练模型"></a>预训练模型</h1><h2 id="预训练简介"><a href="#预训练简介" class="headerlink" title="预训练简介"></a>预训练简介</h2><p><strong>预训练</strong>：通过子监督学习从大规模数据里获取与具体任务无关的预训练模型的过程。</p>
+<p>预训练任务：</p>
+<ol>
+<li><p>掩码语言模型（编码器）：将一些位置的token替换成特殊的[MASK]字符，预测这些被替换的字符</p>
+<p><img src="C:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png" alt="image-20240602212830234"></p>
+<p>只计算掩码部分的loss，其余部分不计算loss</p>
+<span id="more"></span>
+</li>
+<li><p>因果语言模型（解码器）：输入完整序列，基于上文预测当前token</p>
+<p><img src="C:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602213105457.png" alt="image-20240602213105457"></p>
+<p>eos代表句子结束</p>
+</li>
+<li><p>序列到序列模型：编码器解码器方式，预测部分放到解码器里面</p>
+<p>只计算解码器的loss，不计算解码器部分</p>
+</li>
+</ol>
+<h2 id="文本摘要"><a href="#文本摘要" class="headerlink" title="文本摘要"></a>文本摘要</h2><p><strong>文本摘要：</strong>输入长文本，将长文本转成简短的摘要</p>
+<p>任务类别：单文档单语言摘要</p>
+<p>评价指标：Rouge-1(基于1-gram) Rouge-2(基于2-gram) Rouge-L(基于LCS)</p>
+<table>
+<thead>
+<tr>
+<th>原始文本</th>
+<th>1-gram</th>
+<th>2-gram</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>今天不错</td>
+<td>今 天 不 错</td>
+<td>今天 天不 不错</td>
+</tr>
+<tr>
+<td>今天太阳不错</td>
+<td>今 天 太 阳 不 错</td>
+<td>今天 天太 太阳 阳不 不错</td>
+</tr>
+</tbody></table>
+<p>Rouge-1   P &#x3D; 4&#x2F;4   R&#x3D;4&#x2F;6  F &#x3D; 2PR(P+R)</p>
+<p>Rouge-2   P &#x3D; 2&#x2F;3   R&#x3D;2&#x2F;5</p>
+<p>LCS(最长公共子序列)   P &#x3D; 4&#x2F;4   R&#x3D;4&#x2F;6</p>
+<h3 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h3><p>input和labels分开处理，labels最后一定要有eos_token</p>
+<p>labels不仅是标签，还是解码器的输入</p>
+<p>数据集：</p>
+<h2 id="对话机器人"><a href="#对话机器人" class="headerlink" title="对话机器人"></a>对话机器人</h2><h1 id="参数微调fine-tuning"><a href="#参数微调fine-tuning" class="headerlink" title="参数微调fine-tuning"></a>参数微调fine-tuning</h1><h2 id="beat-fit"><a href="#beat-fit" class="headerlink" title="beat-fit"></a>beat-fit</h2><p>只对bias求梯度，其他的参数冻结</p>
+<h2 id="prompt-Tuning"><a href="#prompt-Tuning" class="headerlink" title="prompt-Tuning"></a>prompt-Tuning</h2><p>冻结主模型所有参数，在训练数据前加入一小段prompt，只训练prompt的embedding层。</p>
+<p>hard prompt：指定prompt</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config = PromptTuningConfig(task_type=TaskType.CAUSAL_LM, prompt_tuning_init=PromptTuningInit.TEXT, </span><br><span class="line">                            prompt_tuning_init_text = <span class="string">&quot;下面是一段人与机器人的对话。&quot;</span>,</span><br><span class="line">                            num_virtual_tokens  = <span class="built_in">len</span>(tokenizer(<span class="string">&quot;下面是一段人与机器人的对话。&quot;</span>)[<span class="string">&quot;input_ids&quot;</span>]), </span><br><span class="line">                            tokenizer_name_or_path = <span class="string">&quot;Langboat/bloom-389m-zh&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>soft prompt：不指定prompt，让模型自行学习  ，对模型需要进行适配多轮才能有好效果</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/" data-id="clx0a9po90002bwv4fvx3czcp" data-title="预训练模型" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/06/03/%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          前馈神经网络
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/06/02/Transformer/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Transformer</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/03/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%9B%BE%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E9%81%8D%E5%8E%86/">数据结构-图的创建与遍历</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/03/%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">前馈神经网络</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/">预训练模型</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/Transformer/">Transformer</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/02/first-blog/">first-blog</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
