@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="Wendyflv的博客">
 <meta property="og:description" content="预训练模型预训练简介预训练：通过子监督学习从大规模数据里获取与具体任务无关的预训练模型的过程。 预训练任务：  掩码语言模型（编码器）：将一些位置的token替换成特殊的[MASK]字符，预测这些被替换的字符  只计算掩码部分的loss，其余部分不计算loss">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png">
-<meta property="og:image" content="c:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602213105457.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240602212830234.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240602213105457.png">
 <meta property="article:published_time" content="2024-06-02T13:18:57.000Z">
 <meta property="article:modified_time" content="2024-06-04T10:51:23.586Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="c:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240602212830234.png">
   
   
   
@@ -339,12 +339,12 @@
 <p>预训练任务：</p>
 <ol>
 <li><p>掩码语言模型（编码器）：将一些位置的token替换成特殊的[MASK]字符，预测这些被替换的字符</p>
-<p><img src="C:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png" srcset="/img/loading.gif" lazyload alt="image-20240602212830234"></p>
+<p><img src="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602212830234.png" srcset="/img/loading.gif" lazyload alt="image-20240602212830234"></p>
 <p>只计算掩码部分的loss，其余部分不计算loss</p>
 <span id="more"></span>
 </li>
 <li><p>因果语言模型（解码器）：输入完整序列，基于上文预测当前token</p>
-<p><img src="C:\Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602213105457.png" srcset="/img/loading.gif" lazyload alt="image-20240602213105457"></p>
+<p><img src="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240602213105457.png" srcset="/img/loading.gif" lazyload alt="image-20240602213105457"></p>
 <p>eos代表句子结束</p>
 </li>
 <li><p>序列到序列模型：编码器解码器方式，预测部分放到解码器里面</p>
@@ -382,7 +382,7 @@
 <h2 id="对话机器人"><a href="#对话机器人" class="headerlink" title="对话机器人"></a>对话机器人</h2><h1 id="参数微调fine-tuning"><a href="#参数微调fine-tuning" class="headerlink" title="参数微调fine-tuning"></a>参数微调fine-tuning</h1><h2 id="beat-fit"><a href="#beat-fit" class="headerlink" title="beat-fit"></a>beat-fit</h2><p>只对bias求梯度，其他的参数冻结</p>
 <h2 id="prompt-Tuning"><a href="#prompt-Tuning" class="headerlink" title="prompt-Tuning"></a>prompt-Tuning</h2><p>冻结主模型所有参数，在训练数据前加入一小段prompt，只训练prompt的embedding层。</p>
 <p>hard prompt：指定prompt</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config = PromptTuningConfig(task_type=TaskType.CAUSAL_LM, prompt_tuning_init=PromptTuningInit.TEXT, </span><br><span class="line">                            prompt_tuning_init_text = <span class="string">&quot;下面是一段人与机器人的对话。&quot;</span>,</span><br><span class="line">                            num_virtual_tokens  = <span class="built_in">len</span>(tokenizer(<span class="string">&quot;下面是一段人与机器人的对话。&quot;</span>)[<span class="string">&quot;input_ids&quot;</span>]), </span><br><span class="line">                            tokenizer_name_or_path = <span class="string">&quot;Langboat/bloom-389m-zh&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">config = PromptTuningConfig(task_type=TaskType.CAUSAL_LM, prompt_tuning_init=PromptTuningInit.TEXT, <br>                            prompt_tuning_init_text = <span class="hljs-string">&quot;下面是一段人与机器人的对话。&quot;</span>,<br>                            num_virtual_tokens  = <span class="hljs-built_in">len</span>(tokenizer(<span class="hljs-string">&quot;下面是一段人与机器人的对话。&quot;</span>)[<span class="hljs-string">&quot;input_ids&quot;</span>]), <br>                            tokenizer_name_or_path = <span class="hljs-string">&quot;Langboat/bloom-389m-zh&quot;</span>)<br><br><br></code></pre></td></tr></table></figure>
 
 <p>soft prompt：不指定prompt，让模型自行学习  ，对模型需要进行适配多轮才能有好效果</p>
 
