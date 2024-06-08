@@ -16,21 +16,45 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="基于图片生成古诗实现方法我们在看图说话时，一般都是先看看图片上有什么内容，比如一张图里有山有水还有很多的植物，那我们对这张图的第一印象就是一张风景图，然后我们再根据图片上某一个具体的景物做详细的描述。 想让机器看图生成古诗，可以表示为如下步骤：  对图像分类，比如这个图像是风景图，再确切一点，是有湖、骛、荷花的风景图。这样就可以得到这个图的关键词。 由上一步得到的关键词，通过古诗生成模型，来生成有">
+    <meta name="description" content="卷积神经网络卷积卷积经常用在信号处理中，用于计算信号的延迟累积。 一维卷积时刻t收到的信号$y_t$ 为当前时刻产生的信息和以前时刻延迟信息的叠加: $y_t &#x3D; 1 \times x_t + 1&#x2F;2 \times x_{t-1} + 1&#x2F;4 \times x_{t-2}&#x3D; w_1x_t + w_2x_{t-1}+w_3 x_{t-2} &#x3D; \su">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于图片生成古诗">
-<meta property="og:url" content="https://wendyflv.github.io/2024/06/07/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E5%8F%A4%E8%AF%97/index.html">
+<meta property="og:title" content="卷积神经网络">
+<meta property="og:url" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="基于图片生成古诗实现方法我们在看图说话时，一般都是先看看图片上有什么内容，比如一张图里有山有水还有很多的植物，那我们对这张图的第一印象就是一张风景图，然后我们再根据图片上某一个具体的景物做详细的描述。 想让机器看图生成古诗，可以表示为如下步骤：  对图像分类，比如这个图像是风景图，再确切一点，是有湖、骛、荷花的风景图。这样就可以得到这个图的关键词。 由上一步得到的关键词，通过古诗生成模型，来生成有">
+<meta property="og:description" content="卷积神经网络卷积卷积经常用在信号处理中，用于计算信号的延迟累积。 一维卷积时刻t收到的信号$y_t$ 为当前时刻产生的信息和以前时刻延迟信息的叠加: $y_t &#x3D; 1 \times x_t + 1&#x2F;2 \times x_{t-1} + 1&#x2F;4 \times x_{t-2}&#x3D; w_1x_t + w_2x_{t-1}+w_3 x_{t-2} &#x3D; \su">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-07T07:33:48.000Z">
-<meta property="article:modified_time" content="2024-06-07T09:48:37.362Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183710865.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183937333.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608184031995.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608185512974.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608190629458.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191126721.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191945394.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192448907.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192458655.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608193340547.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194027267.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194917125.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608195911957.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608200153512.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201429497.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201549172.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201707278.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203139129.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203709599.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203931153.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204002547.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204534887.png">
+<meta property="article:published_time" content="2024-06-08T10:17:15.000Z">
+<meta property="article:modified_time" content="2024-06-08T12:54:13.270Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png">
   
   
   
-  <title>基于图片生成古诗 - Wendyflv的博客</title>
+  <title>卷积神经网络 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +278,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="基于图片生成古诗"></span>
+            <span id="subtitle" data-typed-text="卷积神经网络"></span>
           
         </div>
 
@@ -265,8 +289,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-07 15:33" pubdate>
-          2024年6月7日 下午
+        <time datetime="2024-06-08 18:17" pubdate>
+          2024年6月8日 晚上
         </time>
       </span>
     
@@ -278,7 +302,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          218 字
+          1.4k 字
         
       </span>
     
@@ -290,7 +314,7 @@
         
         
           <!-- compatible with older versions-->
-          2 分钟
+          12 分钟
         
       </span>
     
@@ -327,19 +351,122 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">基于图片生成古诗</h1>
+            <h1 id="seo-header">卷积神经网络</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="基于图片生成古诗"><a href="#基于图片生成古诗" class="headerlink" title="基于图片生成古诗"></a>基于图片生成古诗</h1><h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><p>我们在看图说话时，一般都是先看看图片上有什么内容，比如一张图里有山有水还有很多的植物，那我们对这张图的第一印象就是一张风景图，然后我们再根据图片上某一个具体的景物做详细的描述。</p>
-<p>想让机器看图生成古诗，可以表示为如下步骤：</p>
+                <h1 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h1><h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>卷积经常用在信号处理中，用于计算信号的延迟累积。</p>
+<h3 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h3><p>时刻t收到的信号$y_t$ 为当前时刻产生的信息和以前时刻延迟信息的叠加: $y_t &#x3D; 1 \times x_t + 1&#x2F;2 \times x_{t-1} + 1&#x2F;4 \times x_{t-2}&#x3D; w_1x_t + w_2x_{t-1}+w_3 x_{t-2} &#x3D; \sum_{k&#x3D;1}^{3}w_k x_{t-k+1}$</p>
+<p>$w_k$称为滤波器或者卷积核</p>
+<p>给定一个输入信号序列$x$和滤波器$w$，卷积的输出：$y_t &#x3D; \sum_{k&#x3D;1}^K w_k x_{t-k+1}$</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png" srcset="/img/loading.gif" lazyload alt="image-20240608183211215"></p>
+<p>不同的滤波器来提取信号序列中的不同特性</p>
+<p>👉低通滤波：滤波器$[1&#x2F;3, 1&#x2F;3, 1&#x2F;3]$可以检测信号序列中的低频信息（如均值）</p>
+<p>👉高通滤波：滤波器$[1, -2, 1]$可以检测信号中的高频信息（如边缘）</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183710865.png" srcset="/img/loading.gif" lazyload alt="image-20240608183710865"></p>
+<p>引入滑动步长$S$和零填充$P$:</p>
+<p>$S&#x3D;2$即卷积核每隔2步做一次卷积运算</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183937333.png" srcset="/img/loading.gif" lazyload alt="image-20240608183937333"></p>
+<p>$P&#x3D;1$即原数据左右两边各填充一个0（避免重要信息的丢失）</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608184031995.png" srcset="/img/loading.gif" lazyload alt="image-20240608184031995"></p>
+<p><strong>卷积类型</strong>：按照输出长度可分为3类</p>
+<p>$M$为输入序列的长度，$K$为窗口大小</p>
 <ol>
-<li>对图像分类，比如这个图像是风景图，再确切一点，是有湖、骛、荷花的风景图。这样就可以得到这个图的关键词。</li>
-<li>由上一步得到的关键词，通过古诗生成模型，来生成有关图片的古诗。</li>
+<li>宽卷积：步长$S&#x3D;1$，两边不补零$P&#x3D;0$，卷积后输出长度为$M-K+1$</li>
+<li>窄卷积：步长$S&#x3D;1$，两边补零$P&#x3D;K-1$，卷积输出长度为$M+K-1$</li>
+<li>等宽卷积：步长$S&#x3D;1$，两端补零$P&#x3D;(K-1)&#x2F;2$，卷积后输出长度为$M$</li>
 </ol>
-<p>下面，将把这个项目分成以下几个部分：图片分类、古诗生成、网页搭建。</p>
-<h3 id="图片分类"><a href="#图片分类" class="headerlink" title="图片分类"></a>图片分类</h3>
+<p>对一个步长为$S$，填充为$P$的卷积，输出的长度为：$|\frac{M+2P-K}{2}| + 1$</p>
+<h3 id="二维卷积"><a href="#二维卷积" class="headerlink" title="二维卷积"></a>二维卷积</h3><p>在图像处理中，图像是以二维矩阵的形式输入到神经网络中，因此我们需要二维卷积。</p>
+<p>一个输入信息$X$和滤波器$W$的二维卷积定义为：$Y&#x3D;W * X$</p>
+<p>$y_{ij} &#x3D; \sum_{u&#x3D;1}^{U}\sum_{v&#x3D;1}^{V} w_{uv}x_{i-u+1, j-v+1}$</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608185512974.png" srcset="/img/loading.gif" lazyload alt="image-20240608185512974"></p>
+<p>步长和填充不同的情况：</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608190629458.png" srcset="/img/loading.gif" lazyload alt="image-20240608190629458"></p>
+<h2 id="卷积神经网络-1"><a href="#卷积神经网络-1" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h2><p>网络结构：</p>
+<p>👉数据输入层（Input layer）</p>
+<p>👉<a href="##%E5%8D%B7%E7%A7%AF%E5%B1%82">卷积计算层（CONV layer）</a></p>
+<ol>
+<li>局部特征提取</li>
+<li>训练中参数学习</li>
+<li>每个卷积核提取特定模式的特征</li>
+</ol>
+<p>👉ReLU激励层（ReLU layer）</p>
+<p>👉[池化层（Pooling layer）](##池化层或汇聚层（Pooling Layers）)</p>
+<ol>
+<li>降低数据维度，避免过拟合</li>
+<li>增强局部感受野</li>
+<li>提高平移不变性</li>
+</ol>
+<p>👉全连接层（FC layer）：特征提取到分类的桥梁</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191126721.png" srcset="/img/loading.gif" lazyload alt="image-20240608191126721"></p>
+<h3 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h3><p>卷积代替全连接层  $h^{l+1} &#x3D; f(w * h^l + b)$</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191945394.png" srcset="/img/loading.gif" lazyload alt="image-20240608191945394"><strong>局部连接，权重共享，空间或者时间上的次采样</strong></p>
+<p><strong>卷积与协相关</strong>：</p>
+<p>协相关：核核输入数据对应相乘再求和</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192448907.png" srcset="/img/loading.gif" lazyload alt="image-20240608192448907"></p>
+<p>卷积：核先翻转180度，再做协相关</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192458655.png" srcset="/img/loading.gif" lazyload alt="image-20240608192458655"></p>
+<p>除非特殊声明，计算结果按照协相关来。</p>
+<p><strong>多个卷积核</strong>：使用多个卷积核能增强卷积层的提取不同特征的能力</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608193340547.png" srcset="/img/loading.gif" lazyload alt="image-20240608193340547"></p>
+<p>输入$[7<em>7</em>3] \rightarrow $ 经过卷积核$w_0[3<em>3</em>3]+b_0, w_1[3<em>3</em>3]+b_1 \rightarrow$ 结果$[3<em>3</em>2]$</p>
+<p>(两个卷积核的大小必须一致)</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194027267.png" srcset="/img/loading.gif" lazyload alt="image-20240608194027267"></p>
+<p>3通道图像的卷积层：经过多少个卷积核，就会产生多少通道特征图</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194917125.png" srcset="/img/loading.gif" lazyload alt="image-20240608194917125"></p>
+<h3 id="池化层或汇聚层（Pooling-Layers）"><a href="#池化层或汇聚层（Pooling-Layers）" class="headerlink" title="池化层或汇聚层（Pooling Layers）"></a>池化层或汇聚层（Pooling Layers）</h3><p>卷积层虽然可以显著减少连接的个数，但是每一个特征映射的神经元个数并没有显著减少。</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608195911957.png" srcset="/img/loading.gif" lazyload alt="image-20240608195911957"></p>
+<p>卷积网络是由卷积层、汇聚层、全连接层交叉堆叠而成的</p>
+<p>经典结构如下：一个卷积块为连续$M$个卷积层和$b$个汇聚层。一个卷积网络可以堆叠$N$个连续的卷积块，然后在接着$K$个全连接层。</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608200153512.png" srcset="/img/loading.gif" lazyload alt="image-20240608200153512"></p>
+<h2 id="误差反向传播"><a href="#误差反向传播" class="headerlink" title="误差反向传播"></a>误差反向传播</h2><h3 id="卷积层的反向传播"><a href="#卷积层的反向传播" class="headerlink" title="卷积层的反向传播"></a>卷积层的反向传播</h3><ol>
+<li>误差的传播</li>
+</ol>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201429497.png" srcset="/img/loading.gif" lazyload alt="image-20240608201429497"></p>
+<ol start="2">
+<li><p>权重梯度的计算</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201549172.png" srcset="/img/loading.gif" lazyload alt="image-20240608201549172"></p>
+</li>
+</ol>
+<h3 id="池化层的反向传播"><a href="#池化层的反向传播" class="headerlink" title="池化层的反向传播"></a>池化层的反向传播</h3><p>误差的传播</p>
+<p>对最大池化，下一层的误差项会原封不动的传给上一层对应区块的最大值所对应的神经元，而其他神经元的误差项都是0。（平均池化就是每个误差项系数为1&#x2F;K）</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201707278.png" srcset="/img/loading.gif" lazyload alt="image-20240608201707278"></p>
+<h2 id="其他卷积种类"><a href="#其他卷积种类" class="headerlink" title="其他卷积种类"></a>其他卷积种类</h2><h3 id="空洞卷积"><a href="#空洞卷积" class="headerlink" title="空洞卷积"></a>空洞卷积</h3><p>通过给卷积核插入“空洞”来变相地增加其大小，以增加输出单元的感受野</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203139129.png" srcset="/img/loading.gif" lazyload alt="image-20240608203139129"></p>
+<h3 id="转置卷积-微步卷积"><a href="#转置卷积-微步卷积" class="headerlink" title="转置卷积&#x2F;微步卷积"></a>转置卷积&#x2F;微步卷积</h3><p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203709599.png" srcset="/img/loading.gif" lazyload alt="image-20240608203709599"></p>
+<h3 id="可分离卷积"><a href="#可分离卷积" class="headerlink" title="可分离卷积"></a>可分离卷积</h3><p>👉空间可分离卷积</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203931153.png" srcset="/img/loading.gif" lazyload alt="image-20240608203931153"></p>
+<p>👉深度可分离卷积</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204002547.png" srcset="/img/loading.gif" lazyload alt="image-20240608204002547"></p>
+<h2 id="经典卷积网络"><a href="#经典卷积网络" class="headerlink" title="经典卷积网络"></a>经典卷积网络</h2><p><strong>残差网络</strong></p>
+<p>残差网络（Residual Network，ResNet）是通过给非线性的卷积层增加<strong>直连边</strong>的方式来提高信息的传播效率。</p>
+<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204534887.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>好处：</strong></p>
+<ol>
+<li>能够解决梯度消失问题，适用于深层结构。</li>
+<li>加速了模型训练收敛速度，使得模型更容易地学习到恒等映射（identity mapping）或者近似于恒等映射的变换。</li>
+<li>即学习输入与目标之间的差异，而不是直接学习输出。这样的设计使得网络可以更好地适应复杂的数据分布，提高了网络的表达能力</li>
+</ol>
+<h2 id="CNN的优缺点"><a href="#CNN的优缺点" class="headerlink" title="CNN的优缺点"></a>CNN的优缺点</h2><p><strong>优点：</strong></p>
+<ol>
+<li>共享卷积核，对高维数据处理无压力</li>
+<li>无需手动提取特征，训练好合适的权重，可以获取好的特征</li>
+<li>分类效果好</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>需要调参，还需要大样本，训练要GPU</li>
+<li>物理含义不明确</li>
+</ol>
+<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><ol>
+<li>卷积网络的三个结构特征：共享权值，局部连接，时间或空间上的次采样</li>
+<li>卷积的定义，以及各式各样的卷积</li>
+<li>卷积网络结构（卷积块的构成+全连接层）</li>
+<li>理解残差网络的机理</li>
+</ol>
+
                 
               </div>
             
@@ -356,8 +483,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>基于图片生成古诗</div>
-      <div>https://wendyflv.github.io/2024/06/07/基于图片生成古诗/</div>
+      <div>卷积神经网络</div>
+      <div>https://wendyflv.github.io/2024/06/08/卷积神经网络/</div>
     </div>
     <div class="license-meta">
       
@@ -369,7 +496,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月7日</div>
+          <div>2024年6月8日</div>
         </div>
       
       
@@ -401,18 +528,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="卷积神经网络">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">卷积神经网络</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/05/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83/" title="大模型的高效微调">
-                        <span class="hidden-mobile">大模型的高效微调</span>
+                      <a href="/2024/06/07/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E5%8F%A4%E8%AF%97/" title="基于图片生成古诗">
+                        <span class="hidden-mobile">基于图片生成古诗</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
