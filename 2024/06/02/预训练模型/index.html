@@ -25,8 +25,11 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240602212830234.png">
 <meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240602213105457.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/image-20240605211808432.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/image-20240605212049075.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/image-20240605214006018.png">
 <meta property="article:published_time" content="2024-06-02T13:18:57.000Z">
-<meta property="article:modified_time" content="2024-06-04T10:51:23.586Z">
+<meta property="article:modified_time" content="2024-06-05T13:50:54.085Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wendyflv.github.io/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240602212830234.png">
@@ -281,7 +284,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          482 字
+          589 字
         
       </span>
     
@@ -380,11 +383,19 @@
 <p>labels不仅是标签，还是解码器的输入</p>
 <p>数据集：</p>
 <h2 id="对话机器人"><a href="#对话机器人" class="headerlink" title="对话机器人"></a>对话机器人</h2><h1 id="参数微调fine-tuning"><a href="#参数微调fine-tuning" class="headerlink" title="参数微调fine-tuning"></a>参数微调fine-tuning</h1><h2 id="beat-fit"><a href="#beat-fit" class="headerlink" title="beat-fit"></a>beat-fit</h2><p>只对bias求梯度，其他的参数冻结</p>
-<h2 id="prompt-Tuning"><a href="#prompt-Tuning" class="headerlink" title="prompt-Tuning"></a>prompt-Tuning</h2><p>冻结主模型所有参数，在训练数据前加入一小段prompt，只训练prompt的embedding层。</p>
+<h2 id="prompt-Tuning"><a href="#prompt-Tuning" class="headerlink" title="prompt-Tuning"></a>prompt-Tuning</h2><p><img src="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/image-20240605211808432.png" srcset="/img/loading.gif" lazyload alt="image-20240605211808432"></p>
+<p>冻结主模型所有参数，在训练数据前加入一小段prompt，只训练prompt的embedding层。</p>
 <p>hard prompt：指定prompt</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">config = PromptTuningConfig(task_type=TaskType.CAUSAL_LM, prompt_tuning_init=PromptTuningInit.TEXT, <br>                            prompt_tuning_init_text = <span class="hljs-string">&quot;下面是一段人与机器人的对话。&quot;</span>,<br>                            num_virtual_tokens  = <span class="hljs-built_in">len</span>(tokenizer(<span class="hljs-string">&quot;下面是一段人与机器人的对话。&quot;</span>)[<span class="hljs-string">&quot;input_ids&quot;</span>]), <br>                            tokenizer_name_or_path = <span class="hljs-string">&quot;Langboat/bloom-389m-zh&quot;</span>)<br><br><br></code></pre></td></tr></table></figure>
 
 <p>soft prompt：不指定prompt，让模型自行学习  ，对模型需要进行适配多轮才能有好效果</p>
+<h2 id="P-Tuning"><a href="#P-Tuning" class="headerlink" title="P-Tuning"></a>P-Tuning</h2><p><img src="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/image-20240605212049075.png" srcset="/img/loading.gif" lazyload alt="image-20240605212049075"></p>
+<p>在Prompt-Tuning基础上，对prompt部分进行进一步的编码计算，加速收敛。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> peft <span class="hljs-keyword">import</span> PromptEncoderConfig, TaskType, get_peft_model, PromptEncoderReparameterizationType<br><br>config = PromptEncoderConfig(task_type = TaskType.CAUSAL_LM, num_virtual_tokens = <span class="hljs-number">10</span>, <br>                             encoder_reparameterization_type = PromptEncoderReparameterizationType.LSTM,<br>                             encoder_dropout = <span class="hljs-number">0.1</span>, encoder_num_layers = <span class="hljs-number">2</span>, encoder_hidden_size =<span class="hljs-number">1024</span><br>                             )<br>config<br></code></pre></td></tr></table></figure>
+
+<h2 id="Prefix-Tuning"><a href="#Prefix-Tuning" class="headerlink" title="Prefix-Tuning"></a>Prefix-Tuning</h2><p>past_key_values：Transformer模型中历史计算过的key和value的结果，会存在重复计算，可将结果缓存。</p>
+<p>通过past_key_values的形式将可学习的部分放到了模型中的每一层，这部分内容又称为前缀。</p>
+<p><img src="/2024/06/02/%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/image-20240605214006018.png" srcset="/img/loading.gif" lazyload alt="image-20240605214006018"></p>
 
                 
               </div>
