@@ -16,23 +16,27 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="网络优化与正则化网络优化网络优化的难点：  不同网络的结构差异大，没有通用的优化算法，超参数多 非凸优化问题，如何继续参数初始化和逃离局部最优 梯度消失和梯度爆炸问题  网络优化的方法 梯度下降法（GD）  批量梯度下降法（BGD) 批量梯度下降得到的是一个所有训练数据上的全局最优解，每一次的参数更新都用到了所有的训练数据，如果训练数据非常多的话，执行效率较低。 $\theta_j^{‘} &amp;#x">
+    <meta name="description" content="深度生成模型生成模型机器学习的两种范式  生成模型：用于随机生成可观测数据的模型，是一种密度估计问题。 包括两个步骤：  密度估计：分显式密度估计（明确定义模型，直接从样本来估计概率分布）和隐式密度估计（通过拟合模型，使其能够生成符合数据分布的样本）。 采样  深度生成模型：👉变分自编码器VAE ​                           👉生成对抗网络GAN 变分自编码器自编码器">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网络优化与正则化">
-<meta property="og:url" content="https://wendyflv.github.io/2024/06/09/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/index.html">
+<meta property="og:title" content="深度生成模型">
+<meta property="og:url" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="网络优化与正则化网络优化网络优化的难点：  不同网络的结构差异大，没有通用的优化算法，超参数多 非凸优化问题，如何继续参数初始化和逃离局部最优 梯度消失和梯度爆炸问题  网络优化的方法 梯度下降法（GD）  批量梯度下降法（BGD) 批量梯度下降得到的是一个所有训练数据上的全局最优解，每一次的参数更新都用到了所有的训练数据，如果训练数据非常多的话，执行效率较低。 $\theta_j^{‘} &amp;#x">
+<meta property="og:description" content="深度生成模型生成模型机器学习的两种范式  生成模型：用于随机生成可观测数据的模型，是一种密度估计问题。 包括两个步骤：  密度估计：分显式密度估计（明确定义模型，直接从样本来估计概率分布）和隐式密度估计（通过拟合模型，使其能够生成符合数据分布的样本）。 采样  深度生成模型：👉变分自编码器VAE ​                           👉生成对抗网络GAN 变分自编码器自编码器">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/image-20240609204358288.png">
-<meta property="article:published_time" content="2024-06-09T12:26:40.000Z">
-<meta property="article:modified_time" content="2024-06-09T12:49:41.287Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610154818533.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610160021264.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610161941447.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610162904606.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610164827734.png">
+<meta property="article:published_time" content="2024-06-10T07:45:31.000Z">
+<meta property="article:modified_time" content="2024-06-10T09:03:56.487Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/09/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/image-20240609204358288.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610154818533.png">
   
   
   
-  <title>网络优化与正则化 - Wendyflv的博客</title>
+  <title>深度生成模型 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -256,7 +260,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="网络优化与正则化"></span>
+            <span id="subtitle" data-typed-text="深度生成模型"></span>
           
         </div>
 
@@ -267,8 +271,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-09 20:26" pubdate>
-          2024年6月9日 晚上
+        <time datetime="2024-06-10 15:45" pubdate>
+          2024年6月10日 下午
         </time>
       </span>
     
@@ -280,7 +284,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          387 字
+          1k 字
         
       </span>
     
@@ -292,7 +296,7 @@
         
         
           <!-- compatible with older versions-->
-          4 分钟
+          9 分钟
         
       </span>
     
@@ -329,38 +333,64 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">网络优化与正则化</h1>
+            <h1 id="seo-header">深度生成模型</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="网络优化与正则化"><a href="#网络优化与正则化" class="headerlink" title="网络优化与正则化"></a>网络优化与正则化</h1><h2 id="网络优化"><a href="#网络优化" class="headerlink" title="网络优化"></a>网络优化</h2><p>网络优化的难点：</p>
+                <h1 id="深度生成模型"><a href="#深度生成模型" class="headerlink" title="深度生成模型"></a>深度生成模型</h1><h2 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h2><p>机器学习的两种范式</p>
+<p><img src="/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610154818533.png" srcset="/img/loading.gif" lazyload alt="image-20240610154818533"></p>
+<p>生成模型：用于随机生成可观测数据的模型，是一种密度估计问题。</p>
+<p>包括两个步骤：</p>
 <ol>
-<li>不同网络的结构差异大，没有通用的优化算法，超参数多</li>
-<li>非凸优化问题，如何继续参数初始化和逃离局部最优</li>
-<li>梯度消失和梯度爆炸问题</li>
+<li>密度估计：分显式密度估计（明确定义模型，直接从样本来估计概率分布）和隐式密度估计（通过拟合模型，使其能够生成符合数据分布的样本）。</li>
+<li>采样</li>
 </ol>
-<p>网络优化的方法</p>
-<p>梯度下降法（GD）</p>
+<p>深度生成模型：👉变分自编码器VAE</p>
+<p>​                           👉生成对抗网络GAN</p>
+<h2 id="变分自编码器"><a href="#变分自编码器" class="headerlink" title="变分自编码器"></a>变分自编码器</h2><h3 id="自编码器"><a href="#自编码器" class="headerlink" title="自编码器"></a>自编码器</h3><p>对一组$D$维的样本$x^n \in R^D, 1 \leq n  \leq N$，自编码器将这组数据样本映射到特征空间，得到样本的编码$z^n \in R^M$。每个样本都有对应的一个编码， 并且通过这组编码可以重构出原来的样本集合。</p>
+<p><img src="/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610160021264.png" srcset="/img/loading.gif" lazyload alt="image-20240610160021264"></p>
+<p>自编码器的结构可分为两部分：</p>
+<p>（1） 编码器（Encoder）$f: R^D \rightarrow R^M  $  $z &#x3D; f(W^1x + b^1)$</p>
+<p>（2） 解码器（Decoder）$g:R^M \rightarrow R^D$  $x^{‘} &#x3D; g(W^2z + b^2)$</p>
+<p>优化目标： $L &#x3D; \sum_{n &#x3D;1}^N ||x^{(n)} - x^{‘(n)}||^2$</p>
+<p><strong>·</strong> 如果特征空间的维度$M$小于原始空间的维度$D$，自编码器相当于是一种<strong>降维</strong>或者<strong>特征提取</strong>的方法。</p>
+<p><strong>·</strong> 如果令$W^2$等于$W^1$的转置，则称为<strong>捆绑权重</strong>。捆绑权重自编码器的参数更少，因此更容易学习，且捆绑权重还在一定程度上起到正则化的作用。</p>
+<h3 id="变分自编码器-1"><a href="#变分自编码器-1" class="headerlink" title="变分自编码器"></a>变分自编码器</h3><p>变分自编码器是一种深度生成模型，其思想是利用神经网络来分别建模两个复杂的<strong>条件概率密度函数</strong>。</p>
 <ol>
-<li><p>批量梯度下降法（BGD)</p>
-<p>批量梯度下降得到的是一个所有训练数据上的全局最优解，每一次的参数更新都用到了所有的训练数据，如果训练数据非常多的话，执行效率较低。</p>
-<p>$\theta_j^{‘} &#x3D; \theta_j + \frac{1}{m}\sum_{i&#x3D;1}^{m}(y^i - h_\theta(x^i))x_j^i$</p>
-<p>缺点：处理大型数据缓慢，易导致内存溢出； 更新快慢由学习率决定，在非凸曲面中可能会趋于局部最优； </p>
+<li><p>用神经网络来估计概率分布$q(z|x;\phi )$称为推断网络$f_I(x;\phi)$。 推断网络输入为$x$，输出为概率分布$q(z|x;\phi)$</p>
 </li>
-<li><p>随机梯度下降法（SGD）</p>
-<p>利用单个样本的损失函数对θ求偏导得到对应的梯度，来更新θ</p>
-<p>$\theta_j^{‘} &#x3D; \theta_j + (y^i - h_\theta(x^i))x_j^i$</p>
-<p>缺点：噪音较BGD要多，使得SGD并不是每次迭代都向着整体最优化方向，； 当数据较多时，训练缓慢。</p>
-</li>
-<li><p>小批量梯度下降法（Mini-Batch GD）</p>
-<p>利用部分样本的损失函数对θ求偏导得到对应的梯度，来更新θ</p>
-<p>for k &#x3D; 1, 11, 21, ..,,99 do</p>
-<p>$\theta_j^{‘} &#x3D; \theta_j + \frac{1}{10}\sum_{i&#x3D;k}^{k+9}(y^i - h_\theta(x^i))x_j^i$</p>
-<p>优点：能减少参数更新的波动，获得更好和更稳定的收敛</p>
+<li><p>用神经网络来估计概率分布$p(x|z;\phi)$称为生成网络$f_G(z;\theta)$。生成网络输入为$z$，输出为概率分布$p(x|z;\theta)$</p>
+<p><img src="/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610161941447.png" srcset="/img/loading.gif" lazyload alt="image-20240610161941447"></p>
 </li>
 </ol>
-<p><img src="/2024/06/09/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/image-20240609204358288.png" srcset="/img/loading.gif" lazyload alt="image-20240609204358288"></p>
+<h3 id="VAE和AE的区别"><a href="#VAE和AE的区别" class="headerlink" title="VAE和AE的区别"></a>VAE和AE的区别</h3><ol>
+<li>AE的隐变量服从的分布未知，而VAE中的隐变量是假设服从某种分布的（如高斯分布）</li>
+<li>AE的编码器输出为确定的编码，而VAE的编码器和编码器的输出为分布（或分布的参数）</li>
+<li>AE智能从一个$x$，重构出相对应的$\hat{x}$，而VAE可以采样生成新的$z$，从而得到新的$\hat{x}$，即产生不同的新样本</li>
+</ol>
+<h2 id="生成对抗网络（GAN）"><a href="#生成对抗网络（GAN）" class="headerlink" title="生成对抗网络（GAN）"></a>生成对抗网络（GAN）</h2><p><img src="/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610162904606.png" srcset="/img/loading.gif" lazyload alt="image-20240610162904606"></p>
+<p>$Z$ : 服从$p_z$分布的样本集（$p_z$为预先自定义的分布）</p>
+<p>$G$：生成器（三层BP网络）——&gt;模仿原始数据集的分布$p_{data}$</p>
+<p>$G(Z)$：生成器的输出</p>
+<p>$p_g$：生成器的分布</p>
+<p>$X$：原始数据集</p>
+<p>$p_{data}$：原始数据集的分布</p>
+<p>$D$：判别器（三层BP网络）——&gt;判别输入来自与$p_g$还是$p_{data}$</p>
+<p>生成器最大化其对$p_{data}$的<strong>模仿能力</strong></p>
+<p>判别器最大化其对数据是来与$p_g$还是$p_{data}$的<strong>判别能力</strong></p>
+<p><strong>目标函数：</strong> $\underset{G}{\min} \underset{D}{\max} V(G,D) &#x3D; E_{x ～p_{data}(x)}[log(D(X))] + E_{z ～p_{z}(z)}[1- log(D(G(z)))]$</p>
+<p>$D(<em>)$是判别器输出，标量，即样本$</em>$来自于$p_{data}$而不是$p_g$的概率</p>
+<p>生成器最大化其对$p_{data}$的模仿能力，即最小化$log(1- D(G(z)))$</p>
+<p><strong>算法：</strong></p>
+<p><img src="/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/image-20240610164827734.png" srcset="/img/loading.gif" lazyload alt="image-20240610164827734"></p>
+<p>for i in 1…n do: (把上述算法的k取1)</p>
+<p><strong>Step1:</strong> 从噪声中采样输入生成器生成出样本${z^{(1)}, z^{(2)},.., z^{(m)}}$</p>
+<p>**Step2:**从真实样本中采样生成样本${x^{(1)}, x^{(2)},…,x^{(m)}}$</p>
+<p>**Step3:**根据目标函数计算器损失，求梯度$\triangledown_{\theta_d} \frac{1}{m} \sum_{i&#x3D;1}^{m} [logD(x^{(i)}) + log(1 - D(G(z^{(i)})))]$，更新判别器的参数$\theta_d$</p>
+<p>**Step4:**再从噪声中采样输入生成器生成出样本${z^{(1)}, z^{(2)},.., z^{(m)}}$</p>
+<p>**Step5:**计算生成器的梯度$\triangledown_{\theta_g} \frac{1}{m} \sum_{i&#x3D;1}^{m} [log(1 - D(G(z^{(i)})))]$，更新生成器的参数$\theta_g$</p>
+<p>end for 判别器收敛即可（判别器无法区分输入样本是来自于生成器还是原始数据集）</p>
 
                 
               </div>
@@ -378,8 +408,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>网络优化与正则化</div>
-      <div>https://wendyflv.github.io/2024/06/09/网络优化与正则化/</div>
+      <div>深度生成模型</div>
+      <div>https://wendyflv.github.io/2024/06/10/深度生成模型/</div>
     </div>
     <div class="license-meta">
       
@@ -391,7 +421,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月9日</div>
+          <div>2024年6月10日</div>
         </div>
       
       
@@ -423,18 +453,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/10/%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" title="深度生成模型">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">深度生成模型</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="循环神经网络">
-                        <span class="hidden-mobile">循环神经网络</span>
+                      <a href="/2024/06/09/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/" title="网络优化与正则化">
+                        <span class="hidden-mobile">网络优化与正则化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
