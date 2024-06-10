@@ -16,45 +16,42 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="卷积神经网络卷积卷积经常用在信号处理中，用于计算信号的延迟累积。 一维卷积时刻t收到的信号$y_t$ 为当前时刻产生的信息和以前时刻延迟信息的叠加: $y_t &#x3D; 1 \times x_t + 1&#x2F;2 \times x_{t-1} + 1&#x2F;4 \times x_{t-2}&#x3D; w_1x_t + w_2x_{t-1}+w_3 x_{t-2} &#x3D; \su">
+    <meta name="description" content="循环神经网络递归神经网络RNNRNN按照时间序列展开：  正向传播$t$时刻中间隐层输入$s_t &#x3D; Ux_t + Wh_{t-1}$ $t$​时刻中间隐层输出$h_t &#x3D; f(s_t)$​（其中$f$为sigmoid函数） $t$时刻输出层输出$o_t &#x3D; g(Vh_t)$（其中$g$为softmax函数） 损失函数为$L_t &#x3D; -[y_tlogo_t">
 <meta property="og:type" content="article">
-<meta property="og:title" content="卷积神经网络">
-<meta property="og:url" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:title" content="循环神经网络">
+<meta property="og:url" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="卷积神经网络卷积卷积经常用在信号处理中，用于计算信号的延迟累积。 一维卷积时刻t收到的信号$y_t$ 为当前时刻产生的信息和以前时刻延迟信息的叠加: $y_t &#x3D; 1 \times x_t + 1&#x2F;2 \times x_{t-1} + 1&#x2F;4 \times x_{t-2}&#x3D; w_1x_t + w_2x_{t-1}+w_3 x_{t-2} &#x3D; \su">
+<meta property="og:description" content="循环神经网络递归神经网络RNNRNN按照时间序列展开：  正向传播$t$时刻中间隐层输入$s_t &#x3D; Ux_t + Wh_{t-1}$ $t$​时刻中间隐层输出$h_t &#x3D; f(s_t)$​（其中$f$为sigmoid函数） $t$时刻输出层输出$o_t &#x3D; g(Vh_t)$（其中$g$为softmax函数） 损失函数为$L_t &#x3D; -[y_tlogo_t">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183710865.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183937333.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608184031995.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608185512974.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608190629458.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191126721.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191945394.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192448907.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192458655.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608193340547.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194027267.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194917125.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608195911957.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608200153512.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201429497.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201549172.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201707278.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203139129.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203709599.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203931153.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204002547.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204534887.png">
-<meta property="article:published_time" content="2024-06-08T10:17:15.000Z">
-<meta property="article:modified_time" content="2024-06-08T13:05:16.888Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609180740711.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609184920246.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609185538836.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609190147525.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609190718664.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609190919991.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609191001406.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609191204577.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609191533333.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609192027548.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609192228601.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609193920008.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609194737135.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609200610067.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609200711616.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201125891-17179350868121.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201155275.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201223375.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201410947.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201547466.png">
+<meta property="article:published_time" content="2024-06-09T09:47:22.000Z">
+<meta property="article:modified_time" content="2024-06-09T12:25:40.675Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609180740711.png">
   
   
   
-  <title>卷积神经网络 - Wendyflv的博客</title>
+  <title>循环神经网络 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -278,7 +275,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="卷积神经网络"></span>
+            <span id="subtitle" data-typed-text="循环神经网络"></span>
           
         </div>
 
@@ -289,8 +286,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-08 18:17" pubdate>
-          2024年6月8日 晚上
+        <time datetime="2024-06-09 17:47" pubdate>
+          2024年6月9日 下午
         </time>
       </span>
     
@@ -302,7 +299,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          1.4k 字
+          1.6k 字
         
       </span>
     
@@ -314,7 +311,7 @@
         
         
           <!-- compatible with older versions-->
-          12 分钟
+          13 分钟
         
       </span>
     
@@ -351,121 +348,112 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">卷积神经网络</h1>
+            <h1 id="seo-header">循环神经网络</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="卷积神经网络"><a href="#卷积神经网络" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h1><h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>卷积经常用在信号处理中，用于计算信号的延迟累积。</p>
-<h3 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h3><p>时刻t收到的信号$y_t$ 为当前时刻产生的信息和以前时刻延迟信息的叠加: $y_t &#x3D; 1 \times x_t + 1&#x2F;2 \times x_{t-1} + 1&#x2F;4 \times x_{t-2}&#x3D; w_1x_t + w_2x_{t-1}+w_3 x_{t-2} &#x3D; \sum_{k&#x3D;1}^{3}w_k x_{t-k+1}$</p>
-<p>$w_k$称为滤波器或者卷积核</p>
-<p>给定一个输入信号序列$x$和滤波器$w$，卷积的输出：$y_t &#x3D; \sum_{k&#x3D;1}^K w_k x_{t-k+1}$</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png" srcset="/img/loading.gif" lazyload alt="image-20240608183211215"></p>
-<p>不同的滤波器来提取信号序列中的不同特性</p>
-<p>👉低通滤波：滤波器$[1&#x2F;3, 1&#x2F;3, 1&#x2F;3]$可以检测信号序列中的低频信息（如均值）</p>
-<p>👉高通滤波：滤波器$[1, -2, 1]$可以检测信号中的高频信息（如边缘）</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183710865.png" srcset="/img/loading.gif" lazyload alt="image-20240608183710865"></p>
-<p>引入滑动步长$S$和零填充$P$:</p>
-<p>$S&#x3D;2$即卷积核每隔2步做一次卷积运算</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183937333.png" srcset="/img/loading.gif" lazyload alt="image-20240608183937333"></p>
-<p>$P&#x3D;1$即原数据左右两边各填充一个0（避免重要信息的丢失）</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608184031995.png" srcset="/img/loading.gif" lazyload alt="image-20240608184031995"></p>
-<p><strong>卷积类型</strong>：按照输出长度可分为3类</p>
-<p>$M$为输入序列的长度，$K$为窗口大小</p>
+                <h1 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h1><h2 id="递归神经网络RNN"><a href="#递归神经网络RNN" class="headerlink" title="递归神经网络RNN"></a>递归神经网络RNN</h2><p>RNN按照时间序列展开：</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609180740711.png" srcset="/img/loading.gif" lazyload alt="image-20240609180740711"></p>
+<h3 id="正向传播"><a href="#正向传播" class="headerlink" title="正向传播"></a>正向传播</h3><p>$t$时刻中间隐层输入$s_t &#x3D; Ux_t + Wh_{t-1}$</p>
+<p>$t$​时刻中间隐层输出$h_t &#x3D; f(s_t)$​（其中$f$为sigmoid函数）</p>
+<p>$t$时刻输出层输出$o_t &#x3D; g(Vh_t)$（其中$g$为softmax函数）</p>
+<p>损失函数为$L_t &#x3D; -[y_tlogo_t + (1-y_t)log(1-o_t)]$</p>
+<p>所有时间的损失为$L &#x3D; sum_{t&#x3D;1}^{T}L_t$</p>
+<h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><p>首先对$V$求导，直接得到：</p>
+<p>$\frac{\partial L}{\partial V} &#x3D; \sum_{t&#x3D;1}^T \frac{\partial L_t}{\partial V} &#x3D; \sum_{t&#x3D;1}^{T} \frac{\partial L_t}{\partial o_t} \frac{\partial o_t}{\partial V} &#x3D;  \sum_{t&#x3D;1}^{T} -(\frac{y_t}{o_t} + \frac{y_t-1}{1-o_t}o_t(1-o_t)h_t^T) &#x3D;  \sum_{t&#x3D;1}^{T} (o_t - y_t)h_t^T$</p>
+<p>对$W$求梯度，</p>
+<p>$\frac{\partial L}{\partial W} &#x3D; \sum_{t&#x3D;1}^T \frac{\partial L_t}{\partial W}  &#x3D;\sum_{t&#x3D;1}^T \frac{\partial L_t}{\partial o_t} \sum_{k&#x3D;1}^t \frac{\partial o_t}{\partial h_t} \frac{\partial h_t}{\partial h_k} \frac{\partial h_k}{\partial W} &#x3D; \sum_{t&#x3D;1}^T \sum_{k&#x3D;1}^t \frac{\partial L_t}{\partial o_t}\frac{\partial o_t}{\partial h_t}(\prod_{j&#x3D;k+1}^t \frac{\partial h_j}{\partial h_{j-1}})\frac{\partial h_k}{\partial W}   $</p>
+<p>依此类推出：</p>
+<p>$\frac{\partial L}{\partial U} &#x3D; \sum_{t&#x3D;1}^T \sum_{k&#x3D;1}^t \frac{\partial L_t}{\partial o_t}\frac{\partial o_t}{\partial h_t}(\prod_{j&#x3D;k+1}^t \frac{\partial h_j}{\partial h_{j-1}})\frac{\partial h_k}{\partial U} $ </p>
+<h3 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h3><p>传统RNN都采用反向传播时间算法（BPTT），随着时间流逝，网络层数增加，会产生梯度消失或者梯度爆炸的问题。</p>
+<p>以$W$的梯度更新举例，使用激活函数假如是$tanh$</p>
+<p>$\frac{\partial h_j}{\partial h_{j-1}}  &#x3D; W^T \odot tanh^{‘}， tanh^{‘} \in [0,1]$</p>
+<p>👉梯度消失：如果$W$也是大于0小于1的数，当$t$很大时，$W^T \odot tanh^{‘} &lt;1 $，连乘起来就会趋于0.</p>
+<p>👉梯度爆炸：如果梯度比较大的话（$\frac{\partial h_j}{\partial h_{j-1}} &gt; 1$），经过多层迭代，又会导致梯度大的不得了，比如$1,01^{100}$。</p>
+<p>梯度消失和爆炸实际上导致了网络只能学习到<strong>短周期的依赖关系</strong>。</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609184920246.png" srcset="/img/loading.gif" lazyload alt="image-20240609184920246"></p>
+<p>随着时间的推移，对于 t&gt;1 时刻的产生的影响会越来越小，由图中的颜色的深浅代表信号的大小。这种衰减会导致 RNN 无法处理长期依赖。</p>
+<h2 id="LSTM（长短时记忆神经网络Long-short-term-memory"><a href="#LSTM（长短时记忆神经网络Long-short-term-memory" class="headerlink" title="LSTM（长短时记忆神经网络Long short-term memory)"></a>LSTM（长短时记忆神经网络Long short-term memory)</h2><h3 id="与RNN的区别"><a href="#与RNN的区别" class="headerlink" title="与RNN的区别"></a>与RNN的区别</h3><p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609185538836.png" srcset="/img/loading.gif" lazyload alt="image-20240609185538836"></p>
+<p><strong>·</strong> 原始RNN的隐藏层只有一个状态，即$h$，它对于短期输入非常敏感</p>
+<p><strong>·</strong> 再增加一个状态$c$，来保存长期的状态，称为单元状态或者内部记忆单元，记录了当前时刻为止的所有历史信息。</p>
+<h3 id="内部记忆单元C"><a href="#内部记忆单元C" class="headerlink" title="内部记忆单元C"></a>内部记忆单元C</h3><p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609190147525.png" srcset="/img/loading.gif" lazyload alt="image-20240609190147525"></p>
 <ol>
-<li>宽卷积：步长$S&#x3D;1$，两边不补零$P&#x3D;0$，卷积后输出长度为$M-K+1$</li>
-<li>窄卷积：步长$S&#x3D;1$，两边补零$P&#x3D;K-1$，卷积输出长度为$M+K-1$</li>
-<li>等宽卷积：步长$S&#x3D;1$，两端补零$P&#x3D;(K-1)&#x2F;2$，卷积后输出长度为$M$</li>
-</ol>
-<p>对一个步长为$S$，填充为$P$的卷积，输出的长度为：$|\frac{M+2P-K}{2}| + 1$</p>
-<h3 id="二维卷积"><a href="#二维卷积" class="headerlink" title="二维卷积"></a>二维卷积</h3><p>在图像处理中，图像是以二维矩阵的形式输入到神经网络中，因此我们需要二维卷积。</p>
-<p>一个输入信息$X$和滤波器$W$的二维卷积定义为：$Y&#x3D;W * X$</p>
-<p>$y_{ij} &#x3D; \sum_{u&#x3D;1}^{U}\sum_{v&#x3D;1}^{V} w_{uv}x_{i-u+1, j-v+1}$</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608185512974.png" srcset="/img/loading.gif" lazyload alt="image-20240608185512974"></p>
-<p>步长和填充不同的情况：</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608190629458.png" srcset="/img/loading.gif" lazyload alt="image-20240608190629458"></p>
-<h2 id="卷积神经网络-1"><a href="#卷积神经网络-1" class="headerlink" title="卷积神经网络"></a>卷积神经网络</h2><p>网络结构：</p>
-<p>👉数据输入层（Input layer）</p>
-<p>👉<a href="#convolution">卷积计算层（CONV layer）</a></p>
-<ol>
-<li>局部特征提取</li>
-<li>训练中参数学习</li>
-<li>每个卷积核提取特定模式的特征</li>
-</ol>
-<p>👉ReLU激励层（ReLU layer）</p>
-<p>👉<a href="#pool">池化层（Pooling layer）</a></p>
-<ol>
-<li>降低数据维度，避免过拟合</li>
-<li>增强局部感受野</li>
-<li>提高平移不变性</li>
-</ol>
-<p>👉全连接层（FC layer）：特征提取到分类的桥梁</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191126721.png" srcset="/img/loading.gif" lazyload alt="image-20240608191126721"></p>
-<h3 id="卷积层"><a href="#卷积层" class="headerlink" title="卷积层"></a>卷积层</h3><p><span id="convolution">卷积</span>代替全连接层  $h^{l+1} &#x3D; f(w * h^l + b)$</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608191945394.png" srcset="/img/loading.gif" lazyload alt="image-20240608191945394"><strong>局部连接，权重共享，空间或者时间上的次采样</strong></p>
-<p><strong>卷积与协相关</strong>：</p>
-<p>协相关：核核输入数据对应相乘再求和</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192448907.png" srcset="/img/loading.gif" lazyload alt="image-20240608192448907"></p>
-<p>卷积：核先翻转180度，再做协相关</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608192458655.png" srcset="/img/loading.gif" lazyload alt="image-20240608192458655"></p>
-<p>除非特殊声明，计算结果按照协相关来。</p>
-<p><strong>多个卷积核</strong>：使用多个卷积核能增强卷积层的提取不同特征的能力</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608193340547.png" srcset="/img/loading.gif" lazyload alt="image-20240608193340547"></p>
-<p>输入$[7 \times 7 \times3] \rightarrow $ 经过卷积核$w_0[3 \times 3 \times 3]+b_0, w_1[3 \times 3 \times 3]+b_1 \rightarrow$ 结果$[3 \times 3 \times 2]$</p>
-<p>(两个卷积核的大小必须一致)</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194027267.png" srcset="/img/loading.gif" lazyload alt="image-20240608194027267"></p>
-<p>3通道图像的卷积层：经过多少个卷积核，就会产生多少通道特征图</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608194917125.png" srcset="/img/loading.gif" lazyload alt="image-20240608194917125"></p>
-<h3 id="池化层或汇聚层（Pooling-Layers）"><a href="#池化层或汇聚层（Pooling-Layers）" class="headerlink" title="池化层或汇聚层（Pooling Layers）"></a>池化层或汇聚层（Pooling Layers）</h3><p>卷积层虽然可以显著减少连接的个数，但是每一个特征映射的神经元个数并没有显著减少。</p>
-<p>下面是最大<span id="pool">池化是</span>的作用方式：</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608195911957.png" srcset="/img/loading.gif" lazyload alt="image-20240608195911957"></p>
-<p>卷积网络是由卷积层、汇聚层、全连接层交叉堆叠而成的</p>
-<p>经典结构如下：一个卷积块为连续$M$个卷积层和$b$个汇聚层。一个卷积网络可以堆叠$N$个连续的卷积块，然后在接着$K$个全连接层。</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608200153512.png" srcset="/img/loading.gif" lazyload alt="image-20240608200153512"></p>
-<h2 id="误差反向传播"><a href="#误差反向传播" class="headerlink" title="误差反向传播"></a>误差反向传播</h2><h3 id="卷积层的反向传播"><a href="#卷积层的反向传播" class="headerlink" title="卷积层的反向传播"></a>卷积层的反向传播</h3><ol>
-<li>误差的传播</li>
-</ol>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201429497.png" srcset="/img/loading.gif" lazyload alt="image-20240608201429497"></p>
-<ol start="2">
-<li><p>权重梯度的计算</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201549172.png" srcset="/img/loading.gif" lazyload alt="image-20240608201549172"></p>
+<li><p>第一个开关，负责控制继续保存内部状态C（遗忘门）</p>
+<p>遗忘门可以保存很久很久之前的信息</p>
+<p>它决定了上一时刻的单元内部状态$c_{t-1}$有多少保留到当前内部时刻内部状态$c_t$</p>
+</li>
+<li><p>第二个开关，负责控制把当前内部候选状态输入到当前状态C（输入门）</p>
+<p>它决定了当前时刻网络的输入$x_t$有多少保存到当前单元内部状态$c_t$</p>
+</li>
+<li><p>第三个开关，负责控制是否把内部状态C作为当前LSTM的输出（输出门）</p>
+<p>它决定了内部状态$c_t$有多少输出到LSTM的当前输出值$h_t$</p>
 </li>
 </ol>
-<h3 id="池化层的反向传播"><a href="#池化层的反向传播" class="headerlink" title="池化层的反向传播"></a>池化层的反向传播</h3><p>误差的传播</p>
-<p>对最大池化，下一层的误差项会原封不动的传给上一层对应区块的最大值所对应的神经元，而其他神经元的误差项都是0。（平均池化就是每个误差项系数为1&#x2F;K）</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608201707278.png" srcset="/img/loading.gif" lazyload alt="image-20240608201707278"></p>
-<h2 id="其他卷积种类"><a href="#其他卷积种类" class="headerlink" title="其他卷积种类"></a>其他卷积种类</h2><h3 id="空洞卷积"><a href="#空洞卷积" class="headerlink" title="空洞卷积"></a>空洞卷积</h3><p>通过给卷积核插入“空洞”来变相地增加其大小，以增加输出单元的感受野</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203139129.png" srcset="/img/loading.gif" lazyload alt="image-20240608203139129"></p>
-<h3 id="转置卷积-微步卷积"><a href="#转置卷积-微步卷积" class="headerlink" title="转置卷积&#x2F;微步卷积"></a>转置卷积&#x2F;微步卷积</h3><p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203709599.png" srcset="/img/loading.gif" lazyload alt="image-20240608203709599"></p>
-<h3 id="可分离卷积"><a href="#可分离卷积" class="headerlink" title="可分离卷积"></a>可分离卷积</h3><p>👉空间可分离卷积</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608203931153.png" srcset="/img/loading.gif" lazyload alt="image-20240608203931153"></p>
-<p>👉深度可分离卷积</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204002547.png" srcset="/img/loading.gif" lazyload alt="image-20240608204002547"></p>
-<h2 id="经典卷积网络"><a href="#经典卷积网络" class="headerlink" title="经典卷积网络"></a>经典卷积网络</h2><p><strong>残差网络</strong></p>
-<p>残差网络（Residual Network，ResNet）是通过给非线性的卷积层增加<strong>直连边</strong>的方式来提高信息的传播效率。</p>
-<p><img src="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204534887.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>好处：</strong></p>
-<ol>
-<li>能够解决梯度消失问题，适用于深层结构。</li>
-<li>加速了模型训练收敛速度，使得模型更容易地学习到恒等映射（identity mapping）或者近似于恒等映射的变换。</li>
-<li>即学习输入与目标之间的差异，而不是直接学习输出。这样的设计使得网络可以更好地适应复杂的数据分布，提高了网络的表达能力</li>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609190718664.png" srcset="/img/loading.gif" lazyload alt="image-20240609190718664"></p>
+<p><strong>核心思想</strong>：LSTM的关键在于细胞的状态整个(绿色的图表示的是一个cell)，和穿过细胞的那条水平线。</p>
+<p>细胞状态类似于传送带。直接在整个链上运行，只有一些少量的线性交互。信息在上面流传保持不变会很容易。</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609190919991.png" srcset="/img/loading.gif" lazyload alt="image-20240609190919991"></p>
+<p>若只有上面的那条水平线是没办法实现添加或者删除信息的。而是通过一种叫做 门（gates） 的结构来实现的。</p>
+<p>门可以实现选择性地让信息通过，主要是通过一个 sigmoid 的神经层 和一个逐点相乘的操作来实现的。</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609191001406.png" srcset="/img/loading.gif" lazyload alt="image-20240609191001406"></p>
+<h3 id="LSTM的3个门"><a href="#LSTM的3个门" class="headerlink" title="LSTM的3个门"></a>LSTM的3个门</h3><ol>
+<li><p>遗忘门（控制内部记忆单元遗忘哪些历史信息）$f_t$</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609191204577.png" srcset="/img/loading.gif" lazyload alt="image-20240609191204577"></p>
+<p>$f^t &#x3D; \sigma(W_f \cdot h^{t-1} + U_f \cdot x^t + b_f)$</p>
+</li>
+<li><p>输入门（控制内部记忆单元加入多少新信息）</p>
+<p><strong>Part1</strong> </p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609191533333.png" srcset="/img/loading.gif" lazyload alt="image-20240609191533333"></p>
+<p>$i^t  &#x3D; \sigma (W_i h^{t-1} + U_ix^t + b_i)$</p>
+<p>$\tilde{c}^t  &#x3D;  tanh(W_c h^{t-1} + U_c x^t + b_c)$</p>
+<p>Step1: 通过输入门的sigmoid层决定加入哪些新信息</p>
+<p>Step2: 再由tanh层通过$X$和$h$值，生成一个候选记忆向量。 </p>
+<p><strong>Part2</strong></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609192027548.png" srcset="/img/loading.gif" lazyload alt="image-20240609192027548"></p>
+<p>$c^t &#x3D; f^t * c^{t-1} + i^t * \tilde{c}^t$</p>
+<p>新的内部记忆单元包括两部分<br>1 经过遗忘门过滤的旧状态信息<br>2 候选记忆向量与通过输入门决定的 $𝑖^𝑡$的乘积</p>
+</li>
+<li><p>输出门</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609192228601.png" srcset="/img/loading.gif" lazyload alt="image-20240609192228601"></p>
+<p>$o^t &#x3D; \sigma(W_o h^{t-1} + U_o x^t + b_o)$</p>
+<p>$h^t &#x3D; o^t * tanh(c^t)$</p>
+<p>$c^t$通过tanh函数，将输出信息控制在-1到1之间。</p>
+<p><strong>总结：</strong></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609193920008.png" srcset="/img/loading.gif" lazyload alt="image-20240609193920008"></p>
+</li>
 </ol>
-<h2 id="CNN的优缺点"><a href="#CNN的优缺点" class="headerlink" title="CNN的优缺点"></a>CNN的优缺点</h2><p><strong>优点：</strong></p>
+<h3 id="缓解梯度消失和爆炸"><a href="#缓解梯度消失和爆炸" class="headerlink" title="缓解梯度消失和爆炸"></a>缓解梯度消失和爆炸</h3><p>由正向传播公式：$c^t &#x3D; f^t * c^{t-1} + i^t * \tilde{c}^t$</p>
+<p>得到 $\frac{\partial c^{t+1}}{\partial c^t} &#x3D; f^t + …$</p>
+<p>可以看到当$f^t &#x3D;1$时，就算其余项很小，梯度仍可以很好的导到上一时刻，此时即使层数较沈也不会发生梯度消失；当$f^t &#x3D; 0$时，即上一时刻的信号不影响当前时刻，梯度也不会传回去。</p>
+<h3 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h3><p>误差使用交叉熵函数</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609194737135.png" srcset="/img/loading.gif" lazyload alt="image-20240609194737135"></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609200610067.png" srcset="/img/loading.gif" lazyload alt="image-20240609200610067"></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609200711616.png" srcset="/img/loading.gif" lazyload alt="image-20240609200711616"></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201125891-17179350868121.png" srcset="/img/loading.gif" lazyload alt="image-20240609201125891"></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201155275.png" srcset="/img/loading.gif" lazyload alt="image-20240609201155275"></p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201223375.png" srcset="/img/loading.gif" lazyload alt="image-20240609201223375"></p>
+<h2 id="LSTM其他变体"><a href="#LSTM其他变体" class="headerlink" title="LSTM其他变体"></a>LSTM其他变体</h2><ol>
+<li><p>合并遗忘门和输入门 $i_t + f_t$ &#x3D;1</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201410947.png" srcset="/img/loading.gif" lazyload alt="image-20240609201410947"></p>
+</li>
+<li><p>GRU</p>
+<p><img src="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240609201547466.png" srcset="/img/loading.gif" lazyload alt="image-20240609201547466"></p>
+<p>GRU只有两个门：更新门z和重置门r</p>
+<p>更新门：遗忘多少历史信息和接受多少新信息。</p>
+<p>重置门：候选状态中有多少信息是从历史信息中得到的。</p>
+<p>与LSTM的比较：</p>
 <ol>
-<li>共享卷积核，对高维数据处理无压力</li>
-<li>无需手动提取特征，训练好合适的权重，可以获取好的特征</li>
-<li>分类效果好</li>
+<li>GRU少了一个门，也少了一个细胞状态$c_t$</li>
+<li>GRU只需要重置门来控制是否要保留原来隐藏状态的信息，单步在限制当前信息的传入。</li>
+<li>在 LSTM 中，虽然得到了新的细胞状态$ 𝒄_𝒕$，但是还不能直接输出，而是需要经过一个过滤的处理:；同样，在GRU 中, 虽然我们也得到了新的隐藏状态$\tilde{h}_t$， 但是还不能直接输出，而是通过更新门来控制最后的输出。</li>
 </ol>
-<p><strong>缺点：</strong></p>
-<ol>
-<li>需要调参，还需要大样本，训练要GPU</li>
-<li>物理含义不明确</li>
+</li>
 </ol>
-<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><ol>
-<li>卷积网络的三个结构特征：共享权值，局部连接，时间或空间上的次采样</li>
-<li>卷积的定义，以及各式各样的卷积</li>
-<li>卷积网络结构（卷积块的构成+全连接层）</li>
-<li>理解残差网络的机理</li>
+<h1 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h1><ol>
+<li>RNN构造</li>
+<li>RNN的梯度消失和梯度爆炸产生原因</li>
+<li>LSTM结构及核心思想</li>
 </ol>
 
                 
@@ -484,8 +472,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>卷积神经网络</div>
-      <div>https://wendyflv.github.io/2024/06/08/卷积神经网络/</div>
+      <div>循环神经网络</div>
+      <div>https://wendyflv.github.io/2024/06/09/循环神经网络/</div>
     </div>
     <div class="license-meta">
       
@@ -497,7 +485,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月8日</div>
+          <div>2024年6月9日</div>
         </div>
       
       
@@ -529,9 +517,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/09/%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="循环神经网络">
+                      <a href="/2024/06/09/%E7%BD%91%E7%BB%9C%E4%BC%98%E5%8C%96%E4%B8%8E%E6%AD%A3%E5%88%99%E5%8C%96/" title="网络优化与正则化">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">循环神经网络</span>
+                        <span class="hidden-mobile">网络优化与正则化</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -539,8 +527,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/07/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E5%8F%A4%E8%AF%97/" title="基于图片生成古诗">
-                        <span class="hidden-mobile">基于图片生成古诗</span>
+                      <a href="/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="卷积神经网络">
+                        <span class="hidden-mobile">卷积神经网络</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
