@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204002547.png">
 <meta property="og:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608204534887.png">
 <meta property="article:published_time" content="2024-06-08T10:17:15.000Z">
-<meta property="article:modified_time" content="2024-06-08T13:05:16.888Z">
+<meta property="article:modified_time" content="2024-06-11T08:26:41.108Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wendyflv.github.io/2024/06/08/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/image-20240608183211215.png">
@@ -377,7 +377,7 @@
 <li>窄卷积：步长$S&#x3D;1$，两边补零$P&#x3D;K-1$，卷积输出长度为$M+K-1$</li>
 <li>等宽卷积：步长$S&#x3D;1$，两端补零$P&#x3D;(K-1)&#x2F;2$，卷积后输出长度为$M$</li>
 </ol>
-<p>对一个步长为$S$，填充为$P$的卷积，输出的长度为：$|\frac{M+2P-K}{2}| + 1$</p>
+<p>对一个步长为$S$，填充为$P$的卷积，输出的长度为：$|\frac{M+2P-K}{S}| + 1$</p>
 <h3 id="二维卷积"><a href="#二维卷积" class="headerlink" title="二维卷积"></a>二维卷积</h3><p>在图像处理中，图像是以二维矩阵的形式输入到神经网络中，因此我们需要二维卷积。</p>
 <p>一个输入信息$X$和滤波器$W$的二维卷积定义为：$Y&#x3D;W * X$</p>
 <p>$y_{ij} &#x3D; \sum_{u&#x3D;1}^{U}\sum_{v&#x3D;1}^{V} w_{uv}x_{i-u+1, j-v+1}$</p>
