@@ -1,0 +1,785 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar输入一段视频——&gt; 对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$） SMPLer前向传播： Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat Step2：计算初步的SMPL参数 global_fear——&gt;（FC+">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于SMPL的单目3D人体姿态估计">
+<meta property="og:url" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar输入一段视频——&gt; 对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$） SMPLer前向传播： Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat Step2：计算初步的SMPL参数 global_fear——&gt;（FC+">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240820170041042.png">
+<meta property="article:published_time" content="2024-08-21T06:39:27.000Z">
+<meta property="article:modified_time" content="2024-08-21T06:39:51.329Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240820170041042.png">
+  
+  
+  
+  <title>基于SMPL的单目3D人体姿态估计 - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于SMPL的单目3D人体姿态估计"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-21 14:39" pubdate>
+          2024年8月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          999 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于SMPL的单目3D人体姿态估计</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于SMPL的单目3D人体姿态估计——驱动virtual-Avatar"><a href="#基于SMPL的单目3D人体姿态估计——驱动virtual-Avatar" class="headerlink" title="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar"></a>基于SMPL的单目3D人体姿态估计——驱动virtual Avatar</h1><p>输入一段视频——&gt;</p>
+<p>对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$）</p>
+<h2 id="SMPLer"><a href="#SMPLer" class="headerlink" title="SMPLer"></a>SMPLer</h2><p>前向传播：</p>
+<p>Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat</p>
+<p>Step2：计算初步的SMPL参数 global_fear——&gt;（FC+dropout）——&gt;theta, beta, cam ——&gt;SMPL模型——&gt;smpl_joints, 2Djoints</p>
+<p>Step3：融合初始查询向量 beta,theta,cam + global_feat ——&gt;query</p>
+<p>Step4：Transfomer层</p>
+<h2 id="New-Contributions"><a href="#New-Contributions" class="headerlink" title="New Contributions"></a>New Contributions</h2><ol>
+<li><p>解耦的注意力机制：target-feature  target-target</p>
+<p>相较于全局注意力，把原二次方的计算降低到线性</p>
+</li>
+<li><p>多尺度注意力模块 和 关节感知注意力模块</p>
+</li>
+<li><p>基于参数化的SMPL模型的目标表示，只需要学习人体形状和三维身体旋转参数，使得学习的目标嵌入减少。</p>
+</li>
+</ol>
+<p>![image-20240815155731933](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815155731933.png)</p>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p>GraphCMR（GNNS）、</p>
+<p>SPIN、RSC-Net（CNNS）、</p>
+<p>METRO、Mesh Graphormer（ViT）</p>
+<h2 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h2><p>$h(Q,K,V) &#x3D; softmax(\frac{(QW_q)(KW_k)^T}{\sqrt d}(VW_v))$</p>
+<p>Q：Query查询矩阵 $\in R^{l_Q \times d}$</p>
+<p>K：Key键 $\in R^{l_K \times d}$</p>
+<p>V：Value值 $\in R^{l_K \times d}$</p>
+<p>$h(Q,K,V) \in R^{l_Q \times d}$ 又可看作一个新的Q</p>
+<p>When query, key and value are the same, Eq. 1 is called <strong>self-attention</strong> which we denote as $h_{self}(Q) &#x3D; h(Q, Q, Q)$</p>
+<p>When only key and value are the same while query is different, the operation becomes <strong>cross-attention</strong>, denoted as $h_{cross}(Q, K) &#x3D; h(Q, K, K)$.</p>
+<h3 id="全局Attention"><a href="#全局Attention" class="headerlink" title="全局Attention"></a>全局Attention</h3><p>$h_{self}(T||F)$  即 Q 是将 目标特征 和 目标嵌入 进行concatenation</p>
+<p>$T||F \in R^{(l_T+l_F, d)}$ 进行self-attention时会造成二次计算 $O((l_F  +l_T)^2)$</p>
+<h3 id="解耦Attention"><a href="#解耦Attention" class="headerlink" title="解耦Attention"></a>解耦Attention</h3><p>建模特征-特征依赖关系在3D姿态估计中不太重要，因此全局Attention可以改进为一下公式：</p>
+<p>$h_{self}(h_{cross}(T,F))$  复杂度 $O(l_T l_F + l_T^2)$ 避免了$l_F$的二次计算，而是线性的</p>
+<h2 id="目标特征的表示"><a href="#目标特征的表示" class="headerlink" title="目标特征的表示"></a>目标特征的表示</h2><p>虽然注意解耦策略有效地减轻了计算负担，但较大的lT仍可能阻碍高分辨率特征的利用。</p>
+<p>以往的工作都是回归SMPL的顶点坐标$Y \in R^{N \times 3}$作为目标，但是这里的$N&#x3D;6890$会导致注意力操作的计算量和内存消耗也很大</p>
+<p>为此设计一个基于参数化人体模型SMPL的更紧凑的目标表示是有必要的。</p>
+<p>SMPL是一种灵活且具有表现力的人体模型，已广泛应用于三维人体形状和姿态建模。它由一组姿态参数$θ∈ R^{ H×3}$和一个紧致形状向量$β∈R^{1×10}$来参数化。</p>
+<p>通过$\theta, \beta$ 可以得到3D的身体mesh：$Y \in R^{N \times 3} &#x3D; f_{SMPL }(\theta, \beta)$</p>
+<p>对顶点做线性映射可得到3D关节坐标：$J \in R^{H \times 3} &#x3D; M Y$</p>
+<p>如果有相机参数$C \in R^3$，可通过弱透视投影计算得到2D关节坐标：$\mathcal{J}&#x3D; \Pi_C (J)  $</p>
+<p>故对目标${\theta_i }_{i&#x3D;1}^H, \beta, C$可表示为$\mathcal{T} \in \mathbb{R}^{(H+2) \times d}$</p>
+<h2 id="多尺度注意力设计"><a href="#多尺度注意力设计" class="headerlink" title="多尺度注意力设计"></a>多尺度注意力设计</h2><h3 id="结合多尺度特征"><a href="#结合多尺度特征" class="headerlink" title="结合多尺度特征"></a>结合多尺度特征</h3><p>$h_{ms}(\mathcal{T, \mathcal{F}} )&#x3D; \frac{1}{S} \sum_{i&#x3D;1}^{S}h_{cross}(\mathcal{T}, F_i)$</p>
+<p>为每个尺度使用不同的投影权重，输出是所有尺度的平均值</p>
+<h3 id="多尺度特征位置编码"><a href="#多尺度特征位置编码" class="headerlink" title="多尺度特征位置编码"></a>多尺度特征位置编码</h3><p>![image-20240815172531617](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815172531617.png)</p>
+<p>我们对目标和特征使用可学习的位置编码，通常采用x + φ的形式，其中φ是一组可学习的参数，表示标记x的位置信息。</p>
+<p>只学习最高尺度的位置嵌入，即ϕ1，而其他尺度的嵌入是通过聚集ϕ1来产生的:</p>
+<p>![image-20240815172749418](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815172749418.png)</p>
+<p>递推可得：$\phi_i &#x3D; f_{pool}^2(\phi _{i-1})$</p>
+<h2 id="损失与评价"><a href="#损失与评价" class="headerlink" title="损失与评价"></a>损失与评价</h2><h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><ul>
+<li>顶点坐标损失：$w_Y · ||Y-\hat{Y}||_1$</li>
+</ul>
+<ul>
+<li>3D关节损失：$w_J · ||J - \hat{J}||_2 $</li>
+<li>2D关节损失：$w_\mathcal{J} · ||\mathcal{J} - \hat{\mathcal{J}}||_2 $</li>
+<li>旋转正则化项：$w_R · \frac{1}{H} \sum_{i&#x3D;1}^{H} ||R_{\theta_i} - \hat{R_{\theta_i}}||_1$</li>
+</ul>
+<h3 id="评价"><a href="#评价" class="headerlink" title="评价"></a>评价</h3><p><strong>MPJPE</strong>(mean per-joint position error)：$\frac{1}{H} \sum_{i&#x3D;1}^{H}||J_i - \hat{J_i}||_2$，易被缩放，旋转，平移等操作影响。</p>
+<p>PA-MPJPE(Procrustes-aligned mean per-joint position error)：</p>
+<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240820170041042.png" srcset="/img/loading.gif" lazyload alt="image-20240820170041042"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于SMPL的单目3D人体姿态估计</div>
+      <div>https://wendyflv.github.io/2024/08/21/基于SMPL的单目3D人体姿态估计/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/21/HRNet/" title="HRNet">
+                        <span class="hidden-mobile">HRNet</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
