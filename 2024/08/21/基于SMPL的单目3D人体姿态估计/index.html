@@ -23,12 +23,14 @@
 <meta property="og:site_name" content="Wendyflv的博客">
 <meta property="og:description" content="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar输入一段视频——&gt; 对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$） SMPLer前向传播： Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat Step2：计算初步的SMPL参数 global_fear——&gt;（FC+">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240820170041042.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815172531617.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240820170041042.png">
 <meta property="article:published_time" content="2024-08-21T06:39:27.000Z">
-<meta property="article:modified_time" content="2024-08-21T06:39:51.329Z">
+<meta property="article:modified_time" content="2024-08-21T06:55:44.773Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/Users/TJL/AppData/Roaming/Typora/typora-user-images/image-20240820170041042.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png">
   
   
   
@@ -280,7 +282,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          999 字
+          955 字
         
       </span>
     
@@ -292,7 +294,7 @@
         
         
           <!-- compatible with older versions-->
-          9 分钟
+          8 分钟
         
       </span>
     
@@ -350,7 +352,7 @@
 <li><p>基于参数化的SMPL模型的目标表示，只需要学习人体形状和三维身体旋转参数，使得学习的目标嵌入减少。</p>
 </li>
 </ol>
-<p>![image-20240815155731933](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815155731933.png)</p>
+<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png" srcset="/img/loading.gif" lazyload alt="image-20240815155731933"></p>
 <h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p>GraphCMR（GNNS）、</p>
 <p>SPIN、RSC-Net（CNNS）、</p>
 <p>METRO、Mesh Graphormer（ViT）</p>
@@ -375,7 +377,7 @@
 <p>故对目标${\theta_i }_{i&#x3D;1}^H, \beta, C$可表示为$\mathcal{T} \in \mathbb{R}^{(H+2) \times d}$</p>
 <h2 id="多尺度注意力设计"><a href="#多尺度注意力设计" class="headerlink" title="多尺度注意力设计"></a>多尺度注意力设计</h2><h3 id="结合多尺度特征"><a href="#结合多尺度特征" class="headerlink" title="结合多尺度特征"></a>结合多尺度特征</h3><p>$h_{ms}(\mathcal{T, \mathcal{F}} )&#x3D; \frac{1}{S} \sum_{i&#x3D;1}^{S}h_{cross}(\mathcal{T}, F_i)$</p>
 <p>为每个尺度使用不同的投影权重，输出是所有尺度的平均值</p>
-<h3 id="多尺度特征位置编码"><a href="#多尺度特征位置编码" class="headerlink" title="多尺度特征位置编码"></a>多尺度特征位置编码</h3><p>![image-20240815172531617](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815172531617.png)</p>
+<h3 id="多尺度特征位置编码"><a href="#多尺度特征位置编码" class="headerlink" title="多尺度特征位置编码"></a>多尺度特征位置编码</h3><p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815172531617.png" srcset="/img/loading.gif" lazyload alt="image-20240815172531617"></p>
 <p>我们对目标和特征使用可学习的位置编码，通常采用x + φ的形式，其中φ是一组可学习的参数，表示标记x的位置信息。</p>
 <p>只学习最高尺度的位置嵌入，即ϕ1，而其他尺度的嵌入是通过聚集ϕ1来产生的:</p>
 <p>![image-20240815172749418](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815172749418.png)</p>
@@ -390,7 +392,7 @@
 </ul>
 <h3 id="评价"><a href="#评价" class="headerlink" title="评价"></a>评价</h3><p><strong>MPJPE</strong>(mean per-joint position error)：$\frac{1}{H} \sum_{i&#x3D;1}^{H}||J_i - \hat{J_i}||_2$，易被缩放，旋转，平移等操作影响。</p>
 <p>PA-MPJPE(Procrustes-aligned mean per-joint position error)：</p>
-<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/Users\TJL\AppData\Roaming\Typora\typora-user-images\image-20240820170041042.png" srcset="/img/loading.gif" lazyload alt="image-20240820170041042"></p>
+<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240820170041042.png" srcset="/img/loading.gif" lazyload alt="image-20240820170041042"></p>
 
                 
               </div>
