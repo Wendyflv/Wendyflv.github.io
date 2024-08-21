@@ -16,21 +16,24 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="贝叶斯统计学统计推断中可用的三种信息 总体信息 样本信息 先验信息  贝叶斯公式 事件形式  密度形式 $p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $  离散形式 若$\theta$是离散形式">
+    <meta name="description" content="SMPL: A Skinned Multi-Person Linear Model （SMPL (acm.org)） 介绍SMPL是一种3D人体建模方法，支持人体的各种形状及动作。这些人体模型的形状、姿态都可以被参数化表示。 下面记录下面特有名词的解释： **· **vertex（顶点）：模型由多个小三角形或四边形构成。一个小三角形可看作一个顶点，顶点越多，模型越精细。 · Joints（骨骼点）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="贝叶斯统计学">
-<meta property="og:url" content="https://wendyflv.github.io/2024/06/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%9F%E8%AE%A1%E5%AD%A6/index.html">
+<meta property="og:title" content="人体模型SMPL介绍">
+<meta property="og:url" content="https://wendyflv.github.io/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="贝叶斯统计学统计推断中可用的三种信息 总体信息 样本信息 先验信息  贝叶斯公式 事件形式  密度形式 $p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $  离散形式 若$\theta$是离散形式">
+<meta property="og:description" content="SMPL: A Skinned Multi-Person Linear Model （SMPL (acm.org)） 介绍SMPL是一种3D人体建模方法，支持人体的各种形状及动作。这些人体模型的形状、姿态都可以被参数化表示。 下面记录下面特有名词的解释： **· **vertex（顶点）：模型由多个小三角形或四边形构成。一个小三角形可看作一个顶点，顶点越多，模型越精细。 · Joints（骨骼点）">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-19T09:43:44.000Z">
-<meta property="article:modified_time" content="2024-06-22T15:13:36.961Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240729165318535.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240731190342631.png">
+<meta property="article:published_time" content="2024-07-29T07:26:38.000Z">
+<meta property="article:modified_time" content="2024-08-01T15:03:33.561Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240729165318535.png">
   
   
   
-  <title>贝叶斯统计学 - Wendyflv的博客</title>
+  <title>人体模型SMPL介绍 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +257,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="贝叶斯统计学"></span>
+            <span id="subtitle" data-typed-text="人体模型SMPL介绍"></span>
           
         </div>
 
@@ -265,8 +268,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-19 17:43" pubdate>
-          2024年6月19日 下午
+        <time datetime="2024-07-29 15:26" pubdate>
+          2024年7月29日 下午
         </time>
       </span>
     
@@ -278,7 +281,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          425 字
+          353 字
         
       </span>
     
@@ -290,7 +293,7 @@
         
         
           <!-- compatible with older versions-->
-          4 分钟
+          3 分钟
         
       </span>
     
@@ -327,50 +330,25 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">贝叶斯统计学</h1>
+            <h1 id="seo-header">人体模型SMPL介绍</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="贝叶斯统计学"><a href="#贝叶斯统计学" class="headerlink" title="贝叶斯统计学"></a>贝叶斯统计学</h1><h2 id="统计推断中可用的三种信息"><a href="#统计推断中可用的三种信息" class="headerlink" title="统计推断中可用的三种信息"></a>统计推断中可用的三种信息</h2><ol>
-<li>总体信息</li>
-<li>样本信息</li>
-<li>先验信息</li>
-</ol>
-<h2 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h2><ol>
-<li><p>事件形式</p>
-</li>
-<li><p>密度形式</p>
-<p>$p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $</p>
-</li>
-<li><p>离散形式</p>
-<p>若$\theta$是离散形式，写作$p(\theta_i|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta_i ) p (x_1,x_2,…,x_n|\theta_i)}{\sum_j p(\theta_j ) p (x_1,x_2,…,x_n|\theta_j) }$</p>
-<p>若$x$也是离散形式，写作$p(x|\theta)$换成$p(X&#x3D;x|\theta)$</p>
-</li>
-</ol>
-<p><strong>后验概率的计算</strong>：</p>
-<p>step1: 假设先验分布$p(\theta)$（一般假设为$U ～ [0,1]$）</p>
-<p>step2: 计算联合分布$h(\theta, x)$</p>
-<p>step3: 计算边际分布$m(x) &#x3D; \int h(\theta,x)d\theta$</p>
-<p>step4: 由贝叶斯公式计算后验概率$p(\theta|x)$</p>
-<p><strong>共轭先验分布</strong>：先验—似然—&gt;后验 （其与先验分布服从同一类分布）</p>
-<p>二项分布的成功概率θ的共轭先验分布是贝塔分布。</p>
-<h1 id="贝叶斯推断"><a href="#贝叶斯推断" class="headerlink" title="贝叶斯推断"></a>贝叶斯推断</h1><h2 id="条件方法："><a href="#条件方法：" class="headerlink" title="条件方法："></a>条件方法：</h2><p>贝叶斯推断的后验信息集三种信息为一体，基于后验分布的统计推断实际上只考虑已出现的数据（样本观察值）而认为<strong>未出现的数据与推断无关</strong>。</p>
-<p>条件方法 和 频率方法 的区别：频率方法要考虑样本空间中所有可能出现的样本，而条件方法认为为出现的数据与推断无关</p>
-<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><ol>
-<li><p>最大后验估计</p>
-</li>
-<li><p>后验中位数估计</p>
-</li>
-<li><p>后验期望估计</p>
-</li>
-<li><p>误差估计</p>
-<p>$MSE(\hat{\theta}_E|x) &#x3D; var(\theta|x) $</p>
-<p>$MSE(\hat{\theta}|x) &#x3D; var(\theta|x) + (\hat{\theta}_E  - \hat{\theta})^2$</p>
-<p>可见，当$\hat{\theta}  &#x3D; \hat{\theta}_E$时，有最小值</p>
-</li>
-</ol>
-<h2 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h2><h2 id="假设检验"><a href="#假设检验" class="headerlink" title="假设检验"></a>假设检验</h2>
+                <p>SMPL: A Skinned Multi-Person Linear Model （<a target="_blank" rel="noopener" href="https://dl.acm.org/doi/pdf/10.1145/2816795.2818013">SMPL (acm.org)</a>）</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>SMPL是一种3D人体建模方法，支持人体的各种形状及动作。这些人体模型的形状、姿态都可以被参数化表示。</p>
+<p>下面记录下面特有名词的解释：</p>
+<p>**· **vertex（顶点）：模型由多个小三角形或四边形构成。一个小三角形可看作一个顶点，顶点越多，模型越精细。</p>
+<p><strong>·</strong> Joints（骨骼点）：人体的一些关节点，类似于人体姿态估计的关键点。每个骨骼点都由一个三元组作为参数去控制（）</p>
+<p><strong>·</strong> 骨骼蒙皮（Rig）：建立骨骼点和顶点的关联关系。每个骨骼点会关联许多顶点，并且每一个顶点权重不一样。通过这种关联关系，就可以通过控制骨骼点的旋转向量来控制整个人运动。</p>
+<h1 id="SMPL"><a href="#SMPL" class="headerlink" title="SMPL"></a>SMPL</h1><p>一个3D人体mesh由<strong>6890</strong>个网格顶点和<strong>23</strong>个关节点组成：</p>
+<p><img src="/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240729165318535.png" srcset="/img/loading.gif" lazyload alt="image-20240729165318535"></p>
+<p>输入：体型参数$\beta$和姿态参数$\theta$，前者决定人体的高矮胖瘦身材比例等，后者决定人体具体姿态。</p>
+<p>每个人体模型有10个体型参数，以及$3 \times (23 +1 )&#x3D; 72$个姿态参数 （23代表骨架节点数，1是人体中心）</p>
+<p>输出： N 个顶点的坐标，维度为 3N。N: 顶点数（6890）</p>
+<h1 id="SMPLer"><a href="#SMPLer" class="headerlink" title="SMPLer"></a>SMPLer</h1><p>对单目图片进行人体的姿态和形状估计。</p>
+<p><img src="/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240731190342631.png" srcset="/img/loading.gif" lazyload alt="image-20240731190342631"></p>
+
                 
               </div>
             
@@ -387,8 +365,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>贝叶斯统计学</div>
-      <div>https://wendyflv.github.io/2024/06/19/贝叶斯统计学/</div>
+      <div>人体模型SMPL介绍</div>
+      <div>https://wendyflv.github.io/2024/07/29/人体模型SMPL介绍/</div>
     </div>
     <div class="license-meta">
       
@@ -400,7 +378,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月19日</div>
+          <div>2024年7月29日</div>
         </div>
       
       
@@ -432,9 +410,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/22/%E5%BA%94%E7%94%A8%E7%BB%9F%E8%AE%A1%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" title="应用统计——线性回归">
+                      <a href="/2024/08/21/HRNet/" title="HRNet">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">应用统计——线性回归</span>
+                        <span class="hidden-mobile">HRNet</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -442,8 +420,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/18/%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%88%9D%E6%AD%A5/" title="数理统计初步">
-                        <span class="hidden-mobile">数理统计初步</span>
+                      <a href="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/" title="变量选择">
+                        <span class="hidden-mobile">变量选择</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

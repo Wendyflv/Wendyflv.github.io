@@ -16,21 +16,28 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="贝叶斯统计学统计推断中可用的三种信息 总体信息 样本信息 先验信息  贝叶斯公式 事件形式  密度形式 $p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $  离散形式 若$\theta$是离散形式">
+    <meta name="description" content="网络互连基本概念互链：用网络设备把不同网络连接起来使得不同网络中计算机之间可相互通信 中继系统&#x2F;中间设备：把网络相互连接起来的设备 中继系统：  物理层：转发器 数据链路层：网桥 网络层中断系统：路由器 网桥和路由器混合：桥路器 网络层以上：网关  网络互连使用 路由器 直接交付：两个主机在一个网络上，不用经过路由器 间接交付：两主机不在同一个网络，要经过路由交付 因特网的网际协议IPI">
 <meta property="og:type" content="article">
-<meta property="og:title" content="贝叶斯统计学">
-<meta property="og:url" content="https://wendyflv.github.io/2024/06/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%9F%E8%AE%A1%E5%AD%A6/index.html">
+<meta property="og:title" content="计网——网络互连">
+<meta property="og:url" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="贝叶斯统计学统计推断中可用的三种信息 总体信息 样本信息 先验信息  贝叶斯公式 事件形式  密度形式 $p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $  离散形式 若$\theta$是离散形式">
+<meta property="og:description" content="网络互连基本概念互链：用网络设备把不同网络连接起来使得不同网络中计算机之间可相互通信 中继系统&#x2F;中间设备：把网络相互连接起来的设备 中继系统：  物理层：转发器 数据链路层：网桥 网络层中断系统：路由器 网桥和路由器混合：桥路器 网络层以上：网关  网络互连使用 路由器 直接交付：两个主机在一个网络上，不用经过路由器 间接交付：两主机不在同一个网络，要经过路由交付 因特网的网际协议IPI">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-19T09:43:44.000Z">
-<meta property="article:modified_time" content="2024-06-22T15:13:36.961Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240625210916852.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626153711328.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626154006849.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626163736392.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626163939578.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626164420235.png">
+<meta property="article:published_time" content="2024-06-25T12:55:36.000Z">
+<meta property="article:modified_time" content="2024-06-26T09:01:32.253Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240625210916852.png">
   
   
   
-  <title>贝叶斯统计学 - Wendyflv的博客</title>
+  <title>计网——网络互连 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +261,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="贝叶斯统计学"></span>
+            <span id="subtitle" data-typed-text="计网——网络互连"></span>
           
         </div>
 
@@ -265,8 +272,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-19 17:43" pubdate>
-          2024年6月19日 下午
+        <time datetime="2024-06-25 20:55" pubdate>
+          2024年6月25日 晚上
         </time>
       </span>
     
@@ -278,7 +285,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          425 字
+          1k 字
         
       </span>
     
@@ -290,7 +297,7 @@
         
         
           <!-- compatible with older versions-->
-          4 分钟
+          9 分钟
         
       </span>
     
@@ -327,50 +334,87 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">贝叶斯统计学</h1>
+            <h1 id="seo-header">计网——网络互连</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="贝叶斯统计学"><a href="#贝叶斯统计学" class="headerlink" title="贝叶斯统计学"></a>贝叶斯统计学</h1><h2 id="统计推断中可用的三种信息"><a href="#统计推断中可用的三种信息" class="headerlink" title="统计推断中可用的三种信息"></a>统计推断中可用的三种信息</h2><ol>
-<li>总体信息</li>
-<li>样本信息</li>
-<li>先验信息</li>
+                <h1 id="网络互连"><a href="#网络互连" class="headerlink" title="网络互连"></a>网络互连</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>互链：用网络设备把不同网络连接起来使得不同网络中计算机之间可相互通信</p>
+<p>中继系统&#x2F;中间设备：把网络相互连接起来的设备</p>
+<p>中继系统：</p>
+<ol>
+<li>物理层：转发器</li>
+<li>数据链路层：网桥</li>
+<li>网络层中断系统：路由器</li>
+<li>网桥和路由器混合：桥路器</li>
+<li>网络层以上：网关</li>
 </ol>
-<h2 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h2><ol>
-<li><p>事件形式</p>
+<p>网络互连使用 路由器</p>
+<p>直接交付：两个主机在一个网络上，不用经过路由器</p>
+<p>间接交付：两主机不在同一个网络，要经过路由交付</p>
+<h2 id="因特网的网际协议IP"><a href="#因特网的网际协议IP" class="headerlink" title="因特网的网际协议IP"></a>因特网的网际协议IP</h2><p>IP协议：提供无连接的IP数据传输机制，不可靠但是有效</p>
+<p>IP地址（4B）：把每个连接在因特网上的主机分配一个在全世界范围是唯一的32位的标识符</p>
+<h3 id="IP地址编址方法"><a href="#IP地址编址方法" class="headerlink" title="IP地址编址方法"></a>IP地址编址方法</h3><ol>
+<li><p>分类的IP地址</p>
+<p>网络号 + 主机号</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240625210916852.png" srcset="/img/loading.gif" lazyload alt="image-20240625210916852"></p>
+<p>点分十进制记法：128.11.3.31</p>
+<p>127.0.0.0保留使用</p>
+<p>127.0.0.1 指代本地本机</p>
+<p><strong>ARP协议</strong>：广播报文，询问目的主机的IP地址与物理地址映射关系，目的主机响应报文，回答</p>
+<p>IP数据报格式：首部固定部分20字节</p>
 </li>
-<li><p>密度形式</p>
-<p>$p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $</p>
+<li><p>子网划分</p>
+<p>子网划分：从主机部分拿出若干字节作为子网号</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626153711328.png" srcset="/img/loading.gif" lazyload alt="image-20240626153711328"><br>子网掩码：找出IP地址中的子网部分</p>
+<p>将 三级IP地址 位&amp; 子网掩码 &#x3D; 划分子网时的网络地址</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626154006849.png" srcset="/img/loading.gif" lazyload alt="image-20240626154006849"></p>
+<p>路由分组转发算法：</p>
+<ol>
+<li>从分组首部提取目的IP地址D</li>
+<li>把各网络的子网掩码与D逐比特相与，若与相应网络地址匹配，则直接交付，否则，转3</li>
+<li>若 路由表中由目的地址为D的特定主机路由，则把分组传给指明的下一跳路由，否则，转4</li>
+<li>将 路由表 的 每一行 的 子网掩码 与D 位与， 若结果等于改行的目的网络，则将分组传给该行指明的吓一跳路由，否则，转5</li>
+<li>若路由表有默认路由，则把分组传给默认路由，否则，转6</li>
+<li>报告失败</li>
+</ol>
 </li>
-<li><p>离散形式</p>
-<p>若$\theta$是离散形式，写作$p(\theta_i|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta_i ) p (x_1,x_2,…,x_n|\theta_i)}{\sum_j p(\theta_j ) p (x_1,x_2,…,x_n|\theta_j) }$</p>
-<p>若$x$也是离散形式，写作$p(x|\theta)$换成$p(X&#x3D;x|\theta)$</p>
+<li><p>构成超网</p>
+<p>无分类的两级编址：IP地址 ::&#x3D; {&lt;网络前缀&gt;, &lt;主机号&gt;}  </p>
+<p>CIDR记法：IP地址&#x2F;网络前缀长度  </p>
+<p>CIDR地址块：网络前缀都相同的连续IP地址组成的</p>
+<p>构成超网：一个CIDR地址块可以表示多个地址</p>
+<p>最长前缀匹配：正在路由表查找时，一个在匹配结果里选择具有最长网络前缀的路由</p>
 </li>
 </ol>
-<p><strong>后验概率的计算</strong>：</p>
-<p>step1: 假设先验分布$p(\theta)$（一般假设为$U ～ [0,1]$）</p>
-<p>step2: 计算联合分布$h(\theta, x)$</p>
-<p>step3: 计算边际分布$m(x) &#x3D; \int h(\theta,x)d\theta$</p>
-<p>step4: 由贝叶斯公式计算后验概率$p(\theta|x)$</p>
-<p><strong>共轭先验分布</strong>：先验—似然—&gt;后验 （其与先验分布服从同一类分布）</p>
-<p>二项分布的成功概率θ的共轭先验分布是贝塔分布。</p>
-<h1 id="贝叶斯推断"><a href="#贝叶斯推断" class="headerlink" title="贝叶斯推断"></a>贝叶斯推断</h1><h2 id="条件方法："><a href="#条件方法：" class="headerlink" title="条件方法："></a>条件方法：</h2><p>贝叶斯推断的后验信息集三种信息为一体，基于后验分布的统计推断实际上只考虑已出现的数据（样本观察值）而认为<strong>未出现的数据与推断无关</strong>。</p>
-<p>条件方法 和 频率方法 的区别：频率方法要考虑样本空间中所有可能出现的样本，而条件方法认为为出现的数据与推断无关</p>
-<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><ol>
-<li><p>最大后验估计</p>
+<h2 id="因特网控制报文协议ICMP"><a href="#因特网控制报文协议ICMP" class="headerlink" title="因特网控制报文协议ICMP"></a>因特网控制报文协议ICMP</h2><p>ICMP作用：允许主机或路由器报告差错情况和提供有关异常情况的报告</p>
+<p>首部：8字节</p>
+<p>分类：</p>
+<ol>
+<li><p>差错报告报文</p>
+<p>报文类型：终点不可达、源点抑制、时间超过、参数问题、改变路由</p>
+<p>不应发送情况：对ICMP差错报文、第一个分片的数据报片的所有后续数据报片都步发送、广播，多播的、特殊地址</p>
 </li>
-<li><p>后验中位数估计</p>
-</li>
-<li><p>后验期望估计</p>
-</li>
-<li><p>误差估计</p>
-<p>$MSE(\hat{\theta}_E|x) &#x3D; var(\theta|x) $</p>
-<p>$MSE(\hat{\theta}|x) &#x3D; var(\theta|x) + (\hat{\theta}_E  - \hat{\theta})^2$</p>
-<p>可见，当$\hat{\theta}  &#x3D; \hat{\theta}_E$时，有最小值</p>
+<li><p>询问报文</p>
+<p>报文类型：回送请求或回答报文、时间戳请求或回答报文</p>
 </li>
 </ol>
-<h2 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h2><h2 id="假设检验"><a href="#假设检验" class="headerlink" title="假设检验"></a>假设检验</h2>
+<p>应用举例：Ping，Tracert</p>
+<h2 id="IP多播"><a href="#IP多播" class="headerlink" title="IP多播"></a>IP多播</h2><p>多播使用组地址——IP使用D类地址支持多播</p>
+<p>224.0.1.0——238.255.255.255</p>
+<p>多播地址只能用于目的地址，而不能用于源地址</p>
+<p>局域网中的多播帧中，只要MAC地址后23位与网卡设置的多播IP地址的后23位相同的，本机网卡才接收</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626163736392.png" srcset="/img/loading.gif" lazyload alt="image-20240626163736392"></p>
+<p>两个或多个IP多播地址可能映射到同一个MAC多播地址  </p>
+<p>隧道技术：</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626163939578.png" srcset="/img/loading.gif" lazyload alt="image-20240626163939578"></p>
+<h2 id="虚拟专用网络VPN和网络地址转换NAT"><a href="#虚拟专用网络VPN和网络地址转换NAT" class="headerlink" title="虚拟专用网络VPN和网络地址转换NAT"></a>虚拟专用网络VPN和网络地址转换NAT</h2><p>本地地址（内部地址、专用地址）：仅在机构内部使用的IP地址</p>
+<p>全球地址：全球唯一的IP地址</p>
+<p>因特网的所有路由器对目的地址时专用地址的数据一律步转发</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626164420235.png" srcset="/img/loading.gif" lazyload alt="image-20240626164420235"></p>
+<p>VPN对IP进行二次封装</p>
+<p>NAT：更改了IP地址</p>
+
                 
               </div>
             
@@ -387,8 +431,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>贝叶斯统计学</div>
-      <div>https://wendyflv.github.io/2024/06/19/贝叶斯统计学/</div>
+      <div>计网——网络互连</div>
+      <div>https://wendyflv.github.io/2024/06/25/计网——网络互连/</div>
     </div>
     <div class="license-meta">
       
@@ -400,7 +444,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月19日</div>
+          <div>2024年6月25日</div>
         </div>
       
       
@@ -432,9 +476,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/22/%E5%BA%94%E7%94%A8%E7%BB%9F%E8%AE%A1%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" title="应用统计——线性回归">
+                      <a href="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/" title="变量选择">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">应用统计——线性回归</span>
+                        <span class="hidden-mobile">变量选择</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -442,8 +486,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/18/%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%88%9D%E6%AD%A5/" title="数理统计初步">
-                        <span class="hidden-mobile">数理统计初步</span>
+                      <a href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/" title="计网——局域网">
+                        <span class="hidden-mobile">计网——局域网</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

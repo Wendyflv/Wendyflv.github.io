@@ -16,21 +16,27 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="贝叶斯统计学统计推断中可用的三种信息 总体信息 样本信息 先验信息  贝叶斯公式 事件形式  密度形式 $p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $  离散形式 若$\theta$是离散形式">
+    <meta name="description" content="局域网局域网概述MAC层 MAC地址（6字节）： 局域网地址、以太网地址、物理地址，确认网络设备位置的地址 唯一标识一个网卡  MAC帧分类：单播帧（收到的帧的MAC地址与本站NAC地址相同）、广播帧（发给局域网内所有站点全1）、多播帧  以太网V2格式MAC帧：  对无效MAC帧，直接丢弃   扩展的局域网 在物理层扩展（使用集线器）   在数据链路层扩展 网桥：  多接口网桥——以太网交换机">
 <meta property="og:type" content="article">
-<meta property="og:title" content="贝叶斯统计学">
-<meta property="og:url" content="https://wendyflv.github.io/2024/06/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%9F%E8%AE%A1%E5%AD%A6/index.html">
+<meta property="og:title" content="计网——局域网">
+<meta property="og:url" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="贝叶斯统计学统计推断中可用的三种信息 总体信息 样本信息 先验信息  贝叶斯公式 事件形式  密度形式 $p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $  离散形式 若$\theta$是离散形式">
+<meta property="og:description" content="局域网局域网概述MAC层 MAC地址（6字节）： 局域网地址、以太网地址、物理地址，确认网络设备位置的地址 唯一标识一个网卡  MAC帧分类：单播帧（收到的帧的MAC地址与本站NAC地址相同）、广播帧（发给局域网内所有站点全1）、多播帧  以太网V2格式MAC帧：  对无效MAC帧，直接丢弃   扩展的局域网 在物理层扩展（使用集线器）   在数据链路层扩展 网桥：  多接口网桥——以太网交换机">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-19T09:43:44.000Z">
-<meta property="article:modified_time" content="2024-06-22T15:13:36.961Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200107309.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200542135.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625201017826.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625201744754.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625203146180.png">
+<meta property="article:published_time" content="2024-06-25T11:51:13.000Z">
+<meta property="article:modified_time" content="2024-06-25T12:55:08.064Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200107309.png">
   
   
   
-  <title>贝叶斯统计学 - Wendyflv的博客</title>
+  <title>计网——局域网 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +260,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="贝叶斯统计学"></span>
+            <span id="subtitle" data-typed-text="计网——局域网"></span>
           
         </div>
 
@@ -265,8 +271,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-19 17:43" pubdate>
-          2024年6月19日 下午
+        <time datetime="2024-06-25 19:51" pubdate>
+          2024年6月25日 晚上
         </time>
       </span>
     
@@ -278,7 +284,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          425 字
+          375 字
         
       </span>
     
@@ -327,50 +333,53 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">贝叶斯统计学</h1>
+            <h1 id="seo-header">计网——局域网</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="贝叶斯统计学"><a href="#贝叶斯统计学" class="headerlink" title="贝叶斯统计学"></a>贝叶斯统计学</h1><h2 id="统计推断中可用的三种信息"><a href="#统计推断中可用的三种信息" class="headerlink" title="统计推断中可用的三种信息"></a>统计推断中可用的三种信息</h2><ol>
-<li>总体信息</li>
-<li>样本信息</li>
-<li>先验信息</li>
-</ol>
-<h2 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h2><ol>
-<li><p>事件形式</p>
+                <h1 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h1><h2 id="局域网概述"><a href="#局域网概述" class="headerlink" title="局域网概述"></a>局域网概述</h2><h2 id="MAC层"><a href="#MAC层" class="headerlink" title="MAC层"></a>MAC层</h2><ol>
+<li><p>MAC地址（6字节）：</p>
+<p>局域网地址、以太网地址、物理地址，确认网络设备位置的地址</p>
+<p>唯一标识一个网卡</p>
 </li>
-<li><p>密度形式</p>
-<p>$p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $</p>
+<li><p>MAC帧分类：单播帧（收到的帧的MAC地址与本站NAC地址相同）、广播帧（发给局域网内所有站点全1）、多播帧</p>
 </li>
-<li><p>离散形式</p>
-<p>若$\theta$是离散形式，写作$p(\theta_i|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta_i ) p (x_1,x_2,…,x_n|\theta_i)}{\sum_j p(\theta_j ) p (x_1,x_2,…,x_n|\theta_j) }$</p>
-<p>若$x$也是离散形式，写作$p(x|\theta)$换成$p(X&#x3D;x|\theta)$</p>
+<li><p>以太网V2格式MAC帧：</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200107309.png" srcset="/img/loading.gif" lazyload alt="image-20240625200107309"></p>
+<p>对无效MAC帧，直接丢弃</p>
 </li>
 </ol>
-<p><strong>后验概率的计算</strong>：</p>
-<p>step1: 假设先验分布$p(\theta)$（一般假设为$U ～ [0,1]$）</p>
-<p>step2: 计算联合分布$h(\theta, x)$</p>
-<p>step3: 计算边际分布$m(x) &#x3D; \int h(\theta,x)d\theta$</p>
-<p>step4: 由贝叶斯公式计算后验概率$p(\theta|x)$</p>
-<p><strong>共轭先验分布</strong>：先验—似然—&gt;后验 （其与先验分布服从同一类分布）</p>
-<p>二项分布的成功概率θ的共轭先验分布是贝塔分布。</p>
-<h1 id="贝叶斯推断"><a href="#贝叶斯推断" class="headerlink" title="贝叶斯推断"></a>贝叶斯推断</h1><h2 id="条件方法："><a href="#条件方法：" class="headerlink" title="条件方法："></a>条件方法：</h2><p>贝叶斯推断的后验信息集三种信息为一体，基于后验分布的统计推断实际上只考虑已出现的数据（样本观察值）而认为<strong>未出现的数据与推断无关</strong>。</p>
-<p>条件方法 和 频率方法 的区别：频率方法要考虑样本空间中所有可能出现的样本，而条件方法认为为出现的数据与推断无关</p>
-<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><ol>
-<li><p>最大后验估计</p>
+<h2 id="扩展的局域网"><a href="#扩展的局域网" class="headerlink" title="扩展的局域网"></a>扩展的局域网</h2><ol>
+<li><p>在物理层扩展（使用集线器）</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200542135.png" srcset="/img/loading.gif" lazyload alt="image-20240625200542135"></p>
 </li>
-<li><p>后验中位数估计</p>
-</li>
-<li><p>后验期望估计</p>
-</li>
-<li><p>误差估计</p>
-<p>$MSE(\hat{\theta}_E|x) &#x3D; var(\theta|x) $</p>
-<p>$MSE(\hat{\theta}|x) &#x3D; var(\theta|x) + (\hat{\theta}_E  - \hat{\theta})^2$</p>
-<p>可见，当$\hat{\theta}  &#x3D; \hat{\theta}_E$时，有最小值</p>
+<li><p>在数据链路层扩展</p>
+<p>网桥：</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625201017826.png" srcset="/img/loading.gif" lazyload alt="image-20240625201017826"></p>
+<p>多接口网桥——以太网交换机</p>
 </li>
 </ol>
-<h2 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h2><h2 id="假设检验"><a href="#假设检验" class="headerlink" title="假设检验"></a>假设检验</h2>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625201744754.png" srcset="/img/loading.gif" lazyload alt="image-20240625201744754"></p>
+<h2 id="WLAN"><a href="#WLAN" class="headerlink" title="WLAN"></a>WLAN</h2><p>WLAN可分为两大类：</p>
+<ol>
+<li>有固定基础设施的 WLAN   </li>
+<li>无固定基础设施的 WLAN</li>
+</ol>
+<p>IEEE 802.11  ：</p>
+<ol>
+<li><p>基本服务集BSS：一个AP+若干移动站STA</p>
+<p>为该 AP 分配一个不超过 32 字节的服务集标识符 SSID （该局域网名称）和 通信信道</p>
+<p>每个 AP 有一个唯一的 48 位 MAC 地址，名称是基本服务集标识符 BSSID  </p>
+</li>
+<li><p>扩展服务集ESS：一个 BSS 可以通过 AP 连接到一个分配系统 DS (Distribution System)，然后再连接到另一个 BSS，构成了一个扩展服务集ESS  </p>
+<p>ESS 也有个标识符，是不超过 32 字符的字符串名字 (不是地址)，叫做扩展服务集标识符 ESSID</p>
+</li>
+</ol>
+<p>建立关联：一个移动站若要加入到一个 BSS，就必须先与某个 AP 建立关联。分 被动扫描 和 主动扫描</p>
+<p>CASM&#x2F;CA协议：增加碰撞避免 CA (Collision Avoidance) ：尽量减少碰撞发生的概率</p>
+<p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625203146180.png" srcset="/img/loading.gif" lazyload alt="image-20240625203146180"></p>
+
                 
               </div>
             
@@ -387,8 +396,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>贝叶斯统计学</div>
-      <div>https://wendyflv.github.io/2024/06/19/贝叶斯统计学/</div>
+      <div>计网——局域网</div>
+      <div>https://wendyflv.github.io/2024/06/25/计网——局域网/</div>
     </div>
     <div class="license-meta">
       
@@ -400,7 +409,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月19日</div>
+          <div>2024年6月25日</div>
         </div>
       
       
@@ -432,9 +441,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/22/%E5%BA%94%E7%94%A8%E7%BB%9F%E8%AE%A1%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" title="应用统计——线性回归">
+                      <a href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/" title="计网——网络互连">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">应用统计——线性回归</span>
+                        <span class="hidden-mobile">计网——网络互连</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -442,8 +451,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/18/%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1%E5%88%9D%E6%AD%A5/" title="数理统计初步">
-                        <span class="hidden-mobile">数理统计初步</span>
+                      <a href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计网——数据链路层">
+                        <span class="hidden-mobile">计网——数据链路层</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

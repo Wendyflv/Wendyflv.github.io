@@ -4,11 +4,115 @@
   
   
   <entry>
+    <title>HRNet</title>
+    <link href="/2024/08/21/HRNet/"/>
+    <url>/2024/08/21/HRNet/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>人体模型SMPL介绍</title>
+    <link href="/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/"/>
+    <url>/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/</url>
+    
+    <content type="html"><![CDATA[<p>SMPL: A Skinned Multi-Person Linear Model （<a href="https://dl.acm.org/doi/pdf/10.1145/2816795.2818013">SMPL (acm.org)</a>）</p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>SMPL是一种3D人体建模方法，支持人体的各种形状及动作。这些人体模型的形状、姿态都可以被参数化表示。</p><p>下面记录下面特有名词的解释：</p><p>**· **vertex（顶点）：模型由多个小三角形或四边形构成。一个小三角形可看作一个顶点，顶点越多，模型越精细。</p><p><strong>·</strong> Joints（骨骼点）：人体的一些关节点，类似于人体姿态估计的关键点。每个骨骼点都由一个三元组作为参数去控制（）</p><p><strong>·</strong> 骨骼蒙皮（Rig）：建立骨骼点和顶点的关联关系。每个骨骼点会关联许多顶点，并且每一个顶点权重不一样。通过这种关联关系，就可以通过控制骨骼点的旋转向量来控制整个人运动。</p><h1 id="SMPL"><a href="#SMPL" class="headerlink" title="SMPL"></a>SMPL</h1><p>一个3D人体mesh由<strong>6890</strong>个网格顶点和<strong>23</strong>个关节点组成：</p><p><img src="/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240729165318535.png" alt="image-20240729165318535"></p><p>输入：体型参数$\beta$和姿态参数$\theta$，前者决定人体的高矮胖瘦身材比例等，后者决定人体具体姿态。</p><p>每个人体模型有10个体型参数，以及$3 \times (23 +1 )&#x3D; 72$个姿态参数 （23代表骨架节点数，1是人体中心）</p><p>输出： N 个顶点的坐标，维度为 3N。N: 顶点数（6890）</p><h1 id="SMPLer"><a href="#SMPLer" class="headerlink" title="SMPLer"></a>SMPLer</h1><p>对单目图片进行人体的姿态和形状估计。</p><p><img src="/2024/07/29/%E4%BA%BA%E4%BD%93%E6%A8%A1%E5%9E%8BSMPL%E4%BB%8B%E7%BB%8D/image-20240731190342631.png" alt="image-20240731190342631"></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>变量选择</title>
+    <link href="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/"/>
+    <url>/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/</url>
+    
+    <content type="html"><![CDATA[<h1 id="带有约束条件的高维空间自回归模型的稳健的变量选择"><a href="#带有约束条件的高维空间自回归模型的稳健的变量选择" class="headerlink" title="带有约束条件的高维空间自回归模型的稳健的变量选择"></a>带有约束条件的高维空间自回归模型的稳健的变量选择</h1><p><img src="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/image-20240629212115046.png" alt="image-20240629212115046"></p><p>如何求解参数$\theta$</p><p><img src="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/image-20240629212821871.png" alt="image-20240629212821871"></p><p>优化步3和4：一维非线性问题——Brent方法（以已经得到的三个点（比如从bracketing来的）为基础，构建一个二次曲线，如果迭代目标函数与二次函数相似，那么二次函数的顶点就是极值点；如果不是，这次迭代就变成普通的黄金分点搜索。）</p><p>优化步5：LQA算法</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计网——网络互连</title>
+    <link href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/"/>
+    <url>/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/</url>
+    
+    <content type="html"><![CDATA[<h1 id="网络互连"><a href="#网络互连" class="headerlink" title="网络互连"></a>网络互连</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>互链：用网络设备把不同网络连接起来使得不同网络中计算机之间可相互通信</p><p>中继系统&#x2F;中间设备：把网络相互连接起来的设备</p><p>中继系统：</p><ol><li>物理层：转发器</li><li>数据链路层：网桥</li><li>网络层中断系统：路由器</li><li>网桥和路由器混合：桥路器</li><li>网络层以上：网关</li></ol><p>网络互连使用 路由器</p><p>直接交付：两个主机在一个网络上，不用经过路由器</p><p>间接交付：两主机不在同一个网络，要经过路由交付</p><h2 id="因特网的网际协议IP"><a href="#因特网的网际协议IP" class="headerlink" title="因特网的网际协议IP"></a>因特网的网际协议IP</h2><p>IP协议：提供无连接的IP数据传输机制，不可靠但是有效</p><p>IP地址（4B）：把每个连接在因特网上的主机分配一个在全世界范围是唯一的32位的标识符</p><h3 id="IP地址编址方法"><a href="#IP地址编址方法" class="headerlink" title="IP地址编址方法"></a>IP地址编址方法</h3><ol><li><p>分类的IP地址</p><p>网络号 + 主机号</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240625210916852.png" alt="image-20240625210916852"></p><p>点分十进制记法：128.11.3.31</p><p>127.0.0.0保留使用</p><p>127.0.0.1 指代本地本机</p><p><strong>ARP协议</strong>：广播报文，询问目的主机的IP地址与物理地址映射关系，目的主机响应报文，回答</p><p>IP数据报格式：首部固定部分20字节</p></li><li><p>子网划分</p><p>子网划分：从主机部分拿出若干字节作为子网号</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626153711328.png" alt="image-20240626153711328"><br>子网掩码：找出IP地址中的子网部分</p><p>将 三级IP地址 位&amp; 子网掩码 &#x3D; 划分子网时的网络地址</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626154006849.png" alt="image-20240626154006849"></p><p>路由分组转发算法：</p><ol><li>从分组首部提取目的IP地址D</li><li>把各网络的子网掩码与D逐比特相与，若与相应网络地址匹配，则直接交付，否则，转3</li><li>若 路由表中由目的地址为D的特定主机路由，则把分组传给指明的下一跳路由，否则，转4</li><li>将 路由表 的 每一行 的 子网掩码 与D 位与， 若结果等于改行的目的网络，则将分组传给该行指明的吓一跳路由，否则，转5</li><li>若路由表有默认路由，则把分组传给默认路由，否则，转6</li><li>报告失败</li></ol></li><li><p>构成超网</p><p>无分类的两级编址：IP地址 ::&#x3D; {&lt;网络前缀&gt;, &lt;主机号&gt;}  </p><p>CIDR记法：IP地址&#x2F;网络前缀长度  </p><p>CIDR地址块：网络前缀都相同的连续IP地址组成的</p><p>构成超网：一个CIDR地址块可以表示多个地址</p><p>最长前缀匹配：正在路由表查找时，一个在匹配结果里选择具有最长网络前缀的路由</p></li></ol><h2 id="因特网控制报文协议ICMP"><a href="#因特网控制报文协议ICMP" class="headerlink" title="因特网控制报文协议ICMP"></a>因特网控制报文协议ICMP</h2><p>ICMP作用：允许主机或路由器报告差错情况和提供有关异常情况的报告</p><p>首部：8字节</p><p>分类：</p><ol><li><p>差错报告报文</p><p>报文类型：终点不可达、源点抑制、时间超过、参数问题、改变路由</p><p>不应发送情况：对ICMP差错报文、第一个分片的数据报片的所有后续数据报片都步发送、广播，多播的、特殊地址</p></li><li><p>询问报文</p><p>报文类型：回送请求或回答报文、时间戳请求或回答报文</p></li></ol><p>应用举例：Ping，Tracert</p><h2 id="IP多播"><a href="#IP多播" class="headerlink" title="IP多播"></a>IP多播</h2><p>多播使用组地址——IP使用D类地址支持多播</p><p>224.0.1.0——238.255.255.255</p><p>多播地址只能用于目的地址，而不能用于源地址</p><p>局域网中的多播帧中，只要MAC地址后23位与网卡设置的多播IP地址的后23位相同的，本机网卡才接收</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626163736392.png" alt="image-20240626163736392"></p><p>两个或多个IP多播地址可能映射到同一个MAC多播地址  </p><p>隧道技术：</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626163939578.png" alt="image-20240626163939578"></p><h2 id="虚拟专用网络VPN和网络地址转换NAT"><a href="#虚拟专用网络VPN和网络地址转换NAT" class="headerlink" title="虚拟专用网络VPN和网络地址转换NAT"></a>虚拟专用网络VPN和网络地址转换NAT</h2><p>本地地址（内部地址、专用地址）：仅在机构内部使用的IP地址</p><p>全球地址：全球唯一的IP地址</p><p>因特网的所有路由器对目的地址时专用地址的数据一律步转发</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/image-20240626164420235.png" alt="image-20240626164420235"></p><p>VPN对IP进行二次封装</p><p>NAT：更改了IP地址</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计网——局域网</title>
+    <link href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/"/>
+    <url>/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/</url>
+    
+    <content type="html"><![CDATA[<h1 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h1><h2 id="局域网概述"><a href="#局域网概述" class="headerlink" title="局域网概述"></a>局域网概述</h2><h2 id="MAC层"><a href="#MAC层" class="headerlink" title="MAC层"></a>MAC层</h2><ol><li><p>MAC地址（6字节）：</p><p>局域网地址、以太网地址、物理地址，确认网络设备位置的地址</p><p>唯一标识一个网卡</p></li><li><p>MAC帧分类：单播帧（收到的帧的MAC地址与本站NAC地址相同）、广播帧（发给局域网内所有站点全1）、多播帧</p></li><li><p>以太网V2格式MAC帧：</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200107309.png" alt="image-20240625200107309"></p><p>对无效MAC帧，直接丢弃</p></li></ol><h2 id="扩展的局域网"><a href="#扩展的局域网" class="headerlink" title="扩展的局域网"></a>扩展的局域网</h2><ol><li><p>在物理层扩展（使用集线器）</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625200542135.png" alt="image-20240625200542135"></p></li><li><p>在数据链路层扩展</p><p>网桥：</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625201017826.png" alt="image-20240625201017826"></p><p>多接口网桥——以太网交换机</p></li></ol><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625201744754.png" alt="image-20240625201744754"></p><h2 id="WLAN"><a href="#WLAN" class="headerlink" title="WLAN"></a>WLAN</h2><p>WLAN可分为两大类：</p><ol><li>有固定基础设施的 WLAN   </li><li>无固定基础设施的 WLAN</li></ol><p>IEEE 802.11  ：</p><ol><li><p>基本服务集BSS：一个AP+若干移动站STA</p><p>为该 AP 分配一个不超过 32 字节的服务集标识符 SSID （该局域网名称）和 通信信道</p><p>每个 AP 有一个唯一的 48 位 MAC 地址，名称是基本服务集标识符 BSSID  </p></li><li><p>扩展服务集ESS：一个 BSS 可以通过 AP 连接到一个分配系统 DS (Distribution System)，然后再连接到另一个 BSS，构成了一个扩展服务集ESS  </p><p>ESS 也有个标识符，是不超过 32 字符的字符串名字 (不是地址)，叫做扩展服务集标识符 ESSID</p></li></ol><p>建立关联：一个移动站若要加入到一个 BSS，就必须先与某个 AP 建立关联。分 被动扫描 和 主动扫描</p><p>CASM&#x2F;CA协议：增加碰撞避免 CA (Collision Avoidance) ：尽量减少碰撞发生的概率</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E5%B1%80%E5%9F%9F%E7%BD%91/image-20240625203146180.png" alt="image-20240625203146180"></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计网——数据链路层</title>
+    <link href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/"/>
+    <url>/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</url>
+    
+    <content type="html"><![CDATA[<h1 id="数据链路层协议"><a href="#数据链路层协议" class="headerlink" title="数据链路层协议"></a>数据链路层协议</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ol><li><p>链路：物理链路，无源的点到点的物理线路段0</p></li><li><p>数据链路：带规程的软硬件+物理链路（逻辑链路）</p></li><li><p>数据链路层协议作用：在不太可靠的数据链路层上实现可靠的数据传输</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20240625160502358.png" alt="image-20240625160502358"></p><p>在发送端将网络层的数据流封装成帧并交给物理层进行传输；<br>在接收端将从物理层得到的帧进行差错检测， 拆封还原成数据流并交给网络层。</p></li></ol><h2 id="三个基本问题"><a href="#三个基本问题" class="headerlink" title="三个基本问题"></a>三个基本问题</h2><h3 id="封装成帧"><a href="#封装成帧" class="headerlink" title="封装成帧"></a>封装成帧</h3><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20240625163256738.png" alt="image-20240625163256738"></p><p>关键问题：帧定界，即确定帧的界限  </p><p>方法：</p><ol><li><p>字符计数法</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20240625163431597.png" alt="image-20240625163431597"></p></li><li><p>带字符填充的首尾字符定界法</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20240625163450460.png" alt="image-20240625163450460"></p></li><li><p>使用比特填充的首位标记定界</p><p>帧的起始和结束都用一个特殊的位串:“01111110”，称为标记(Flag)</p></li></ol><h3 id="透明传输"><a href="#透明传输" class="headerlink" title="透明传输"></a>透明传输</h3><p>与传输的数据无关  </p><ol><li><p>面向字符——字节插入法</p><p>在数据中出现的控制字符SOH或EOT前面插入一个转义字符ESC(一个字节， 0x1B)；</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20240625163746999.png" alt="image-20240625163746999"></p></li><li><p>面向比特——0比特插入删除法</p><p>当数据中连续出现5个1即“11111”时就在其后插入”0”比特，即将其转换成“111110”。</p><p><img src="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/image-20240625163818107.png" alt="image-20240625163818107"></p></li></ol><h3 id="差错控制技术"><a href="#差错控制技术" class="headerlink" title="差错控制技术"></a>差错控制技术</h3>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>计网——计算机网络概述</title>
+    <link href="/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/"/>
+    <url>/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="计算机网络概述"><a href="#计算机网络概述" class="headerlink" title="计算机网络概述"></a>计算机网络概述</h1><h2 id="计算机网络的形成"><a href="#计算机网络的形成" class="headerlink" title="计算机网络的形成"></a>计算机网络的形成</h2><p>计算机技术与通信技术的结合</p><h3 id="发展阶段"><a href="#发展阶段" class="headerlink" title="发展阶段"></a>发展阶段</h3><ol><li><p>阶段一：电路交换</p><p><img src="/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/image-20240624201506659.png" alt="image-20240624201506659"></p></li><li><p>阶段二：分组交换</p><p>核心：分组转发 + 动态分配资源</p><p>路由器功能：存储分组+转发分组</p><p>处理过程：把收到的分组暂存，查转发表，找到目的地址应从哪个口转发，把分组送至该端口</p><p>主机功能：为用户进行信息处理，发生分组，接受分组</p><p><img src="/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/image-20240624201645558.png" alt="image-20240624201645558"></p></li><li><p>阶段三：网络体系结构和协议标准化</p><p>国际标准化组织  ISO ——&gt;开放系统互连参考模型  (OSI&#x2F;RM)</p><p>传输控制协议和网络协议 TCP&#x2F;IP</p></li><li><p>阶段四：Internet技术</p></li></ol><h2 id="计算机网络定义"><a href="#计算机网络定义" class="headerlink" title="计算机网络定义"></a>计算机网络定义</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>以能够<strong>相互共享资源</strong>的方式互连起来的<strong>自治</strong>计算机系统的集合。</p><h3 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h3><ol><li><p>早期网络结构</p><p>资源子网（由网络上的主机和终端组成  ） + 通信子网（由传输线和交换单元组成  ）</p><p><img src="/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/image-20240624203258305.png" alt="image-20240624203258305"></p></li><li><p>现代网络结构</p></li></ol><p><img src="/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/image-20240624204140538.png" alt="image-20240624204140538"></p><h2 id="计算机网络的拓扑构型"><a href="#计算机网络的拓扑构型" class="headerlink" title="计算机网络的拓扑构型"></a>计算机网络的拓扑构型</h2><p>网络拓扑：通过网中结点与通信线路之间的几何关系表示网络结构，反映出网络中各实体间的结构关系。（在通信子网）</p><p>通信信道类型：</p><ol><li>广播信道：总线型、树型、环型（局域网）</li><li>点-点线路：星型、环型、树型、网状（广域网）</li></ol><h2 id="计算机网络分类"><a href="#计算机网络分类" class="headerlink" title="计算机网络分类"></a>计算机网络分类</h2><ol><li>按传输技术分：广播式网络、点-点式网络</li><li>按网络覆盖范围分：个人区域网、局域网、城域网、广域网</li><li>按使用范围分：专用网、公用网</li></ol><h2 id="性能指标"><a href="#性能指标" class="headerlink" title="性能指标"></a>性能指标</h2><ol><li><p>速率（b&#x2F;s)</p></li><li><p>带宽：数字信道的传送的最高数据率（b&#x2F;s)</p></li><li><p>吞吐量：单位时间通过某网络的数据量(b&#x2F;s)</p></li><li><p>时延：传播时延+传输时延+处理时延+等待时延</p><p><img src="/2024/06/24/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/image-20240624205949493.png" alt="image-20240624205949493"></p></li><li><p>时延带宽积：传播时延*带宽</p></li><li><p>利用率</p></li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>应用统计——线性回归</title>
+    <link href="/2024/06/22/%E5%BA%94%E7%94%A8%E7%BB%9F%E8%AE%A1%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"/>
+    <url>/2024/06/22/%E5%BA%94%E7%94%A8%E7%BB%9F%E8%AE%A1%E2%80%94%E2%80%94%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</url>
+    
+    <content type="html"><![CDATA[<h1 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h1><h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>贝叶斯统计学</title>
     <link href="/2024/06/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%9F%E8%AE%A1%E5%AD%A6/"/>
     <url>/2024/06/19/%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%9F%E8%AE%A1%E5%AD%A6/</url>
     
-    <content type="html"><![CDATA[<h1 id="贝叶斯统计学"><a href="#贝叶斯统计学" class="headerlink" title="贝叶斯统计学"></a>贝叶斯统计学</h1><h2 id="统计推断中可用的三种信息"><a href="#统计推断中可用的三种信息" class="headerlink" title="统计推断中可用的三种信息"></a>统计推断中可用的三种信息</h2><ol><li>总体信息</li><li>样本信息</li><li>先验信息</li></ol><h2 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h2><ol><li><p>事件形式</p></li><li><p>密度形式</p><p>$p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $</p></li><li><p>离散形式</p><p>若$\theta$是离散形式，写作$p(\theta_i|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta_i ) p (x_1,x_2,…,x_n|\theta_i)}{\sum_j p(\theta_j ) p (x_1,x_2,…,x_n|\theta_j) }$</p><p>若$x$也是离散形式，写作$p(x|\theta)$换成$p(X&#x3D;x|\theta)$</p></li></ol><p><strong>后验概率的计算</strong>：</p><p>step1: 假设先验分布$p(\theta)$（一般假设为$U ～ [0,1]$）</p><p>step2: 计算联合分布$h(\theta, x)$</p><p>step3: 计算边际分布$m(x) &#x3D; \int h(\theta,x)d\theta$</p><p>step4: 由贝叶斯公式计算后验概率$p(\theta|x)$</p><p><strong>共轭先验分布</strong>：先验—似然—&gt;后验 （其与先验分布服从同一类分布）</p><p>二项分布的成功概率θ的共轭先验分布是贝塔分布。</p><h1 id="贝叶斯推断"><a href="#贝叶斯推断" class="headerlink" title="贝叶斯推断"></a>贝叶斯推断</h1><h2 id="条件方法："><a href="#条件方法：" class="headerlink" title="条件方法："></a>条件方法：</h2><p>贝叶斯推断的后验信息集三种信息为一体，基于后验分布的统计推断实际上只考虑已出现的数据（样本观察值）而认为<strong>未出现的数据与推断无关</strong>。</p><p>条件方法 和 频率方法 的区别：频率方法要考虑样本空间中所有可能出现的样本，而条件方法认为为出现的数据与推断无关</p><h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><ol><li>最大后验估计</li><li>后验中位数估计</li><li>后验期望估计</li><li>误差估计</li></ol><h2 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h2><h2 id="假设检验"><a href="#假设检验" class="headerlink" title="假设检验"></a>假设检验</h2>]]></content>
+    <content type="html"><![CDATA[<h1 id="贝叶斯统计学"><a href="#贝叶斯统计学" class="headerlink" title="贝叶斯统计学"></a>贝叶斯统计学</h1><h2 id="统计推断中可用的三种信息"><a href="#统计推断中可用的三种信息" class="headerlink" title="统计推断中可用的三种信息"></a>统计推断中可用的三种信息</h2><ol><li>总体信息</li><li>样本信息</li><li>先验信息</li></ol><h2 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h2><ol><li><p>事件形式</p></li><li><p>密度形式</p><p>$p(\theta|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta ) p (x_1,x_2,…,x_n|\theta)}{\int p(\theta ) p (x_1,x_2,…,x_n|\theta) d\theta} $</p></li><li><p>离散形式</p><p>若$\theta$是离散形式，写作$p(\theta_i|x_1, x_2,…,x_n) &#x3D; \frac{p(\theta_i ) p (x_1,x_2,…,x_n|\theta_i)}{\sum_j p(\theta_j ) p (x_1,x_2,…,x_n|\theta_j) }$</p><p>若$x$也是离散形式，写作$p(x|\theta)$换成$p(X&#x3D;x|\theta)$</p></li></ol><p><strong>后验概率的计算</strong>：</p><p>step1: 假设先验分布$p(\theta)$（一般假设为$U ～ [0,1]$）</p><p>step2: 计算联合分布$h(\theta, x)$</p><p>step3: 计算边际分布$m(x) &#x3D; \int h(\theta,x)d\theta$</p><p>step4: 由贝叶斯公式计算后验概率$p(\theta|x)$</p><p><strong>共轭先验分布</strong>：先验—似然—&gt;后验 （其与先验分布服从同一类分布）</p><p>二项分布的成功概率θ的共轭先验分布是贝塔分布。</p><h1 id="贝叶斯推断"><a href="#贝叶斯推断" class="headerlink" title="贝叶斯推断"></a>贝叶斯推断</h1><h2 id="条件方法："><a href="#条件方法：" class="headerlink" title="条件方法："></a>条件方法：</h2><p>贝叶斯推断的后验信息集三种信息为一体，基于后验分布的统计推断实际上只考虑已出现的数据（样本观察值）而认为<strong>未出现的数据与推断无关</strong>。</p><p>条件方法 和 频率方法 的区别：频率方法要考虑样本空间中所有可能出现的样本，而条件方法认为为出现的数据与推断无关</p><h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><ol><li><p>最大后验估计</p></li><li><p>后验中位数估计</p></li><li><p>后验期望估计</p></li><li><p>误差估计</p><p>$MSE(\hat{\theta}_E|x) &#x3D; var(\theta|x) $</p><p>$MSE(\hat{\theta}|x) &#x3D; var(\theta|x) + (\hat{\theta}_E  - \hat{\theta})^2$</p><p>可见，当$\hat{\theta}  &#x3D; \hat{\theta}_E$时，有最小值</p></li></ol><h2 id="区间估计"><a href="#区间估计" class="headerlink" title="区间估计"></a>区间估计</h2><h2 id="假设检验"><a href="#假设检验" class="headerlink" title="假设检验"></a>假设检验</h2>]]></content>
     
     
     
