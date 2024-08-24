@@ -1,0 +1,920 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="spark框架模块spark core：核心RDD spark sql：针对结构化数据，本身针对离线计算。 spark streaming： 在core基础上，流式计算 运行模式本地模式：local，以一个独立进程，通过其内部多个线程模拟spark（开发，测试） standalone：集群，各个角色以独立进程的形式存在  YARN：集群，角色运行在YARN的容器内， Kubernets：在Kube">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark">
+<meta property="og:url" content="https://wendyflv.github.io/2024/08/21/spark/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="spark框架模块spark core：核心RDD spark sql：针对结构化数据，本身针对离线计算。 spark streaming： 在core基础上，流式计算 运行模式本地模式：local，以一个独立进程，通过其内部多个线程模拟spark（开发，测试） standalone：集群，各个角色以独立进程的形式存在  YARN：集群，角色运行在YARN的容器内， Kubernets：在Kube">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/spark/image-20240821164007378.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/spark/image-20240821164406582.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/spark/image-20240822085308917.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/spark/image-20240822095233696.png">
+<meta property="article:published_time" content="2024-08-21T08:23:25.000Z">
+<meta property="article:modified_time" content="2024-08-24T06:05:35.158Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/08/21/spark/image-20240821164007378.png">
+  
+  
+  
+  <title>spark - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="spark"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-21 16:23" pubdate>
+          2024年8月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">spark</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="spark"><a href="#spark" class="headerlink" title="spark"></a>spark</h1><h2 id="框架模块"><a href="#框架模块" class="headerlink" title="框架模块"></a>框架模块</h2><p>spark core：核心RDD</p>
+<p>spark sql：针对结构化数据，本身针对离线计算。</p>
+<p>spark streaming： 在core基础上，流式计算</p>
+<h2 id="运行模式"><a href="#运行模式" class="headerlink" title="运行模式"></a>运行模式</h2><p>本地模式：local，以一个独立进程，通过其内部多个线程模拟spark（开发，测试）</p>
+<p>standalone：集群，各个角色以独立进程的形式存在 </p>
+<p>YARN：集群，角色运行在YARN的容器内，</p>
+<p>Kubernets：在Kubernets容器内</p>
+<p>云服务：在云平台上运行</p>
+<h2 id="架构角色"><a href="#架构角色" class="headerlink" title="架构角色"></a>架构角色</h2><p>YARN</p>
+<p>resoumanger:集群管理</p>
+<p>nodemanger：单机管理</p>
+<p>applicationmaster：单任务管理者</p>
+<p>task：单任务执行</p>
+<p><img src="/2024/08/21/spark/image-20240821164007378.png" srcset="/img/loading.gif" lazyload alt="image-20240821164007378"></p>
+<p>spark</p>
+<p>master:集群资源管家</p>
+<p>worker：单机资源管家</p>
+<p>Driver：管理单任务 （在local模式在，既管理又干活）</p>
+<p>Executor：运行单任务</p>
+<h3 id="local模式"><a href="#local模式" class="headerlink" title="local模式"></a>local模式</h3><p>local[N] 指定N个线程模拟</p>
+<p>local[*] 对线程数无限制，根据cpu的cores设定</p>
+<p><img src="/2024/08/21/spark/image-20240821164406582.png" srcset="/img/loading.gif" lazyload alt="image-20240821164406582"></p>
+<h3 id="sparkcount"><a href="#sparkcount" class="headerlink" title="sparkcount"></a>sparkcount</h3><p>创建sparkconf对象</p>
+<p>通过sparkcontext创建对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">conf = SparkConf(<span class="hljs-string">&quot;local[*]&quot;</span>).setAppName(<span class="hljs-string">&quot;WordCountHelloWorld&quot;</span>)<br><span class="hljs-comment"># 通过 SparkConf 对象构建 SparkContext 对象</span><br>sc = SparkContext(conf=conf)<br></code></pre></td></tr></table></figure>
+
+<p>读文件</p>
+<ul>
+<li><p>读本地的文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">file_rdd = sc.textFile(<span class="hljs-string">&quot;./data/input/word.tx&quot;</span>)<br><span class="hljs-comment"># &quot;file:///tmp/pycharm_project_846/data/input/word.txt&quot; linux上文件</span><br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>读HDFS上的文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">file_rdd = sc.textFile(<span class="hljs-string">&quot;hdfs://node1:8020/input/word.txt&quot;</span>)<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="wordcount原理"><a href="#wordcount原理" class="headerlink" title="wordcount原理"></a>wordcount原理</h3><p><img src="/2024/08/21/spark/image-20240822085308917.png" srcset="/img/loading.gif" lazyload alt="image-20240822085308917"></p>
+<h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>RDD：弹性（数据讯息再内存或磁盘中）分布式（跨进程存储）数据集合，分布式框架下的统一数据抽象对象</p>
+<p>特性：有分区；计算方法都会作用再每一个分片上；RDD之间又相互依赖关系；KV型RDD可以有分区器；分区数据的读取尽量靠近数据所在服务器</p>
+<p>一份RDD本质分成了多个分区：</p>
+<p><img src="/2024/08/21/spark/image-20240822095233696.png" srcset="/img/loading.gif" lazyload alt="image-20240822095233696"></p>
+<p>KV型RDD：RDD内存存储的数据式二元元组(“hadoop”,3)(“hadoop”,1)(“flink”,3)</p>
+<p>默认分区器：hash分区器 </p>
+<h3 id="编程操作"><a href="#编程操作" class="headerlink" title="编程操作"></a>编程操作</h3><p>程序入口：sparkcontext对象</p>
+<p>RDD创建：</p>
+<ul>
+<li><p>并行化集合创建（本地转分布式RDD）；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">conf = SparkConf().setMaster(<span class="hljs-string">&quot;local[*]&quot;</span>).setAppName(<span class="hljs-string">&quot;test&quot;</span>)<br>    sc = SparkContext(conf=conf)<br>    <span class="hljs-comment"># 本地转分布式RDD对象</span><br>    rdd = sc.parallelize([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>],<span class="hljs-number">3</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;分区：&quot;</span>,rdd.getNumPartitions())<br>    <span class="hljs-comment"># 把RDD每个分区的对象collect到driver</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;RDD内容：&quot;</span>, rdd.collect())<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>读取外部文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 读取本地文件</span><br>    file_rdd = sc.textFile(<span class="hljs-string">&quot;../../data/input/word.txt&quot;</span>)<br>    <span class="hljs-built_in">print</span>(file_rdd.getNumPartitions())<br>    <span class="hljs-built_in">print</span>(file_rdd.collect())<br>    file_rdd2 = sc.textFile(<span class="hljs-string">&quot;../../data/input/word.txt&quot;</span>,<span class="hljs-number">3</span>)<br>    <span class="hljs-built_in">print</span>(file_rdd2.getNumPartitions())<br>    file_rdd3 = sc.textFile(<span class="hljs-string">&quot;../../data/input/word.txt&quot;</span>, <span class="hljs-number">100</span>)<br>    <span class="hljs-built_in">print</span>(file_rdd3.getNumPartitions())<br><br>    <span class="hljs-comment"># 读取HDFS</span><br>    file_rdd4 = sc.textFile(<span class="hljs-string">&quot;hdfs://node1:8020/input/word.txt&quot;</span>)<br>    <span class="hljs-built_in">print</span>(file_rdd4.collect())<br><br>    <span class="hljs-comment"># 针对小文件</span><br>    rdd = sc.wholeTextFiles(<span class="hljs-string">&quot;../../data/input/tiny_files&quot;</span>)<br>    <span class="hljs-built_in">print</span>(rdd.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:x[<span class="hljs-number">1</span>]).collect())<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>RDD算子：分布式集合上的API</p>
+<ul>
+<li><p>Transformation转换算子 RDD——&gt;RDD</p>
+<p>构建执行计划，对RDD迭代，无Action不干活</p>
+<ol>
+<li><p>map算子（接收处理函数）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(rdd.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: x*<span class="hljs-number">10</span>).collect())<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>flatmap算子（先map 再解除嵌套）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([<span class="hljs-string">&quot;hadoop spark map&quot;</span>, <span class="hljs-string">&quot;spark flink&quot;</span>, <span class="hljs-string">&quot;hadoop spark&quot;</span>])<br><span class="hljs-built_in">print</span>(rdd.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x: (x.split(<span class="hljs-string">&quot; &quot;</span>))).collect())<br><span class="hljs-built_in">print</span>(rdd.flatMap(<span class="hljs-keyword">lambda</span> x: (x.split(<span class="hljs-string">&quot; &quot;</span>))).collect())<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>reducebykey （自动按照key分组，完成组内数据的聚合）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 传入的参数只是对value</span><br>rdd = sc.parallelize([[<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">1</span>], [<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-number">1</span>], [<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-number">1</span>], [<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">2</span>]])<br><span class="hljs-built_in">print</span>(rdd.reduceByKey(<span class="hljs-keyword">lambda</span> a,b: a+b).collect())<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>mapvalues 只针对value的map算子</p>
+</li>
+</ol>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([(<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">1</span>), (<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-number">1</span>), (<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-number">1</span>)])<br><span class="hljs-built_in">print</span>(rdd.mapValues(<span class="hljs-keyword">lambda</span> value: value*<span class="hljs-number">10</span>).collect())<br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>groupby （确定按照k还是v分组）</li>
+</ol>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([(<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">1</span>), (<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-number">1</span>), (<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-number">1</span>),(<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">4</span>), (<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-number">4</span>), (<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-number">6</span>)])<br><span class="hljs-built_in">print</span>(rdd.groupBy(<span class="hljs-keyword">lambda</span> x:x[<span class="hljs-number">0</span>]).<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x:(x[<span class="hljs-number">0</span>], <span class="hljs-built_in">list</span>(x[<span class="hljs-number">1</span>]))).collect())<br><br></code></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>Filter （过滤数据，结果为True的保留）</li>
+</ol>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>])<br>result = rdd.<span class="hljs-built_in">filter</span>(<span class="hljs-keyword">lambda</span> x: x %<span class="hljs-number">2</span> == <span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(result.collect())<br></code></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>distinct（去重）</li>
+</ol>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>])<br><span class="hljs-built_in">print</span>(rdd.distinct().collect())<br></code></pre></td></tr></table></figure>
+
+<ol start="8">
+<li><p>union（2个RDD合并成一个）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>])<br>   <br>rdd2 = sc.parallelize([<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;v&#x27;</span>])<br>rdd3 = rdd.union(rdd2)<br><span class="hljs-built_in">print</span>(rdd3.collect())<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>join （对两个RDD执行JOIN操作 只用于二元组， 内连接，左外，右外）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([(<span class="hljs-number">1001</span>, <span class="hljs-string">&#x27;zhangsan&#x27;</span>), (<span class="hljs-number">1002</span>, <span class="hljs-string">&#x27;lisi&#x27;</span>),<br>                          (<span class="hljs-number">1003</span>, <span class="hljs-string">&#x27;wangwu&#x27;</span>), (<span class="hljs-number">1004</span>, <span class="hljs-string">&#x27;laoliu&#x27;</span>)]<br>                         )<br>rdd2 = sc.parallelize([(<span class="hljs-number">1001</span>, <span class="hljs-string">&#x27;科技部&#x27;</span>), (<span class="hljs-number">1002</span>,<span class="hljs-string">&#x27;教育部&#x27;</span>)])<br><span class="hljs-comment"># 按照key关联</span><br>rdd3 = rdd.join(rdd2)<br><span class="hljs-built_in">print</span>(rdd3.collect())<br><span class="hljs-built_in">print</span>(rdd.leftOuterJoin(rdd2).collect())<br><span class="hljs-built_in">print</span>(rdd.rightOuterJoin(rdd2).collect())<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>intersection （求两个RDD的交集）</p>
+<p>rdd.intersection(rdd2)</p>
+</li>
+<li><p>glom （将RDD数据加上嵌套， 这个嵌套按照分区处理）</p>
+<p>rdd.glom().collect()</p>
+</li>
+<li><p>groupbykey（针对KV型，自动按照Key分组）</p>
+</li>
+<li><p>sortby（对RDD数据进行排序）</p>
+</li>
+</ol>
+<pre><code class="hljs">rdd.sortby(func, ascending=True)
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.parallelize([(<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">1</span>), (<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">3</span>), (<span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-number">5</span>), (<span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-number">2</span>)])<br><span class="hljs-built_in">print</span>(rdd.sortBy(<span class="hljs-keyword">lambda</span> x :x[<span class="hljs-number">0</span>], ascending=<span class="hljs-literal">True</span>, numPartitions=<span class="hljs-number">1</span>).collect())<br><br></code></pre></td></tr></table></figure>
+</code></pre>
+<ol start="14">
+<li><p>sortbykey（对KV型的，按Key排序）</p>
+<p>sortbykey(ascending&#x3D;True, numparttions, func)</p>
+<p>func： 再排序前对数据key处理</p>
+</li>
+<li><p>mappartitions （对每个分区只有一次IO）结果与map无差异</p>
+<p>func里面传入的是迭代器对象</p>
+</li>
+<li><p>partitionby （自定义分区操作）</p>
+</li>
+<li><p>repartition（对RDD分区重新分区，仅改变数量，不约定新分区规则）</p>
+</li>
+</ol>
+<p><strong>案例</strong>：对订单数据，提取背景的数据，组合北京合商品类别进行输出，并对结果进行去重，得到北京售卖的商品类别信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">rdd = sc.textFile(<span class="hljs-string">&quot;../../data/input/order.text&quot;</span>)<br>file_rdd = rdd.flatMap(<span class="hljs-keyword">lambda</span> line: line.split(<span class="hljs-string">&quot;|&quot;</span>))<br>dict_rdd = file_rdd.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> json_dir : json.loads(json_dir))<br><span class="hljs-comment"># 过滤数据</span><br>bj_rdd = dict_rdd.<span class="hljs-built_in">filter</span>(<span class="hljs-keyword">lambda</span> d : d[<span class="hljs-string">&#x27;areaName&#x27;</span>]==<span class="hljs-string">&#x27;北京&#x27;</span>)<br><span class="hljs-comment"># 组合北京合商品类型</span><br>ctg_rdd = bj_rdd.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> d : d[<span class="hljs-string">&#x27;areaName&#x27;</span>] + <span class="hljs-string">&#x27;-&#x27;</span> + d[<span class="hljs-string">&#x27;category&#x27;</span>])<br><span class="hljs-comment"># 去重</span><br>res_rdd = ctg_rdd.distinct()<br><span class="hljs-built_in">print</span>(res_rdd.collect())<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Action算子 RDD——&gt; not RDD</p>
+<ol>
+<li><p>countBykey（对key进行计数）</p>
+</li>
+<li><p>collect（把RDD各个分区数据收集到driver，形成一个List对象）</p>
+</li>
+<li><p>reduce （对RDD数据集按照传入逻辑聚合）</p>
+</li>
+<li><p>fold （带有初始值的聚合）</p>
+<p>rdd.fold(10, lambda a,b:a+b) 初始值会在分区内 和 分区键聚合 都用到</p>
+</li>
+<li><p>first （取出RDD的第一个元素）</p>
+</li>
+<li><p>take （取RDD的前N个元素） 返回list</p>
+</li>
+<li><p>top （对RDD结果进行降序排序，取前N个）</p>
+</li>
+<li><p>count （RDD中数据量）</p>
+</li>
+<li><p>takesample（随机抽样RDD数据）</p>
+<p>takesample(True， 采样数，随机数种子) True：允许重复取一个数字</p>
+</li>
+<li><p>takeordered 对RDD排序取前N个</p>
+<p>takeordered（前N个， 对排序数据更改）  默认升序</p>
+</li>
+<li><p>foreach （对每个元素进行你想要的操作） +func 由excutor直接输出</p>
+</li>
+<li><p>saveastextfile （将RDD数据写入文件）由excutor直接输出</p>
+</li>
+<li><p>mappartitions （）</p>
+</li>
+<li><p>foreachpartiton （一次处理一整个分区的数据）</p>
+</li>
+</ol>
+<p>流水线的开关</p>
+</li>
+</ul>
+<h3 id="RDD缓存"><a href="#RDD缓存" class="headerlink" title="RDD缓存"></a>RDD缓存</h3><p>RDD是过程数据，老旧没用的会从内存清理</p>
+<p>RDD缓存API：rdd.cache() rdd.persist()</p>
+<h3 id="Spark案例练习"><a href="#Spark案例练习" class="headerlink" title="Spark案例练习"></a>Spark案例练习</h3><p>任务：搜索关键词统计，用户搜索点击统计，搜索时间段统计</p>
+<h2 id="广播变量"><a href="#广播变量" class="headerlink" title="广播变量"></a>广播变量</h2><p>进程内资源共享，一个进程里面的数据发了一份即可</p>
+<p>broadcast &#x3D; sc.broadcast(原数据)</p>
+<p>value &#x3D; broadcast.value</p>
+<p>本地集合对象和分布式对象操作时需要使用广播变量避免多次网络IO</p>
+<p>累加器：</p>
+<p>ac &#x3D; sc.accumalate(0)</p>
+<p>能把每个分区的数据反映到全局变量中</p>
+<h1 id="取出这4个市辖区的名称"><a href="#取出这4个市辖区的名称" class="headerlink" title="取出这4个市辖区的名称"></a>取出这4个市辖区的名称</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># (&#x27;1室1厅0厨2卫&#x27;, (12320.0, 67.93)) ————&gt; ((1, 1, 0, 2), (&#x27;1室1厅0厨2卫&#x27;, (12320.0, 67.93)))</span><br><span class="hljs-comment"># 提取前面的数字</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">take_number</span>(<span class="hljs-params">data</span>):<br>    matches = re.findall(<span class="hljs-string">r&#x27;\d+&#x27;</span>, data)<br>    values = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, matches))<br>    <span class="hljs-keyword">while</span> <span class="hljs-built_in">len</span>(values) &lt; <span class="hljs-number">4</span>:<br>        values.append(<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">tuple</span>(values)<br><br>    rdd_f_sort = rdd_final.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> line: (take_number(line[<span class="hljs-number">0</span>]), (line[<span class="hljs-number">0</span>], line[<span class="hljs-number">1</span>]))).\<br>    sortBy(<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-number">0</span>]).\<br>    <span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> x : (x[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>],x[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>]))<br>    <span class="hljs-built_in">print</span>(rdd_f_sort.collect())<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>spark</div>
+      <div>https://wendyflv.github.io/2024/08/21/spark/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/" title="基于SMPL的单目3D人体姿态估计">
+                        <span class="hidden-mobile">基于SMPL的单目3D人体姿态估计</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
