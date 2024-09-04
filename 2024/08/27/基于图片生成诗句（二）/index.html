@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于图片生成诗句（二）一、CLIP模型该模型的核心思想是使用大量图像和文本的配对数据进行预训练，一学习图像和文本之间的对齐关系。CLIP包含2个模态：文本和视觉模态。  Text Encoder： 用于把文本转成低维向量表示 Image Encoder：用于把图像转成类似向量表示  在预测阶段，计算文本和图像向量之间的余弦相似度来生成预测。 1. Components 1.1 Image Enco">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于图片生成诗句（二）">
+<meta property="og:url" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="基于图片生成诗句（二）一、CLIP模型该模型的核心思想是使用大量图像和文本的配对数据进行预训练，一学习图像和文本之间的对齐关系。CLIP包含2个模态：文本和视觉模态。  Text Encoder： 用于把文本转成低维向量表示 Image Encoder：用于把图像转成类似向量表示  在预测阶段，计算文本和图像向量之间的余弦相似度来生成预测。 1. Components 1.1 Image Enco">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240827143515727.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240829155351418.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830141904021.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830145625233.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830153207649.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830162646630.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830163003430.png">
+<meta property="article:published_time" content="2024-08-27T02:51:02.000Z">
+<meta property="article:modified_time" content="2024-08-31T02:00:30.278Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240827143515727.png">
+  
+  
+  
+  <title>基于图片生成诗句（二） - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于图片生成诗句（二）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-27 10:51" pubdate>
+          2024年8月27日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于图片生成诗句（二）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于图片生成诗句（二）"><a href="#基于图片生成诗句（二）" class="headerlink" title="基于图片生成诗句（二）"></a>基于图片生成诗句（二）</h1><h1 id="一、CLIP模型"><a href="#一、CLIP模型" class="headerlink" title="一、CLIP模型"></a>一、CLIP模型</h1><p>该模型的核心思想是使用大量图像和文本的配对数据进行预训练，一学习图像和文本之间的对齐关系。CLIP包含2个模态：文本和视觉模态。</p>
+<ul>
+<li>Text Encoder： 用于把文本转成低维向量表示</li>
+<li>Image Encoder：用于把图像转成类似向量表示</li>
+</ul>
+<p>在预测阶段，计算文本和图像向量之间的<strong>余弦相似度</strong>来生成预测。</p>
+<h2 id="1-Components"><a href="#1-Components" class="headerlink" title="1. Components"></a>1. Components</h2><p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240827143515727.png" srcset="/img/loading.gif" lazyload alt="image-20240827143515727"></p>
+<h3 id="1-1-Image-Encoder"><a href="#1-1-Image-Encoder" class="headerlink" title="1.1 Image Encoder"></a>1.1 Image Encoder</h3><ul>
+<li>架构一：基于ResNet50, 根据ResNetD改进，还将<strong>全局平均池化层</strong>替换为<strong>注意力池化机制</strong>。</li>
+<li>架构二：基于VIT</li>
+</ul>
+<h3 id="1-2-Text-Encoder"><a href="#1-2-Text-Encoder" class="headerlink" title="1.2 Text Encoder"></a>1.2 Text Encoder</h3><p>文本编辑器使用Transformer架构，并在此基础上根据Radford模型进行了架构修改。</p>
+<h2 id="2-Method"><a href="#2-Method" class="headerlink" title="2. Method"></a>2. Method</h2><h3 id="2-1-数据集"><a href="#2-1-数据集" class="headerlink" title="2.1 数据集"></a>2.1 数据集</h3><p>文章构建了一个新的数据集，其中包含4亿对(图像、文本)，这些数据集来自互联网上各种公开可用的资源。为了尝试覆盖尽可能广泛的视觉概念集，文中将搜索(图像，文本)对作为构建过程的一部分，其文本包含500,000个查询集中的一个。</p>
+<h3 id="2-2-预训练方法"><a href="#2-2-预训练方法" class="headerlink" title="2.2 预训练方法"></a>2.2 预训练方法</h3><p>给定一批N对的(img, text)对，CLIP来训练这$N \times N$的组合中哪几对会实际发生。最大化N对真实嵌入对的余弦相似度，最小化剩下$N^2 - N$对错误嵌入的余弦相似度。在这些相似性得分上优化对称交叉熵损失。</p>
+<h3 id="2-3-训练方法"><a href="#2-3-训练方法" class="headerlink" title="2.3 训练方法"></a>2.3 训练方法</h3><p>CLIP预训练时训练的Text Encoder和Image Encoder在大量数据上能正确配对图像和文本。 然后， 使用这种方法把CLIP变成zero-shot分类器，把数据集种所有类转为文本，’a photo of a {object}’， 来预测CLIP估计的标题类与给定图像的最佳配对。</p>
+<h1 id="二、本项目为什么要引入CLIP"><a href="#二、本项目为什么要引入CLIP" class="headerlink" title="二、本项目为什么要引入CLIP"></a>二、本项目为什么要引入CLIP</h1><p>在之前 版本1（<a href="https://wendyflv.github.io/2024/06/07/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E5%8F%A4%E8%AF%97/">基于图片生成古诗 - Wendyflv的博客</a>）中，我基于Resnet在Cifar100数据上进行图像分类，把图像的标签局限于100个标签（且关键词的对应还是自己人为设定的），尽管之后使用了word2vec进行补救充沛关键词，但是扩充的关键词只是基于原图像的标签，并不能发掘更多的特征。如果考虑使用CLIP模型，生成古诗意象关键词向量和图像向量，给图像匹配关键词，能提高模型的泛化性能。</p>
+<p>先搜集一个关键词数据集(<code>keyword.txt</code>)，然后使用CLIP对图像和所有关键词进行编码，计算它们之间的相似度，取相似度最高的K个关键词，然后放置于语言模型进行生成.</p>
+<h1 id="三、项目架构"><a href="#三、项目架构" class="headerlink" title="三、项目架构"></a>三、项目架构</h1><p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240829155351418.png" srcset="/img/loading.gif" lazyload alt="image-20240829155351418"></p>
+<h2 id="1-CLIP模型"><a href="#1-CLIP模型" class="headerlink" title="1. CLIP模型"></a>1. CLIP模型</h2><p>直接调用中文CLIP模型</p>
+<p>下面举个使用Chinese_CLIP对给定的一副图像和多个关键词匹配相似度的例子</p>
+<p>img——&gt;(CLIP)——&gt;img_feature [1 × 512]</p>
+<p>key_words ——&gt;(CLIP)——&gt; text_features [n × 512]</p>
+<p>img , key_words——&gt; cosine_similariy</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> ChineseCLIPProcessor, ChineseCLIPModel<br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><span class="hljs-keyword">import</span> torch<br><br><span class="hljs-comment"># 加载模型</span><br>model = ChineseCLIPModel.from_pretrained(<span class="hljs-string">&quot;./Chinese_CLIP&quot;</span>)<br>processor = ChineseCLIPProcessor.from_pretrained(<span class="hljs-string">&quot;./Chinese_CLIP&quot;</span>)<br><br><span class="hljs-comment"># 对图像编码</span><br>imag = Image.<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;D:/NLP/CLIPForPoems/Image2Poem/datasets/images/chun.jpg&#x27;</span>)<br>inputs = processor(images=imag, return_tensors=<span class="hljs-string">&quot;pt&quot;</span>)<br>image_features = model.get_image_features(**inputs)<br><span class="hljs-built_in">print</span>(image_features.shape)<br><br><span class="hljs-comment"># 对关键词编码</span><br>key_words = [<span class="hljs-string">&#x27;余晖&#x27;</span>, <span class="hljs-string">&#x27;樱花&#x27;</span>, <span class="hljs-string">&#x27;春色&#x27;</span>,<span class="hljs-string">&#x27;晚霞&#x27;</span> ,<span class="hljs-string">&#x27;夏日&#x27;</span>, <span class="hljs-string">&#x27;沙漠&#x27;</span>, <span class="hljs-string">&#x27;旅人&#x27;</span>]<br>text_features = []<br><span class="hljs-keyword">for</span> keyword <span class="hljs-keyword">in</span> key_words:<br>    feature = processor(text=keyword, return_tensors=<span class="hljs-string">&quot;pt&quot;</span>)<br>    text_features.append(model.get_text_features(**feature))<br>    <br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">cosine_similarity</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> torch.<span class="hljs-built_in">sum</span>(x * y) / (torch.sqrt(torch.<span class="hljs-built_in">sum</span>(<span class="hljs-built_in">pow</span>(x, <span class="hljs-number">2</span>))) * torch.sqrt(torch.<span class="hljs-built_in">sum</span>(<span class="hljs-built_in">pow</span>(y, <span class="hljs-number">2</span>))))<br><br><br><span class="hljs-comment"># 将图片和关键词编码做余弦相似度计算</span><br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> text_feature <span class="hljs-keyword">in</span> text_features:<br>    similar = cosine_similarity(text_feature, image_features)<br>    <span class="hljs-built_in">print</span>(key_words[i], similar)<br>    i +=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>结果：下面输出了每个关键词与图像的相似度（[0,1]）。</p>
+<p>余晖 tensor(0.4195, grad_fn&#x3D;<DivBackward0>)<br>樱花 tensor(0.3808, grad_fn&#x3D;<DivBackward0>)<br>春色 tensor(0.4233, grad_fn&#x3D;<DivBackward0>)<br>晚霞 tensor(0.3944, grad_fn&#x3D;<DivBackward0>)<br>夏日 tensor(0.3573, grad_fn&#x3D;<DivBackward0>)<br>沙漠 tensor(0.3276, grad_fn&#x3D;<DivBackward0>)<br>旅人 tensor(0.3683, grad_fn&#x3D;<DivBackward0>)</DivBackward0></DivBackward0></DivBackward0></DivBackward0></DivBackward0></DivBackward0></DivBackward0></p>
+<h2 id="2-诗句生成模型"><a href="#2-诗句生成模型" class="headerlink" title="2. 诗句生成模型"></a>2. 诗句生成模型</h2><p>之前自己训练的效果太差了，改用T5模型在古诗词上微调。</p>
+<p>T5模型采用的是基于Transformer的Encoder-Decoder结构。</p>
+<p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830141904021.png" srcset="/img/loading.gif" lazyload alt="image-20240830141904021"></p>
+<p>下面使用(<a target="_blank" rel="noopener" href="https://modelscope.cn/models/langboat/mengzi-t5-base">孟子中文T5</a>)微调一个诗句生成模型。</p>
+<h3 id="2-1-数据预处理"><a href="#2-1-数据预处理" class="headerlink" title="2.1 数据预处理"></a>2.1 数据预处理</h3><p>数据来源：中国古典诗歌匹配数据集</p>
+<p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830145625233.png" srcset="/img/loading.gif" lazyload alt="image-20240830145625233"></p>
+<p>把数据处理成 输入：关键词+诗句的 输出：诗句</p>
+<p>例如：</p>
+<p>x &#x3D; [CLS]关键词：春日 细雨 余晖[EOS] 春山新雨后[EOS] 天气晚来秋[EOS] 明月松间照[EOS]  </p>
+<p>y &#x3D; [CLS]清泉石上流[EOS]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 读取数据</span><br><span class="hljs-comment"># 把关键词和数据清洗出来</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;./datasets/CCPC/ccpc_train_v1.0.json&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    lines = []<br>    total_lines = <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;./datasets/CCPC/ccpc_train_v1.0.json&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>,encoding=<span class="hljs-string">&quot;utf-8&quot;</span>))<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> tqdm(f, desc=<span class="hljs-string">&quot;Loading Data&quot;</span>, total=total_lines):<br>        json_line = json.loads(line)<br>        keywords=  json_line[<span class="hljs-string">&quot;keywords&quot;</span>].strip()<br>        poems = json_line[<span class="hljs-string">&quot;content&quot;</span>].strip().split(<span class="hljs-string">&quot;|&quot;</span>)<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(poems)):<br>            <span class="hljs-keyword">if</span> i ==<span class="hljs-number">0</span> :<br>                x = <span class="hljs-string">&quot;关键词：&quot;</span>+ keywords<br>            <span class="hljs-keyword">else</span>: x = <span class="hljs-string">&quot;关键词：&quot;</span>+ keywords + <span class="hljs-string">&quot;EOS&quot;</span> <br>            line = (x + <span class="hljs-string">&quot;EOS&quot;</span>.join(poems[:i]) + <span class="hljs-string">&quot;EOS&quot;</span>, poems[i] + <span class="hljs-string">&quot;EOS&quot;</span>)<br>            <span class="hljs-built_in">print</span>(line)<br>            lines.append((x + <span class="hljs-string">&quot;EOS&quot;</span>.join(poems[:i]) + <span class="hljs-string">&quot;EOS&quot;</span>, poems[i] + <span class="hljs-string">&quot;EOS&quot;</span>))<br>            <br>        corpus_lines = <span class="hljs-built_in">len</span>(lines)<br>        <span class="hljs-keyword">break</span><br><br>       <br></code></pre></td></tr></table></figure>
+
+<p>构造一个batch输入和输出：确定输入长度，输出长度。对不满足的文本做填充。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">__getitem__</span>(<span class="hljs-params">item</span>):<br>    <span class="hljs-comment"># 取 [item * bs: (item + 1) * bs ]的文本数据</span><br>    data = lines[item * batch_size : (item + <span class="hljs-number">1</span>) * batch_size]<br>    input_len = <span class="hljs-built_in">max</span>([ <span class="hljs-built_in">len</span>( s[<span class="hljs-number">0</span>].replace(<span class="hljs-string">&quot; &quot;</span>,<span class="hljs-string">&quot;&quot;</span>).replace(<span class="hljs-string">&quot;EOS&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)) <span class="hljs-keyword">for</span> s  <span class="hljs-keyword">in</span> data]) + <span class="hljs-number">6</span><br>    output_len = <span class="hljs-built_in">max</span>([ <span class="hljs-built_in">len</span>(s[<span class="hljs-number">1</span>].replace(<span class="hljs-string">&quot; &quot;</span>,<span class="hljs-string">&quot;&quot;</span>).replace(<span class="hljs-string">&quot;EOS&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)) <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> data]) +<span class="hljs-number">3</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;input_len:&quot;</span>, input_len)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;output_len: &quot;</span>, output_len)<br><br>    tokens, targets, attens_x, attens_y = [], [], [], []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(batch_size):<br>        <span class="hljs-comment"># 处理输入</span><br>        <span class="hljs-comment"># 对不满足最长长度的文本后面补上PAD</span><br>        x = tokenizer.encode(data[i][<span class="hljs-number">0</span>])<br>        <span class="hljs-comment"># 有效字符为1</span><br>        atten_x = [<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(x))]<br>        <span class="hljs-comment"># 填充部分为0</span><br>        atten_x += [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(input_len - <span class="hljs-built_in">len</span>(x))]<br>        x.extend([tokenizer.pad_token_id <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(input_len - <span class="hljs-built_in">len</span>(x))])<br><br>        <span class="hljs-comment"># 处理输出</span><br>        y = tokenizer.encode(data[i][<span class="hljs-number">1</span>])<br>        atten_y =[<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(y))]<br>        atten_y += [<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(output_len - <span class="hljs-built_in">len</span>(y))]<br>        y.extend([tokenizer.pad_token_id <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(output_len - <span class="hljs-built_in">len</span>(y))])<br><br>        <span class="hljs-built_in">print</span>(x)<br>        <span class="hljs-built_in">print</span>(tokenizer.decode(x))<br>        <span class="hljs-built_in">print</span>(y)<br>        <span class="hljs-built_in">print</span>(tokenizer.decode(y))<br>        <span class="hljs-built_in">print</span>(atten_x)<br>        <span class="hljs-built_in">print</span>(atten_y)<br><br>        tokens.append(x)<br>        targets.append(y)<br>        attens_x.append(atten_x)<br>        attens_y.append(atten_y)<br><br>        <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830153207649.png" srcset="/img/loading.gif" lazyload alt="image-20240830153207649"></p>
+<h3 id="2-2-T5模型"><a href="#2-2-T5模型" class="headerlink" title="2.2 T5模型"></a>2.2 T5模型</h3><p>简单输出一下模型的结构看看：</p>
+<p>input——&gt;[Embedding Layer]——&gt;Encoder[n × T5Block ] ——&gt;Decoder[n ×T5Block ] ——&gt;LM Head——&gt; output</p>
+<p>对于Encoder的一个T5Block：包括一个自注意力机制，前馈网络 和 层归一化。</p>
+<p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830162646630.png" srcset="/img/loading.gif" lazyload alt="image-20240830162646630"></p>
+<p>对于Decoder的一个T5Block：包括：字注意力机制，跨注意力机制（关注解码器的输出）， 前馈网络 和 层归一化</p>
+<p><img src="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/image-20240830163003430.png" srcset="/img/loading.gif" lazyload alt="image-20240830163003430"></p>
+<h3 id="2-3-训练"><a href="#2-3-训练" class="headerlink" title="2.3 训练"></a>2.3 训练</h3>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于图片生成诗句（二）</div>
+      <div>https://wendyflv.github.io/2024/08/27/基于图片生成诗句（二）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" title="计算机视觉">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机视觉</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/24/%E5%9F%BA%E4%BA%8E%E8%A7%A3%E8%80%A6%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84GraphTransformer/" title="基于解耦注意力的GraphTransformer">
+                        <span class="hidden-mobile">基于解耦注意力的GraphTransformer</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

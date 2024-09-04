@@ -16,27 +16,21 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar输入一段视频——&gt; 对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$） 1. SMPLer前向传播： Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat Step2：计算初步的SMPL参数 global_feat——&gt;（">
+    <meta name="description" content="基于解耦注意力的GraphTransformer流程Positional Encodingtoken（$x$） + 可学习的位置信息（$\phi$） 该项目基于SMPL模型进行3D单目人体形状和姿态估计。在经典的Transformer模型的基础上进行了注意力解耦和图卷积模块的拼接。传统的姿态估计的方法在特征长度方面的二次计算和内存复杂性，通过引入注意力解耦操作能降低到线性层面。此外，为 本项目致力">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于SMPL的单目3D人体姿态估计">
-<meta property="og:url" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/index.html">
+<meta property="og:title" content="基于解耦注意力的GraphTransformer">
+<meta property="og:url" content="https://wendyflv.github.io/2024/08/24/%E5%9F%BA%E4%BA%8E%E8%A7%A3%E8%80%A6%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84GraphTransformer/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar输入一段视频——&gt; 对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$） 1. SMPLer前向传播： Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat Step2：计算初步的SMPL参数 global_feat——&gt;（">
+<meta property="og:description" content="基于解耦注意力的GraphTransformer流程Positional Encodingtoken（$x$） + 可学习的位置信息（$\phi$） 该项目基于SMPL模型进行3D单目人体形状和姿态估计。在经典的Transformer模型的基础上进行了注意力解耦和图卷积模块的拼接。传统的姿态估计的方法在特征长度方面的二次计算和内存复杂性，通过引入注意力解耦操作能降低到线性层面。此外，为 本项目致力">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815172531617.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240821153416897.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240821160629116.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240820170041042.png">
-<meta property="article:published_time" content="2024-08-21T06:39:27.000Z">
-<meta property="article:modified_time" content="2024-08-24T06:47:11.495Z">
+<meta property="article:published_time" content="2024-08-24T14:30:12.000Z">
+<meta property="article:modified_time" content="2024-08-27T06:57:48.133Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png">
   
   
   
-  <title>基于SMPL的单目3D人体姿态估计 - Wendyflv的博客</title>
+  <title>基于解耦注意力的GraphTransformer - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -260,7 +254,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="基于SMPL的单目3D人体姿态估计"></span>
+            <span id="subtitle" data-typed-text="基于解耦注意力的GraphTransformer"></span>
           
         </div>
 
@@ -271,8 +265,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-21 14:39" pubdate>
-          2024年8月21日 下午
+        <time datetime="2024-08-24 22:30" pubdate>
+          2024年8月24日 晚上
         </time>
       </span>
     
@@ -284,7 +278,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          1.4k 字
+          323 字
         
       </span>
     
@@ -296,7 +290,7 @@
         
         
           <!-- compatible with older versions-->
-          13 分钟
+          3 分钟
         
       </span>
     
@@ -333,89 +327,16 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">基于SMPL的单目3D人体姿态估计</h1>
+            <h1 id="seo-header">基于解耦注意力的GraphTransformer</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="基于SMPL的单目3D人体姿态估计——驱动virtual-Avatar"><a href="#基于SMPL的单目3D人体姿态估计——驱动virtual-Avatar" class="headerlink" title="基于SMPL的单目3D人体姿态估计——驱动virtual Avatar"></a>基于SMPL的单目3D人体姿态估计——驱动virtual Avatar</h1><p>输入一段视频——&gt;</p>
-<p>对每一帧—SMPLer—&gt;进行3D形状和姿态估计（$\theta$,$cam$,$\beta$）</p>
-<h2 id="1-SMPLer"><a href="#1-SMPLer" class="headerlink" title="1. SMPLer"></a>1. SMPLer</h2><p>前向传播：</p>
-<p>Step1：提取图片全局特征 img——&gt;(HRNet)——&gt;global_feat</p>
-<p>Step2：计算初步的SMPL参数 global_feat——&gt;（FC+dropout）——&gt;theta, beta, cam ——&gt;SMPL模型——&gt;smpl_joints, 2Djoints</p>
-<p>Step3：融合初始查询向量 beta,theta,cam + global_feat ——&gt;query</p>
-<p>Step4：Transfomer层</p>
-<ul>
-<li>query + feat_list——&gt;(全局多尺度单元)——&gt; global_query</li>
-<li>query[:,:-2] + local_feat_list + 对应的local_spat_list ——&gt; （局部多尺度单元）——&gt; local_query</li>
-<li>0.5(global_query[:,:-2] + local_query) ——&gt; global_query——&gt; (self trans)——&gt; query_embed</li>
-</ul>
-<h3 id="1-1-New-Contributions"><a href="#1-1-New-Contributions" class="headerlink" title="1.1 New Contributions"></a>1.1 New Contributions</h3><ol>
-<li><p>解耦的注意力机制：target-feature  target-target</p>
-<p>相较于全局注意力，把原二次方的计算降低到线性</p>
-</li>
-<li><p>多尺度注意力模块 和 关节感知注意力模块</p>
-</li>
-<li><p>基于参数化的SMPL模型的目标表示，只需要学习人体形状和三维身体旋转参数，使得学习的目标嵌入减少。</p>
-</li>
-</ol>
-<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png" srcset="/img/loading.gif" lazyload alt="image-20240815155731933"></p>
-<h3 id="1-2-Related-Work"><a href="#1-2-Related-Work" class="headerlink" title="1.2 Related Work"></a>1.2 Related Work</h3><p>GraphCMR（GNNS）、</p>
-<p>SPIN、RSC-Net（CNNS）、</p>
-<p>METRO、Mesh Graphormer（ViT）</p>
-<h2 id="2-Attention"><a href="#2-Attention" class="headerlink" title="2 Attention"></a>2 Attention</h2><p>$h(Q,K,V) &#x3D; softmax(\frac{(QW_q)(KW_k)^T}{\sqrt d})(VW_v)$</p>
-<p>Q：Query查询矩阵 $\in R^{l_Q \times d}$</p>
-<p>K：Key键 $\in R^{l_K \times d}$</p>
-<p>V：Value值 $\in R^{l_K \times d}$</p>
-<p>$h(Q,K,V) \in R^{l_Q \times d}$ 又可看作一个新的Q</p>
-<p>When query, key and value are the same, Eq. 1 is called <strong>self-attention</strong> which we denote as $h_{self}(Q) &#x3D; h(Q, Q, Q)$</p>
-<p>When only key and value are the same while query is different, the operation becomes <strong>cross-attention</strong>, denoted as $h_{cross}(Q, K) &#x3D; h(Q, K, K)$.</p>
-<h3 id="2-1-全局Attention"><a href="#2-1-全局Attention" class="headerlink" title="2.1 全局Attention"></a>2.1 全局Attention</h3><p>$h_{self}(T||F)$  即 Q 是将 目标特征 和 目标嵌入 进行concatenation</p>
-<p>$T||F \in R^{(l_T+l_F, d)}$ 进行self-attention时会造成二次计算 $O((l_F  +l_T)^2)$</p>
-<h3 id="2-2-解耦Attention"><a href="#2-2-解耦Attention" class="headerlink" title="2.2 解耦Attention"></a>2.2 解耦Attention</h3><p>建模特征-特征依赖关系在3D姿态估计中不太重要，因此全局Attention可以改进为一下公式：</p>
-<p>$h_{self}(h_{cross}(T,F))$  复杂度 $O(l_T l_F + l_T^2)$ 避免了$l_F$的二次计算，而是线性的</p>
-<h2 id="3-目标特征的表示"><a href="#3-目标特征的表示" class="headerlink" title="3. 目标特征的表示"></a>3. 目标特征的表示</h2><p>虽然注意解耦策略有效地减轻了计算负担，但较大的lT仍可能阻碍高分辨率特征的利用。</p>
-<p>以往的工作都是回归SMPL的顶点坐标$Y \in R^{N \times 3}$作为目标，但是这里的$N&#x3D;6890$会导致注意力操作的计算量和内存消耗也很大</p>
-<p>为此设计一个基于参数化人体模型SMPL的更紧凑的目标表示是有必要的。</p>
-<p>SMPL是一种灵活且具有表现力的人体模型，已广泛应用于三维人体形状和姿态建模。它由一组姿态参数$θ∈ R^{ H×3}$和一个紧致形状向量$β∈R^{1×10}$来参数化。</p>
-<p>通过$\theta, \beta$ 可以得到3D的身体mesh：$Y \in R^{N \times 3} &#x3D; f_{SMPL }(\theta, \beta)$</p>
-<p>对顶点做线性映射可得到3D关节坐标：$J \in R^{H \times 3} &#x3D; M Y$</p>
-<p>如果有相机参数$C \in R^3$，可通过弱透视投影计算得到2D关节坐标：$\mathcal{J}&#x3D; \Pi_C (J)  $</p>
-<p>故对目标${\theta_i }_{i&#x3D;1}^H, \beta, C$可表示为$\mathcal{T} \in \mathbb{R}^{(H+2) \times d}$</p>
-<h2 id="4-多尺度注意力设计"><a href="#4-多尺度注意力设计" class="headerlink" title="4. 多尺度注意力设计"></a>4. 多尺度注意力设计</h2><h3 id="4-1-结合多尺度特征"><a href="#4-1-结合多尺度特征" class="headerlink" title="4.1 结合多尺度特征"></a>4.1 结合多尺度特征</h3><p>$h_{ms}(\mathcal{T, \mathcal{F}} )&#x3D; \frac{1}{S} \sum_{i&#x3D;1}^{S}h_{cross}(\mathcal{T}, F_i)$</p>
-<p>为每个尺度使用不同的投影权重，输出是所有尺度的平均值</p>
-<h3 id="4-2-多尺度特征位置编码"><a href="#4-2-多尺度特征位置编码" class="headerlink" title="4.2 多尺度特征位置编码"></a>4.2 多尺度特征位置编码</h3><p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815172531617.png" srcset="/img/loading.gif" lazyload alt="image-20240815172531617"></p>
-<p>我们对目标和特征使用可学习的位置编码，通常采用x + φ的形式，其中φ是一组可学习的参数，表示标记x的位置信息。</p>
-<p>只学习最高尺度的位置嵌入，即ϕ1，而其他尺度的嵌入是通过聚集ϕ1来产生的:</p>
-<p>![image-20240815172749418](D:\blog\基于SMPL的单目3D人体姿态估计——驱动virtual Avatar\image-20240815172749418.png)</p>
-<p>递推可得：$\phi_i &#x3D; f_{pool}^2(\phi _{i-1})$</p>
-<h2 id="5-关节感知注意力"><a href="#5-关节感知注意力" class="headerlink" title="5. 关节感知注意力"></a>5. 关节感知注意力</h2><p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240821153416897.png" srcset="/img/loading.gif" lazyload alt="image-20240821153416897"></p>
-<p>人体关节周围的局部关节状态强烈暗示了邻近身体部位之间的相对旋转。$F_1^{\mathcal{N}(\mathcal{J}_i)}$局部特征是从<strong>最高分辨率</strong>的图像特征（F1）中采样得到的，覆盖了以关节为中心的r×r大小的区域。</p>
-<p>由此，对$\mathcal{T}_i$关节，有如下cross-attention：</p>
-<p>$h_{ja}(\mathcal{T}<em>i, \mathcal{F}) &#x3D; f</em>{soft}(\frac{(QW_q)(KW_k)^T}{\sqrt{d}} + \eta) (F_1^{\mathcal{J}_i}W_v)$</p>
-<p>在softmax函数中加入了一个相对位置编码$η∈ \mathbb{R}^{1 \times r^2} $， 它是从一个可学习的张量中根据$\mathcal{J}_i$与$N (\mathcal{J}_i)$中像素之间的距离进行双线性采样。</p>
-<p>与多尺度注意力结合，取平均值即可。</p>
-<p>$$h_{co}(\mathcal{T}<em>i, \mathcal{F}) &#x3D; \begin{cases} 	\frac{1}{2}(h</em>{ja}(\mathcal{T}<em>i, \mathcal{F}) + h</em>{ms}(\mathcal{T, \mathcal{F}} ) ), i \leq H \ 	h_{ms}(\mathcal{T, \mathcal{F}} ), i &gt;H \end{cases}$$</p>
-<p>注意力模块的最终公式：</p>
-<p>$h_{final}(\mathcal{T}, \mathcal{F}) &#x3D; h_{self}(h_{co}(\mathcal{T}, \mathcal{F}))$</p>
-<h2 id="6-整体结构"><a href="#6-整体结构" class="headerlink" title="6. 整体结构"></a>6. 整体结构</h2><p>当前设计的一个重要问题是关节感知注意力依赖于二维关节$J$，这应该是我们算法的一个输出。</p>
-<p>换句话说，我们需要$J$来重构三维人，同时需要三维人来回归$J$。为了避免这个问题，SMPLer提出了一个层次结构来<strong>迭代</strong>地改进二维联合估计和三维重建结果。见下图。</p>
-<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240821160629116.png" srcset="/img/loading.gif" lazyload alt="image-20240821160629116"></p>
-<p>把b阶段的结果写作$P^b &#x3D; {R_{\theta_1}^b,…,R_{\theta_H}^b, \beta^b, C^b }$，迭代过程：</p>
-<p>$\mathcal{T}^b &#x3D;  f_{TB}^b (\mathcal{T}^{b-1} , P^{b-1}, \mathcal{F})$</p>
-<p>$P^b &#x3D; f_{fusion}(\mathcal{T}^b, P^{b-1}), b &#x3D; 1,2,…,B$</p>
-<p>初始化操作：$\mathcal{T}<em>0 &#x3D; f</em>{global}(F_S) + f_{linear}(P^0)$</p>
-<h2 id="7-损失与评价"><a href="#7-损失与评价" class="headerlink" title="7. 损失与评价"></a>7. 损失与评价</h2><h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><ul>
-<li>顶点坐标损失：$w_Y · ||Y-\hat{Y}||_1$</li>
-</ul>
-<ul>
-<li>3D关节损失：$w_J · ||J - \hat{J}||_2 $</li>
-<li>2D关节损失：$w_\mathcal{J} · ||\mathcal{J} - \hat{\mathcal{J}}||_2 $</li>
-<li>旋转正则化项：$w_R · \frac{1}{H} \sum_{i&#x3D;1}^{H} ||R_{\theta_i} - \hat{R_{\theta_i}}||_1$</li>
-</ul>
-<h3 id="评价"><a href="#评价" class="headerlink" title="评价"></a>评价</h3><p><strong>MPJPE</strong>(mean per-joint position error)：$\frac{1}{H} \sum_{i&#x3D;1}^{H}||J_i - \hat{J_i}||_2$，易被缩放，旋转，平移等操作影响。</p>
-<p>PA-MPJPE(Procrustes-aligned mean per-joint position error)：</p>
-<p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240820170041042.png" srcset="/img/loading.gif" lazyload alt="image-20240820170041042"></p>
+                <h1 id="基于解耦注意力的GraphTransformer"><a href="#基于解耦注意力的GraphTransformer" class="headerlink" title="基于解耦注意力的GraphTransformer"></a>基于解耦注意力的GraphTransformer</h1><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h3 id="Positional-Encoding"><a href="#Positional-Encoding" class="headerlink" title="Positional Encoding"></a>Positional Encoding</h3><p>token（$x$） + 可学习的位置信息（$\phi$）</p>
+<p>该项目基于SMPL模型进行3D单目人体形状和姿态估计。在经典的Transformer模型的基础上进行了注意力解耦和图卷积模块的拼接。传统的姿态估计的方法在特征长度方面的二次计算和内存复杂性，通过引入注意力解耦操作能降低到线性层面。此外，为</p>
+<p>本项目致力于改进单目3D人体形状和姿态估计技术，基于 SMPL 模型实现高效和精准的姿态预测。项目的核心创新在于对VIT架构的优化，通过解耦注意力机制，显著降低了特征计算的复杂度，将计算成本从二次计算减少到线性层面。此外，我们在VIT中引入了图卷积网络（GCN），以对人体关节表示进行深度特征提取，增强了模型对空间结构信息的捕捉能力，从而进一步优化了目标表示。实验结果表明，我们提出的方法在多个基准上明显优于以前最先进的方法，包括 Human3.6M、3DPW数据集。</p>
+<p>训练：20min&#x2F;次</p>
+<p>测试：15min次</p>
 
                 
               </div>
@@ -433,8 +354,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>基于SMPL的单目3D人体姿态估计</div>
-      <div>https://wendyflv.github.io/2024/08/21/基于SMPL的单目3D人体姿态估计/</div>
+      <div>基于解耦注意力的GraphTransformer</div>
+      <div>https://wendyflv.github.io/2024/08/24/基于解耦注意力的GraphTransformer/</div>
     </div>
     <div class="license-meta">
       
@@ -446,7 +367,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月21日</div>
+          <div>2024年8月24日</div>
         </div>
       
       
@@ -478,9 +399,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/21/spark/" title="spark">
+                      <a href="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/" title="基于图片生成诗句（二）">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">spark</span>
+                        <span class="hidden-mobile">基于图片生成诗句（二）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -488,8 +409,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/21/HRNet/" title="HRNet">
-                        <span class="hidden-mobile">HRNet</span>
+                      <a href="/2024/08/24/3DPW%E7%9B%B8%E5%85%B3%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/" title="3DPW相关数据处理">
+                        <span class="hidden-mobile">3DPW相关数据处理</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
