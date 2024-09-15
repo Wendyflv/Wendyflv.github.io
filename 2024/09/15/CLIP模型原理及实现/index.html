@@ -16,23 +16,25 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Diffusion模型1 介绍扩散模型本质是学习真实的数据分布，从而从中抽样，生成新样本。 diffusion过程：不断给真实图片加噪声，直至变成纯噪声。如何，训练一个解码器去噪，逐步进行，直至回复成原本的真实样本。 2 生成模型的目标学习到的数据分布要尽可能符合原始训练数据分布。  $P_{\theta}(x)$模型所产生的图片的改了分布， $\theta$表示模型的参数 $P_{data}(x">
+    <meta name="description" content="CLIP模型CLIP（Contrastive Language-Image Pre-training）是OpenAI在2021年发布的一种用于图像和文本联合表示学习的模型。CLIP的核心思想是通过对比学习来预训练一个模型，使其能够理解图像和文本之间的关系。 对于一个批次中的每个图像-文本对，模型会计算图像和文本的特征向量，并使用对比损失函数来优化模型参数。对比损失函数的目标是使得匹配的图像-文本对">
 <meta property="og:type" content="article">
-<meta property="og:title" content="diffusion模型介绍">
-<meta property="og:url" content="https://wendyflv.github.io/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:title" content="CLIP模型原理及实现">
+<meta property="og:url" content="https://wendyflv.github.io/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="Diffusion模型1 介绍扩散模型本质是学习真实的数据分布，从而从中抽样，生成新样本。 diffusion过程：不断给真实图片加噪声，直至变成纯噪声。如何，训练一个解码器去噪，逐步进行，直至回复成原本的真实样本。 2 生成模型的目标学习到的数据分布要尽可能符合原始训练数据分布。  $P_{\theta}(x)$模型所产生的图片的改了分布， $\theta$表示模型的参数 $P_{data}(x">
+<meta property="og:description" content="CLIP模型CLIP（Contrastive Language-Image Pre-training）是OpenAI在2021年发布的一种用于图像和文本联合表示学习的模型。CLIP的核心思想是通过对比学习来预训练一个模型，使其能够理解图像和文本之间的关系。 对于一个批次中的每个图像-文本对，模型会计算图像和文本的特征向量，并使用对比损失函数来优化模型参数。对比损失函数的目标是使得匹配的图像-文本对">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/image-20240907160217949.png">
-<meta property="article:published_time" content="2024-09-07T07:27:36.000Z">
-<meta property="article:modified_time" content="2024-09-07T15:02:46.182Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915200023055.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915201939362.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915210430393.png">
+<meta property="article:published_time" content="2024-09-15T10:37:04.000Z">
+<meta property="article:modified_time" content="2024-09-15T13:24:07.747Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/image-20240907160217949.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915200023055.png">
   
   
   
-  <title>diffusion模型介绍 - Wendyflv的博客</title>
+  <title>CLIP模型原理及实现 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -256,7 +258,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="diffusion模型介绍"></span>
+            <span id="subtitle" data-typed-text="CLIP模型原理及实现"></span>
           
         </div>
 
@@ -267,8 +269,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-07 15:27" pubdate>
-          2024年9月7日 下午
+        <time datetime="2024-09-15 18:37" pubdate>
+          2024年9月15日 晚上
         </time>
       </span>
     
@@ -280,7 +282,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          1.5k 字
+          1.2k 字
         
       </span>
     
@@ -292,7 +294,7 @@
         
         
           <!-- compatible with older versions-->
-          13 分钟
+          11 分钟
         
       </span>
     
@@ -329,51 +331,82 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">diffusion模型介绍</h1>
+            <h1 id="seo-header">CLIP模型原理及实现</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Diffusion模型"><a href="#Diffusion模型" class="headerlink" title="Diffusion模型"></a>Diffusion模型</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1 介绍"></a>1 介绍</h2><p>扩散模型本质是<strong>学习真实的数据分布</strong>，从而从中抽样，生成新样本。</p>
-<p>diffusion过程：不断给真实图片加噪声，直至变成纯噪声。如何，训练一个解码器去噪，逐步进行，直至回复成原本的真实样本。</p>
-<h2 id="2-生成模型的目标"><a href="#2-生成模型的目标" class="headerlink" title="2 生成模型的目标"></a>2 生成模型的目标</h2><p>学习到的数据分布要尽可能符合原始训练数据分布。</p>
+                <h1 id="CLIP模型"><a href="#CLIP模型" class="headerlink" title="CLIP模型"></a>CLIP模型</h1><p>CLIP（Contrastive Language-Image Pre-training）是OpenAI在2021年发布的一种用于图像和文本联合表示学习的模型。CLIP的核心思想是通过<strong>对比学习</strong>来预训练一个模型，使其能够理解图像和文本之间的关系。</p>
+<p>对于一个批次中的每个图像-文本对，模型会计算图像和文本的特征向量，并使用对比损失函数来优化模型参数。对比损失函数的目标是使得匹配的图像-文本对的特征向量尽可能接近，而不匹配的图像-文本对的特征向量尽可能远离。</p>
+<h2 id="1-前置知识"><a href="#1-前置知识" class="headerlink" title="1 前置知识"></a>1 前置知识</h2><h3 id="1-1-对比学习"><a href="#1-1-对比学习" class="headerlink" title="1.1 对比学习"></a>1.1 对比学习</h3><p>侧重于通过<strong>对比正反两方面</strong>的实例来提取有意义的表征。</p>
+<p>分类：</p>
 <ul>
-<li>$P_{\theta}(x)$模型所产生的图片的改了分布， $\theta$表示模型的参数</li>
-<li>$P_{data}(x)$训练数据的概率分布，也就是真实图片的分布，$data$表示真十四数据，与模型无关。</li>
+<li>监督对比学习：利用标记数据来明确训练模型以区分相似和不相似的实例。</li>
+<li>自监督对比学习：从未标记的数据中学习表示，而不依赖于显式标签。 SSCL 利用借口任务的设计，从未标记的数据创建正负对。</li>
 </ul>
-<p>为了衡量这两个分布之间的距离，通常使用<strong>KL散度</strong>，则目标函数表示如下：</p>
-<p>$$ \begin{align}<br>\arg\min_{\theta} KL(P_{data}||P_{\theta}) &amp;&#x3D; \arg\min_{\theta} \int_x P_{data}(x) \log\frac{p_{data}(x)}{p_{\theta}(x)} \<br>&amp;&#x3D; \arg\min_{\theta} \left( \int_x P_{data}(x) \log P_{data}(x) - \int_x P_{data}(x) \log p_{\theta}(x) \right) \  &amp;&#x3D; \arg\max_{\theta} \left( \int_x P_{data}(x) \log p_{\theta}(x) - \int_x P_{data}(x) \log P_{data}(x)  \right) (第二项为常数) \ &amp;&#x3D; \arg\max_{\theta} \int_x P_{data}(x) \log p_{\theta}(x)  \ &amp;&#x3D; \arg\max_{\theta} E_{x~P_{data(x)}} \log p_{\theta}(x) \ &amp; \approx \arg\max_{\theta} \sum_{i&#x3D;1}^{m} \log p_{\theta}(x_i) (近似为从真实世界抽样m张图片) \ &amp;&#x3D; \arg\max_{\theta} \log \prod_{i&#x3D;1}^{m} p_{\theta}(x_i) \ &amp;&#x3D; \arg\max_{\theta}  \prod_{i&#x3D;1}^{m} p_{\theta}(x_i)<br>\end{align}   $$</p>
-<p>从上述推导过程，我们发现，优化目标变成了使得<strong>模型产生真实图片的概率最大</strong></p>
-<h2 id="3-前向噪声扩散"><a href="#3-前向噪声扩散" class="headerlink" title="3 前向噪声扩散"></a>3 前向噪声扩散</h2><p>向原始图片逐步添加高斯噪声，直至最后的图像趋于高斯分布。</p>
-<p><img src="/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/image-20240907160217949.png" srcset="/img/loading.gif" lazyload alt="image-20240907160217949"></p>
-<p>下面推导如何从初始图像得到第$t$时刻的图像：</p>
-<p>$ x_t &#x3D; \sqrt{\alpha_t} x_{t-1} + \sqrt{1- \alpha_t} \epsilon_t, \epsilon_t \in N(0,1), i.i.d$</p>
-<p>$$ \begin{align}<br>q(x_t| {x_{t-1}}) &amp;&#x3D; N(x_t; \sqrt{\alpha_t} x_{t-1}, (1-\alpha_t)I) \ &amp;&#x3D; \sqrt{\alpha_t} x_{t-1} + \sqrt{1- \alpha_t} \epsilon_t \ &amp;&#x3D; \sqrt{\alpha_t} (   \sqrt{\alpha_{t-1 } } x_{t-2} + \sqrt{1- \alpha_{t-1} } \epsilon_{t-1} ) + \sqrt{1- \alpha_t} \epsilon_t  \ &amp;&#x3D; \sqrt{\alpha_t \alpha_{t-1}} x_{t-2} + \sqrt{\alpha_t - \alpha_t \alpha_{t-1}} \epsilon_{t-1} + \sqrt{1- \alpha_t} \epsilon_t \ &amp;&#x3D; \sqrt{\alpha_t \alpha_{t-1}} x_{t-2} + \sqrt{1- \alpha_t \alpha_{t-1} }\epsilon (两个相互独立的正态分布相加，又均值为0，只用考虑方差) \ &amp;&#x3D; \sqrt{\alpha_t \alpha_{t-1}  \alpha_{t-2} … \alpha_{1}}x_0 + \sqrt{1 - \alpha_t \alpha_{t-1}  \alpha_{t-2} … \alpha_{1}} \epsilon \ &amp;&#x3D; \sqrt{\overline{\alpha_t}} x_0 + \sqrt{1 - \overline{\alpha_t}} \epsilon<br>\end{align}   $$</p>
-<h2 id="4-反向扩散过程"><a href="#4-反向扩散过程" class="headerlink" title="4 反向扩散过程"></a>4 反向扩散过程</h2><p>由 $x_{t}$到$x_{t-1}$</p>
-<p>$P(x_{t-1} | x_t) &#x3D; N(x_{t-1}; u_{\theta}(x_t, t), \sum_{\theta}(x_t, t) )$</p>
-<p>在第2节中，我们提到了生成模型的目标，即$\arg\max_{\theta}  \prod_{i&#x3D;1}^{m} p_{\theta}(x_i)$</p>
-<p>这里的$x$是指前扩散的初始图像，以后都记为$x_0$， 在反向扩撒的过程中，它依赖于$x_0$之前的所有步长，从$x_T$开始往后。。。</p>
-<p>$\log P(x_0) &#x3D; \log \frac{P(x_0, x_1, x_2,…,x_T)}{ P(x_1,x_2,…,x_T | x_0)} (马尔科夫链的公式)$ </p>
-<p>上式关于$q_{(x{1:T} |x_0)}$积分</p>
-<p>等式左边：$\int \log P(x_0) q_{(x{1:T} |x_0)} dx_{1:T} &#x3D; \log P(x_0)$</p>
-<p>等式右边：$\int \log \frac{P(x_0 :T)}{P(x_{1:T} |x_0) } q(x_{1:T} | x_0) dx_{1:T}$</p>
-<p>故：$\log P(x_0) &#x3D; \int \log \frac{P(x_0 :T)}{P(x_{1:T} |x_0) } q(x_{1:T} | x_0) dx_{1:T}$</p>
-<p>右侧的式子经过变形可以化成以下形式：</p>
-<p>$\log P(x_0) &#x3D;  \int \log \frac{P(x_{0:T})}{q(x_{1:T} | x_0)} q(x_{1:T } |x_0) dx_{1:T}   + KL(q(x_{1:T} | x_0) || P(x_{1:T}|x_0))$</p>
-<p>上述等式右边第二项有一个KL散度，但是我们并不知道$P(x_{1:T}|x_0)$，如果我们能求出$q(x_{1:T} | x_0)$，又KL散度是一个大于等于0的数，当两个概率分布相等时，KL&#x3D;0，只需让右式第二项最小即可。</p>
-<p>即最小化$ KL(q(x_{1:T} | x_0) || P(x_{1:T}|x_0))$</p>
-<p>对于确定的训练数据$x_0$与其似然参数，$\log P(x_0)$是唯一确定的。如果最小化第二项，则最大化了第一项。</p>
-<p>由于第二项散度恒大于等于0，所以对于第一项①，$\log P(x_0) \geq ①$， ①也被称作变分下界。</p>
-<p>$$ \begin{align}<br>\log P(x_0) &amp; \geq \int  \log \frac{P(x_{0:T})}{q(x_{1:T} | x_0)} q(x_{1:T } |x_0) dx_{1:T} \ &amp;&#x3D; \mathbf{E}<em>q[ \log \frac{P(x</em>{0:T})}{q(x_{1:T} | x_0)}] \ &amp;&#x3D; \mathbf{E}<em>q [\log \frac{P(x_T) P(x</em>{0:T-1} | x_T)}{q(x_{1:T} | x_0)} ] \ &amp;&#x3D; \mathbf{E}<em>q [\log P(x_T) +  \log \frac{P(x</em>{0:T-1} | x_T)}{q(x_{1:T} | x_0)} ] \ &amp;&#x3D; \mathbf{E}<em>q [\log P(x_T) +  \log \frac{\prod</em>{t&#x3D;1}^T P(x_{t-1} | x_t)}{\prod_{t&#x3D;1}^T q(x_t | x_{t-1})} ] \ &amp;&#x3D; \mathbf{E}<em>q [\log P(x_T) + \sum</em>{t&#x3D;1}^T \log \frac{ P(x_{t-1} | x_t)}{ q(x_t | x_{t-1})} ] \ &amp;&#x3D; \mathbf{E}<em>q [\log P(x_T) + \sum</em>{t&#x3D;2}^T \log \frac{ P(x_{t-1} | x_t)}{ q(x_t | x_{t-1})} + \log \frac{P(x_0 | x_1)}{q(x_1 |x_0)} ]<br>\end{align}  $$</p>
-<p>再经过一大段推导。。。可以得到最终式子：</p>
-<p>$\log P(x_0) \geq \mathbf{E}<em>{q</em>{(x_1|x_0)}}[\log P(x_0 | x_1) ] - \sum_{t&#x3D;2}^T \mathbf{E}<em>{q(x_t| x_0)} [kL(q(x</em>{t-1}|x_t,x_0) || P(x_{t-1} | x_t))] - KL(q(x_T|x_0) || P(x_T))$</p>
-<p>上式就是我们的优化目标！</p>
-<p>上式的第三项可以直接求取，没有需要学习的参数</p>
-<p>第一项式重构损失，第二项是KL散度，$P(x_{t-1}|x_t)$需要使用神经网络来逼近</p>
-<p>对$q(x_{t-1 } | x_t,x_0) $有：</p>
-<p>$$ \begin{align}<br>q(x_{t-1 } | x_t,x_0) &amp;  &#x3D; \frac{q(x_{t-1},x_t | x_0)}{q(x_t |x_0)} \ &amp;&#x3D; \frac{q(x_t| x_{t-1},x_0)q(x_{t-1} | x_0)}{q(x_t |x_0)} \ &amp;&#x3D; \frac{N(\sqrt{\alpha_t} x_{t-1}, (1- \alpha_t)I) N(\sqrt{\overline{\alpha}<em>{t-1}} x_0, (1- \overline{\alpha}</em>{t-1})I)}{N(\sqrt{\overline{\alpha_t}} x_0, (1- \overline{\alpha_t})I)}<br>\end{align}  $$</p>
-<p>带入正态分布公式展开，可以得到：</p>
-<p>$$q(x_{t-1 } | x_t,x_0) ~ N(x_{t-1} | \frac{\sqrt{\alpha_t}(1-\overline{\alpha}<em>{t-1})x_t}{1- \overline{\alpha_t} } + \frac{\sqrt{\overline{\alpha}</em>{t-1}}\beta_t x_0}{ 1- \overline{\alpha_t}}, \frac{1- \overline{\alpha}_{t-1}}{1- \overline{\alpha}_t}\beta_t I)$$</p>
+<h3 id="1-2-图像编码器—VIT"><a href="#1-2-图像编码器—VIT" class="headerlink" title="1.2 图像编码器—VIT"></a>1.2 图像编码器—VIT</h3><p><img src="/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915200023055.png" srcset="/img/loading.gif" lazyload alt="image-20240915200023055"></p>
+<ul>
+<li><p>图像特征嵌入模块：</p>
+<p>标准的VIT模型对图像的输入尺寸有要求，必须为$224<em>224$.图像输入之后首先是需要进行patch分块，一般设置patch的尺寸为$16</em>16$，那么一共能生成(224&#x2F;16)*(224&#x2F;16)&#x3D;196个patch块。</p>
+<p>实现方法：[224,224,3]—(卷积块16*16, s&#x3D;16,p&#x3D;0, out_channels&#x3D;768)—&gt;[14,14,768]—（展平）—&gt;[196, 768]</p>
+</li>
+<li><p>Transformer Encoder：LN + Multi-Head + MLP</p>
+<ul>
+<li><p>LayerNom：对每一层的样本做归一化，不易受到batch_size的影响，能处理可变长的序列数据。且有助于在深层网络中保持训练的稳定性。</p>
+</li>
+<li><p>Multi-Head Attention：</p>
+<ul>
+<li><p>自注意力：$soft(\frac{X W^Q (X W^K)^T}{\sqrt(d_k)})XW^V$</p>
+<p>多头注意力机制能够联合来自不同head部分学习到的信息。根据使用的head的数目h进一步把得到的$W^Q, W^K, W^V$均分成h份，之后再做concat。</p>
+</li>
+</ul>
+<p><img src="/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915201939362.png" srcset="/img/loading.gif" lazyload alt="image-20240915201939362"></p>
+</li>
+<li><p>FFN：</p>
+<p>norm——&gt; linear ——&gt; gelu ——&gt; dropout——&gt; linear ——&gt; dropout</p>
+<p>(为什么是gelu函数？  RELU $max(0,x)$虽然非线性，但是在x&#x3D;0不可导，gelu：$x \phi(x)， \phi(x)$是N(0,1)的CDF，其在x&#x3D;0处可导）</p>
+</li>
+</ul>
+</li>
+<li><p>MLP分类：使用非线性激活函数去做分类的预测</p>
+</li>
+</ul>
+<h3 id="1-3-文本编码器—BERT"><a href="#1-3-文本编码器—BERT" class="headerlink" title="1.3 文本编码器—BERT"></a>1.3 文本编码器—BERT</h3><h2 id="2-模型"><a href="#2-模型" class="headerlink" title="2 模型"></a>2 模型</h2><p><img src="/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/image-20240915210430393.png" srcset="/img/loading.gif" lazyload alt="image-20240915210430393"></p>
+<ul>
+<li><p>特征提取：</p>
+<p>Imag ——&gt; (Imag_Encoder) ——&gt; Imag_Feature [n, d_i]</p>
+<p>Text ——&gt; (Text Encoder ) ——&gt; Text Feature [n, d_t]</p>
+</li>
+<li><p>线性投影到一个特征空间：</p>
+<p>Imag_Feature ——&gt; (Projection) ——&gt; Image_projection [n, d_out]</p>
+<p>Text_Feature ——&gt; (Projection) ——&gt; Text_projection [n, d_out]</p>
+</li>
+<li><p>计算余弦相似度 ：logits &#x3D; np.dot()…</p>
+</li>
+<li><p>计算损失：损失设计包括两个方向：从图像到文本和从文本到图像</p>
+<p>loss_i &#x3D; cross_entropy_loss(logits, labels, axis&#x3D;0)</p>
+<p>loss_t &#x3D; cross_entropy_loss(logits, labels, axis&#x3D;1)</p>
+<p>loss &#x3D; (loss_i + loss_t)&#x2F;2</p>
+</li>
+</ul>
+<h1 id="被问过的问题"><a href="#被问过的问题" class="headerlink" title="被问过的问题"></a>被问过的问题</h1><ul>
+<li><p>Q1： 为什么CLIP模型每个输入被tokenizer成 77个 token？</p>
+<p>A：CLIP模型在处理文本输入时，将每个输入限制为最多77个token，这是因为模型在设计时设置了一个固定长度的上下文窗口。。CLIP模型使用了Byte-Pair Encoding (BPE)分词器，这种方法会将常见的词作为单个token，但不常见的词会被拆分成多个token。</p>
+</li>
+<li><p>Q2：多头注意力机制里面为什么要除以$sqrt(d_k)$？</p>
+<p>A：$d_k$指的是Q和K的维度，也就是隐藏层的维度。在进行dot-product操作时，$d_k$过大会导致数值变得很大，softmax后的值分散很大，模型的方差会很大，不利于模型的训练。</p>
+</li>
+<li><p>Q3：为什么残差连接能防止梯度消失？</p>
+<p>A：梯度消失是指在深层网络中，梯度在反向传播过程中逐渐变小，以至于网络的权重无法得到有效更新的现象。在反向传播过程中，由于跳跃连接的存在，梯度可以直接流向网络的早期层，保持了梯度的规模，使得深层网络的训练变得更加稳定。上层梯度* (1+ 这层函数对参数的偏导数 )</p>
+</li>
+<li><p>Q4：VIT中的FFN的作用？</p>
+<p>A：FFN通常时两个MLP+一个非线性激活构成，在前面的多头注意力中只有dot-product操作，除去softmax后，不包含非线性操作，所以在FFN中涌入非线性变换，能够提升模型的表征能力，从而捕获更复杂的特征。</p>
+</li>
+<li><p>Q5：VIT中dropout的作用？</p>
+<p>Dropout是一种正则化技术，在训练过程中随机使得一些神经元失效，防止模型过度依赖于特定的输入特征，避免过拟合。VIT中使用的时DropPath，也叫Stochastic Depth， 他时随机丢弃整个网络层或者层的一部分，过随机地将网络中的某些路径的输出置为零，模拟了网络的不同子网络的组合。</p>
+</li>
+<li></li>
+</ul>
 
                 
               </div>
@@ -391,8 +424,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>diffusion模型介绍</div>
-      <div>https://wendyflv.github.io/2024/09/07/diffusion模型介绍/</div>
+      <div>CLIP模型原理及实现</div>
+      <div>https://wendyflv.github.io/2024/09/15/CLIP模型原理及实现/</div>
     </div>
     <div class="license-meta">
       
@@ -404,7 +437,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月7日</div>
+          <div>2024年9月15日</div>
         </div>
       
       
@@ -436,18 +469,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/15/CLIP%E6%A8%A1%E5%9E%8B%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" title="CLIP模型原理及实现">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CLIP模型原理及实现</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/" title="文生图的各种模型">
-                        <span class="hidden-mobile">文生图的各种模型</span>
+                      <a href="/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/" title="diffusion模型介绍">
+                        <span class="hidden-mobile">diffusion模型介绍</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
