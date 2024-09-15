@@ -16,21 +16,24 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="计算机视觉第一节基础知识 图像预处理：  特征提取：SIFT 、HOG SIFT：尺度不变特征变换  构建尺度空间，检测极值点作为特征点（LOG, DOG） 方向匹配 关键点描述符 关键点匹配  HOG：  特征表示：  训练ML模型：   传统图像分类 基于词袋的图像分类 计算特征点（SIFT, HOG）的相似度">
+    <meta name="description" content="各种文生图的模型DALL-E参数量：120亿 基于 dVAE 训练：  训练一个dVAE， 训练dVAE编码器和dVAE解码器 将文本编码和图片token进行拼接，训练一个自回归transformer来建模文本和图片的联合分布  训练目标：最大化ELBO GLIDE参数量：35亿 把 指导扩散应用于文本生成图像的问题。  使用文本编码器以自然语言描述为条件，然后比较了两种指导扩散模型至文本 pro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机视觉">
-<meta property="og:url" content="https://wendyflv.github.io/2024/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/index.html">
+<meta property="og:title" content="文生图的各种模型">
+<meta property="og:url" content="https://wendyflv.github.io/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="计算机视觉第一节基础知识 图像预处理：  特征提取：SIFT 、HOG SIFT：尺度不变特征变换  构建尺度空间，检测极值点作为特征点（LOG, DOG） 方向匹配 关键点描述符 关键点匹配  HOG：  特征表示：  训练ML模型：   传统图像分类 基于词袋的图像分类 计算特征点（SIFT, HOG）的相似度">
+<meta property="og:description" content="各种文生图的模型DALL-E参数量：120亿 基于 dVAE 训练：  训练一个dVAE， 训练dVAE编码器和dVAE解码器 将文本编码和图片token进行拼接，训练一个自回归transformer来建模文本和图片的联合分布  训练目标：最大化ELBO GLIDE参数量：35亿 把 指导扩散应用于文本生成图像的问题。  使用文本编码器以自然语言描述为条件，然后比较了两种指导扩散模型至文本 pro">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-08-29T10:36:32.000Z">
-<meta property="article:modified_time" content="2024-08-29T11:58:48.971Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/image-20240906205825105.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/image-20240906210500817.png">
+<meta property="article:published_time" content="2024-09-06T12:45:01.000Z">
+<meta property="article:modified_time" content="2024-09-06T13:05:06.419Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/image-20240906205825105.png">
   
   
   
-  <title>计算机视觉 - Wendyflv的博客</title>
+  <title>文生图的各种模型 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -254,7 +257,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="计算机视觉"></span>
+            <span id="subtitle" data-typed-text="文生图的各种模型"></span>
           
         </div>
 
@@ -265,8 +268,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-29 18:36" pubdate>
-          2024年8月29日 晚上
+        <time datetime="2024-09-06 20:45" pubdate>
+          2024年9月6日 晚上
         </time>
       </span>
     
@@ -278,7 +281,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          100 字
+          433 字
         
       </span>
     
@@ -290,7 +293,7 @@
         
         
           <!-- compatible with older versions-->
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -327,35 +330,33 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">计算机视觉</h1>
+            <h1 id="seo-header">文生图的各种模型</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="计算机视觉第一节"><a href="#计算机视觉第一节" class="headerlink" title="计算机视觉第一节"></a>计算机视觉第一节</h1><h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><ul>
-<li><p>图像预处理：</p>
-</li>
-<li><p>特征提取：SIFT 、HOG</p>
-<p><strong>SIFT</strong>：尺度不变特征变换</p>
-<ol>
-<li>构建尺度空间，检测极值点作为特征点（LOG, DOG）</li>
-<li>方向匹配</li>
-<li>关键点描述符</li>
-<li>关键点匹配</li>
-</ol>
-<p><strong>HOG</strong>：</p>
-</li>
-<li><p>特征表示：</p>
-</li>
-<li><p>训练ML模型：</p>
-</li>
+                <h1 id="各种文生图的模型"><a href="#各种文生图的模型" class="headerlink" title="各种文生图的模型"></a>各种文生图的模型</h1><h2 id="DALL-E"><a href="#DALL-E" class="headerlink" title="DALL-E"></a>DALL-E</h2><p>参数量：120亿</p>
+<p>基于 dVAE</p>
+<p>训练：</p>
+<ul>
+<li>训练一个dVAE， 训练dVAE编码器和dVAE解码器</li>
+<li>将文本编码和图片token进行拼接，训练一个自回归transformer来建模文本和图片的联合分布</li>
 </ul>
-<h2 id="传统图像分类"><a href="#传统图像分类" class="headerlink" title="传统图像分类"></a>传统图像分类</h2><ul>
-<li><p>基于词袋的图像分类</p>
-<p>计算特征点（SIFT, HOG）的相似度</p>
-</li>
-<li></li>
-</ul>
+<p>训练目标：最大化ELBO</p>
+<h2 id="GLIDE"><a href="#GLIDE" class="headerlink" title="GLIDE"></a>GLIDE</h2><p>参数量：35亿</p>
+<p>把 指导扩散应用于文本生成图像的问题。 </p>
+<p>使用文本编码器以自然语言描述为条件，然后比较了两种指导扩散模型至文本 prompt 的方法：CLIP 指导和无分类器指导。无分类器指导能够产生更高质量的图像。</p>
+<h2 id="DALL-E2"><a href="#DALL-E2" class="headerlink" title="DALL-E2"></a>DALL-E2</h2><p><img src="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/image-20240906205825105.png" srcset="/img/loading.gif" lazyload alt="image-20240906205825105"></p>
+<p>虚线上方为CLIP</p>
+<p>虚线之下是文本到图像生成的改成。</p>
+<p>一个CLIP text embedding输入到autoregressive或者扩散模型（prior部分）来生成一个image embedding，然后这个embedding输入到扩散模型decoder，生成最终的图像。</p>
+<p>训练方法：</p>
+<p>训练数据对$(x,y)$， $x$指图片，$y$指文字描述</p>
+<p>对于$x$，通过CLIP模型生成imag embedding$z_i$</p>
+<p>prior: 基于文本 生成imag embedding</p>
+<p>decoder: 基于prior生成的imag embedding来生成图像</p>
+<h2 id="Imagen"><a href="#Imagen" class="headerlink" title="Imagen"></a>Imagen</h2><p>使用了一个文字转图片的diffusion模型，然后使用了2个超分diffusion模型。</p>
+<h2 id="Stable-Diffusion"><a href="#Stable-Diffusion" class="headerlink" title="Stable Diffusion"></a>Stable Diffusion</h2><p>模型latent diffusion models (LDMs)是两阶段的。第一部分就是下面左半部分（红色），对图片进行压缩，将图片压缩为隐变量表示（latent），这样可以减少计算复杂度；第二部分还是扩散模型（diffusion与denoising），中间绿色部分。此外引入了cross-attention机制，下图右半部分，方便文本或者图片草稿图等对扩散模型进行施加影响，从而生成我们想要的图片，比如根据文本生成我们想要的图片。<br><img src="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/image-20240906210500817.png" srcset="/img/loading.gif" lazyload alt="image-20240906210500817"></p>
 
                 
               </div>
@@ -373,8 +374,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>计算机视觉</div>
-      <div>https://wendyflv.github.io/2024/08/29/计算机视觉/</div>
+      <div>文生图的各种模型</div>
+      <div>https://wendyflv.github.io/2024/09/06/文生图的各种模型/</div>
     </div>
     <div class="license-meta">
       
@@ -386,7 +387,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月29日</div>
+          <div>2024年9月6日</div>
         </div>
       
       
@@ -418,9 +419,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/" title="文生图的各种模型">
+                      <a href="/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/" title="diffusion模型介绍">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">文生图的各种模型</span>
+                        <span class="hidden-mobile">diffusion模型介绍</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -428,8 +429,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/27/%E5%9F%BA%E4%BA%8E%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E8%AF%97%E5%8F%A5%EF%BC%88%E4%BA%8C%EF%BC%89/" title="基于图片生成诗句（二）">
-                        <span class="hidden-mobile">基于图片生成诗句（二）</span>
+                      <a href="/2024/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" title="计算机视觉">
+                        <span class="hidden-mobile">计算机视觉</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -280,6 +280,84 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/" target="_self">
+          <img src="/img/bg/a3.png" srcset="/img/loading.gif" lazyload alt="diffusion模型介绍">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/" target="_self">
+          diffusion模型介绍
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/09/07/diffusion%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D/" target="_self">
+        <div>
+          Diffusion模型1 介绍扩散模型本质是学习真实的数据分布，从而从中抽样，生成新样本。 diffusion过程：不断给真实图片加噪声，直至变成纯噪声。如何，训练一个解码器去噪，逐步进行，直至回复成原本的真实样本。 2 生成模型的目标学习到的数据分布要尽可能符合原始训练数据分布。  $P_{\theta}(x)$模型所产生的图片的改了分布， $\theta$表示模型的参数 $P_{data}(x
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-07 15:27" pubdate>
+              2024-09-07
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/" target="_self">
+          <img src="/img/bg/a3.png" srcset="/img/loading.gif" lazyload alt="文生图的各种模型">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/" target="_self">
+          文生图的各种模型
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2024/09/06/%E6%96%87%E7%94%9F%E5%9B%BE%E7%9A%84%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9E%8B/" target="_self">
+        <div>
+          各种文生图的模型DALL-E参数量：120亿 基于 dVAE 训练：  训练一个dVAE， 训练dVAE编码器和dVAE解码器 将文本编码和图片token进行拼接，训练一个自回归transformer来建模文本和图片的联合分布  训练目标：最大化ELBO GLIDE参数量：35亿 把 指导扩散应用于文本生成图像的问题。  使用文本编码器以自然语言描述为条件，然后比较了两种指导扩散模型至文本 pro
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-09-06 20:45" pubdate>
+              2024-09-06
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
         <a href="/2024/08/29/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" target="_self">
           <img src="/img/bg/a3.png" srcset="/img/loading.gif" lazyload alt="计算机视觉">
         </a>
@@ -579,84 +657,6 @@
             <i class="iconfont icon-date"></i>
             <time datetime="2024-07-29 15:26" pubdate>
               2024-07-29
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/" target="_self">
-          <img src="/img/bg/a3.png" srcset="/img/loading.gif" lazyload alt="变量选择">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/" target="_self">
-          变量选择
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2024/06/29/%E5%8F%98%E9%87%8F%E9%80%89%E6%8B%A9/" target="_self">
-        <div>
-          带有约束条件的高维空间自回归模型的稳健的变量选择 如何求解参数$\theta$  优化步3和4：一维非线性问题——Brent方法（以已经得到的三个点（比如从bracketing来的）为基础，构建一个二次曲线，如果迭代目标函数与二次函数相似，那么二次函数的顶点就是极值点；如果不是，这次迭代就变成普通的黄金分点搜索。） 优化步5：LQA算法
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-06-29 21:17" pubdate>
-              2024-06-29
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/" target="_self">
-          <img src="/img/bg/a3.png" srcset="/img/loading.gif" lazyload alt="计网——网络互连">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/" target="_self">
-          计网——网络互连
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2024/06/25/%E8%AE%A1%E7%BD%91%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E4%BA%92%E8%BF%9E/" target="_self">
-        <div>
-          网络互连基本概念互链：用网络设备把不同网络连接起来使得不同网络中计算机之间可相互通信 中继系统&#x2F;中间设备：把网络相互连接起来的设备 中继系统：  物理层：转发器 数据链路层：网桥 网络层中断系统：路由器 网桥和路由器混合：桥路器 网络层以上：网关  网络互连使用 路由器 直接交付：两个主机在一个网络上，不用经过路由器 间接交付：两主机不在同一个网络，要经过路由交付 因特网的网际协议IPI
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-06-25 20:55" pubdate>
-              2024-06-25
             </time>
           </div>
         
