@@ -1,0 +1,810 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Linux + InternStudio 关卡1. InternStudio开发机https:&#x2F;&#x2F;studio.intern-ai.org.cn&#x2F; 功能：创建开发机、可视化文件夹、团队开发、SSH配置 2. SSH及端口映射2.1 SSHSSH全称 secure shell， 即 安全外壳。 通过 加密和认证机制实现 安全访问 和 文件传输。 通信双方需要  先建立TCP连接，协商使用的版本号和各">
+<meta property="og:type" content="article">
+<meta property="og:title" content="书生大模型实战营——L0G1000（Linux基础知识）">
+<meta property="og:url" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="Linux + InternStudio 关卡1. InternStudio开发机https:&#x2F;&#x2F;studio.intern-ai.org.cn&#x2F; 功能：创建开发机、可视化文件夹、团队开发、SSH配置 2. SSH及端口映射2.1 SSHSSH全称 secure shell， 即 安全外壳。 通过 加密和认证机制实现 安全访问 和 文件传输。 通信双方需要  先建立TCP连接，协商使用的版本号和各">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204309836.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204425360.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204542629.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204753289.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204953903.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022205516468.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022205722213.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022205939710.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022210127362.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022211614243.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022211931028.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022212031006.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022212601659.png">
+<meta property="article:published_time" content="2024-10-22T11:36:47.000Z">
+<meta property="article:modified_time" content="2024-10-22T14:14:00.789Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204309836.png">
+  
+  
+  
+  <title>书生大模型实战营——L0G1000（Linux基础知识） - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="书生大模型实战营——L0G1000（Linux基础知识）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-22 19:36" pubdate>
+          2024年10月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          662 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">书生大模型实战营——L0G1000（Linux基础知识）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Linux-InternStudio-关卡"><a href="#Linux-InternStudio-关卡" class="headerlink" title="Linux + InternStudio 关卡"></a>Linux + InternStudio 关卡</h1><h2 id="1-InternStudio开发机"><a href="#1-InternStudio开发机" class="headerlink" title="1. InternStudio开发机"></a>1. InternStudio开发机</h2><p><a target="_blank" rel="noopener" href="https://studio.intern-ai.org.cn/">https://studio.intern-ai.org.cn/</a></p>
+<p>功能：创建开发机、可视化文件夹、团队开发、SSH配置</p>
+<h2 id="2-SSH及端口映射"><a href="#2-SSH及端口映射" class="headerlink" title="2. SSH及端口映射"></a>2. SSH及端口映射</h2><h2 id="2-1-SSH"><a href="#2-1-SSH" class="headerlink" title="2.1 SSH"></a>2.1 SSH</h2><p>SSH全称 secure shell， 即 安全外壳。 通过 加密和认证机制实现 安全访问 和 文件传输。</p>
+<p>通信双方需要  先建立TCP连接，协商使用的版本号和各类法，并生成相同的会话密钥用于后续的对称加密。</p>
+<h2 id="2-2-SSH远程连接"><a href="#2-2-SSH远程连接" class="headerlink" title="2.2 SSH远程连接"></a>2.2 SSH远程连接</h2><p>vscode远程连接</p>
+<h2 id="2-3-端口映射"><a href="#2-3-端口映射" class="headerlink" title="2.3 端口映射"></a>2.3 端口映射</h2><p><strong>端口映射</strong>是一种网络技术，它可以将外网中的任意端口映射到内网中的相应端口，实现内网与外网之间的通信。通过端口映射，可以在外网访问内网中的服务或应用，实现跨越网络的便捷通信。</p>
+<p>我们需要对运行web_demo的连接进行端口映射，将<strong>外网链接映射到我们本地主机</strong>，我们使用本地连接访问，解决这个代理问题</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">ssh -p <span class="hljs-number">37367</span> root@ssh.intern-ai.org.cn -CNg -L <span class="hljs-number">7860</span>:<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">7860</span> -o StrictHostKeyChecking=no<br></code></pre></td></tr></table></figure>
+
+<p>个人PC会远程连接到开发机唯一暴露在外的37367端口，（这个在SSH的时候提到过每个人的开发机暴露的端口都不一样），并设置隧道选项。暴露端口是作为中转站进行流量的转发。</p>
+<h1 id="3-Linux基础命令"><a href="#3-Linux基础命令" class="headerlink" title="3. Linux基础命令"></a>3. Linux基础命令</h1><h2 id="3-1-文件管理"><a href="#3-1-文件管理" class="headerlink" title="3.1 文件管理"></a>3.1 文件管理</h2><ul>
+<li><p><code>touch demo.py </code> 创建空文件</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204309836.png" srcset="/img/loading.gif" lazyload alt="image-20241022204309836"></p>
+</li>
+<li><p><code>mkdir test2 </code> 创建目录</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204425360.png" srcset="/img/loading.gif" lazyload alt="image-20241022204425360"></p>
+</li>
+<li><p><code>cd ../</code>切换到哪个目录</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204542629.png" srcset="/img/loading.gif" lazyload alt="image-20241022204542629"></p>
+</li>
+<li><p><code>pwd</code> 查看当前所在目录</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204753289.png" srcset="/img/loading.gif" lazyload alt="image-20241022204753289"></p>
+</li>
+<li><p><code>cat</code> 查看文件内容</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022204953903.png" srcset="/img/loading.gif" lazyload alt="image-20241022204953903"></p>
+</li>
+<li><p><code>vim or vi</code> 编辑文件</p>
+<p>命令模式：dd yy p gg H zz</p>
+<p>末行模式：:wq  :q! :w &#x2F;</p>
+<p>编辑模式： i(insert)</p>
+</li>
+<li><p><code>cp</code> 把一个文件获目录复制到另一个目录下方  cp 源文件 目标文件</p>
+<p>软链接：ln [参数] [源文件或目录] [ 目标文件或目录]</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022205516468.png" srcset="/img/loading.gif" lazyload alt="image-20241022205516468"></p>
+</li>
+<li><p><code>mv 和 rm</code> 移动文件 和 删除文件</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022205722213.png" srcset="/img/loading.gif" lazyload alt="image-20241022205722213"></p>
+</li>
+<li><p><code>find</code> 在指定的目录及其子目录中查找符合条件的文件或目录</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022205939710.png" srcset="/img/loading.gif" lazyload alt="image-20241022205939710"></p>
+</li>
+<li><p><code>ls</code> 列出目录的内容以及详细信息</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022210127362.png" srcset="/img/loading.gif" lazyload alt="image-20241022210127362"></p>
+</li>
+<li><p><code>sed</code> 流编辑器，处理文本</p>
+<ul>
+<li><p><code>-e&lt;script&gt;</code> 或 <code>--expression=&lt;script&gt;</code>：直接在命令行中指定脚本进行文本处理</p>
+</li>
+<li><p><code>-f&lt;script文件&gt;</code> 或 <code>--file=&lt;script文件&gt;</code>：从指定的脚本文件中读取脚本进行文本处理。</p>
+</li>
+<li><p><code>-n</code> 或 <code>--quiet</code> 或 <code>--silent</code>：仅打印经过脚本处理后的输出结果，不打印未匹配的行</p>
+</li>
+</ul>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022211614243.png" srcset="/img/loading.gif" lazyload alt="image-20241022211614243"></p>
+</li>
+</ul>
+<h2 id="3-2-进程管理"><a href="#3-2-进程管理" class="headerlink" title="3.2 进程管理"></a>3.2 进程管理</h2><ul>
+<li><p><code>ps aux</code> 显示系统所有进程的详细信息</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022211931028.png" srcset="/img/loading.gif" lazyload alt="image-20241022211931028"></p>
+</li>
+<li><p><code>top</code> 动态显示系统进程状态，显示CPU和内存使用率最高的进程</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022212031006.png" srcset="/img/loading.gif" lazyload alt="image-20241022212031006"></p>
+</li>
+<li><p><code>pstree</code> 以树状图形式显示当前运行的进程以及其父子关系</p>
+</li>
+<li><p><code>nvidia-smi</code> 显示GPU详细</p>
+<p><img src="/2024/10/22/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G1000%EF%BC%88Linux%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/image-20241022212601659.png" srcset="/img/loading.gif" lazyload alt="image-20241022212601659"></p>
+</li>
+<li></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>书生大模型实战营——L0G1000（Linux基础知识）</div>
+      <div>https://wendyflv.github.io/2024/10/22/书生大模型实战营——L0G1000（Linux基础知识）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/14/AI%E6%8E%98%E9%87%91%E8%AE%AD%E7%BB%83%E8%90%A5%E5%88%B7%E9%A2%98/" title="AI掘金训练营刷题">
+                        <span class="hidden-mobile">AI掘金训练营刷题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

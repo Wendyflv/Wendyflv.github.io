@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240821160629116.png">
 <meta property="og:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240820170041042.png">
 <meta property="article:published_time" content="2024-08-21T06:39:27.000Z">
-<meta property="article:modified_time" content="2024-08-24T06:47:11.495Z">
+<meta property="article:modified_time" content="2024-09-21T08:37:52.209Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wendyflv.github.io/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240815155731933.png">
@@ -284,7 +284,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          1.4k 字
+          1.6k 字
         
       </span>
     
@@ -296,7 +296,7 @@
         
         
           <!-- compatible with older versions-->
-          13 分钟
+          14 分钟
         
       </span>
     
@@ -416,6 +416,7 @@
 <h3 id="评价"><a href="#评价" class="headerlink" title="评价"></a>评价</h3><p><strong>MPJPE</strong>(mean per-joint position error)：$\frac{1}{H} \sum_{i&#x3D;1}^{H}||J_i - \hat{J_i}||_2$，易被缩放，旋转，平移等操作影响。</p>
 <p>PA-MPJPE(Procrustes-aligned mean per-joint position error)：</p>
 <p><img src="/2024/08/21/%E5%9F%BA%E4%BA%8ESMPL%E7%9A%84%E5%8D%95%E7%9B%AE3D%E4%BA%BA%E4%BD%93%E5%A7%BF%E6%80%81%E4%BC%B0%E8%AE%A1/image-20240820170041042.png" srcset="/img/loading.gif" lazyload alt="image-20240820170041042"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="Q1：-什么是SMPL模型？"><a href="#Q1：-什么是SMPL模型？" class="headerlink" title="Q1： 什么是SMPL模型？"></a>Q1： 什么是SMPL模型？</h3><p>蒙皮的人体线性模型（参数化人体模型），通过确定关于人体的形状和姿态参数就可以确定这个人体模型使其展现出相应的姿态。我的方法是 通过我的模型能输出SMPL模型的参数 + 相机参数从而得到人体mesh的各个顶点的坐标，通过通过线性投影能得到3D关节坐标，3D关节坐标+相机参数投影能得到2D坐标</p>
 
                 
               </div>
