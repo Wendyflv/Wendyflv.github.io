@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="探索如何充分利用 Hugging Face、魔搭社区和魔乐社区的资源和工具，学习模型下载、上传以及创建专属Space，玩转三大平台。 需要实现的任务：1. 下载模型 2. 上传模型  3. Space上传 1. HF 平台HF官网： https:&#x2F;&#x2F;huggingface.co&#x2F; 1.1 InternLM模型下载internlm2_5-1_8b：https:&#x2F;&#x2F;huggingface.co&#x2F;int">
+<meta property="og:type" content="article">
+<meta property="og:title" content="书生大模型实战营——L0G4000（玩转HF&#x2F;魔搭&#x2F;魔乐社区）">
+<meta property="og:url" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="探索如何充分利用 Hugging Face、魔搭社区和魔乐社区的资源和工具，学习模型下载、上传以及创建专属Space，玩转三大平台。 需要实现的任务：1. 下载模型 2. 上传模型  3. Space上传 1. HF 平台HF官网： https:&#x2F;&#x2F;huggingface.co&#x2F; 1.1 InternLM模型下载internlm2_5-1_8b：https:&#x2F;&#x2F;huggingface.co&#x2F;int">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031162626740.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031163330437.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165114773.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165637414.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165926736.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165952802.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170507586.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170546156.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170631343.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170703784.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031180444568.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031180505282.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031180604187.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182307618.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182401288.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182428055.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182450103.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031184423849.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031184458874.png">
+<meta property="article:published_time" content="2024-10-31T07:56:53.000Z">
+<meta property="article:modified_time" content="2024-10-31T10:49:14.281Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031162626740.png">
+  
+  
+  
+  <title>书生大模型实战营——L0G4000（玩转HF/魔搭/魔乐社区） - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="书生大模型实战营——L0G4000（玩转HF/魔搭/魔乐社区）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-31 15:56" pubdate>
+          2024年10月31日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          975 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">书生大模型实战营——L0G4000（玩转HF/魔搭/魔乐社区）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>探索如何充分利用 Hugging Face、魔搭社区和魔乐社区的资源和工具，学习模型下载、上传以及创建专属Space，玩转三大平台。</p>
+<p>需要实现的任务：1. 下载模型 2. 上传模型  3. Space上传</p>
+<h1 id="1-HF-平台"><a href="#1-HF-平台" class="headerlink" title="1. HF 平台"></a>1. HF 平台</h1><p>HF官网： <a target="_blank" rel="noopener" href="https://huggingface.co/">https://huggingface.co/</a></p>
+<h2 id="1-1-InternLM模型下载"><a href="#1-1-InternLM模型下载" class="headerlink" title="1.1 InternLM模型下载"></a>1.1 InternLM模型下载</h2><p><strong>internlm2_5-1_8b</strong>：<a target="_blank" rel="noopener" href="https://huggingface.co/internlm/internlm2_5-1_8b">https://huggingface.co/internlm/internlm2_5-1_8b</a></p>
+<p>因为网络和磁盘有限的原因，强烈不建议在 InternStudio 运行，因此这里使用CodeSpace（<a target="_blank" rel="noopener" href="https://github.com/codespaces%EF%BC%89">https://github.com/codespaces）</a></p>
+<p>Github CodeSpace是Github推出的线上代码平台，提供了一系列templates，如Jupyter Notebook。</p>
+<p>在终端中下载一下依赖：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 安装transformers</span><br>pip install transformers==<span class="hljs-number">4.38</span><br>pip install sentencepiece==<span class="hljs-number">0.1</span><span class="hljs-number">.99</span><br>pip install einops==<span class="hljs-number">0.8</span><span class="hljs-number">.0</span><br>pip install protobuf==<span class="hljs-number">5.27</span><span class="hljs-number">.2</span><br>pip install accelerate==<span class="hljs-number">0.33</span><span class="hljs-number">.0</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="1-2-下载internlm2-5-7b-chat的配置文件"><a href="#1-2-下载internlm2-5-7b-chat的配置文件" class="headerlink" title="1.2 下载internlm2_5-7b-chat的配置文件"></a>1.2 下载internlm2_5-7b-chat的配置文件</h2><p>接下来，下载模型的配置文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> huggingface_hub <span class="hljs-keyword">import</span> hf_hub_download<br><br><span class="hljs-comment"># 指定模型标识符</span><br>repo_id = <span class="hljs-string">&quot;internlm/internlm2_5-7b&quot;</span><br><br><span class="hljs-comment"># 指定要下载的文件列表</span><br>files_to_download = [<br>    &#123;<span class="hljs-string">&quot;filename&quot;</span>: <span class="hljs-string">&quot;config.json&quot;</span>&#125;,<br>    &#123;<span class="hljs-string">&quot;filename&quot;</span>: <span class="hljs-string">&quot;model.safetensors.index.json&quot;</span>&#125;<br>]<br><br><span class="hljs-comment"># 创建一个目录来存放下载的文件</span><br>local_dir = <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;repo_id.split(<span class="hljs-string">&#x27;/&#x27;</span>)[<span class="hljs-number">1</span>]&#125;</span>&quot;</span><br>os.makedirs(local_dir, exist_ok=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 遍历文件列表并下载每个文件</span><br><span class="hljs-keyword">for</span> file_info <span class="hljs-keyword">in</span> files_to_download:<br>    file_path = hf_hub_download(<br>        repo_id=repo_id,<br>        filename=file_info[<span class="hljs-string">&quot;filename&quot;</span>],<br>        local_dir=local_dir<br>    )<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;file_info[<span class="hljs-string">&#x27;filename&#x27;</span>]&#125;</span> file downloaded to: <span class="hljs-subst">&#123;file_path&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>运行该文件，从HF中下载配置文件：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031162626740.png" srcset="/img/loading.gif" lazyload alt="image-20241031162626740"></p>
+<h2 id="1-3-下载internlm2-5-chat-1-8b并打印示例输出"><a href="#1-3-下载internlm2-5-chat-1-8b并打印示例输出" class="headerlink" title="1.3 下载internlm2_5-chat-1_8b并打印示例输出"></a>1.3 下载internlm2_5-chat-1_8b并打印示例输出</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer, AutoModelForCausalLM<br><br>tokenizer = AutoTokenizer.from_pretrained(<span class="hljs-string">&quot;internlm/internlm2_5-1_8b&quot;</span>, trust_remote_code=<span class="hljs-literal">True</span>)<br>model = AutoModelForCausalLM.from_pretrained(<span class="hljs-string">&quot;internlm/internlm2_5-1_8b&quot;</span>, torch_dtype=torch.float16, trust_remote_code=<span class="hljs-literal">True</span>)<br>model = model.<span class="hljs-built_in">eval</span>()<br><br>inputs = tokenizer([<span class="hljs-string">&quot;A beautiful flower&quot;</span>], return_tensors=<span class="hljs-string">&quot;pt&quot;</span>)<br>gen_kwargs = &#123;<br>    <span class="hljs-string">&quot;max_length&quot;</span>: <span class="hljs-number">128</span>,<br>    <span class="hljs-string">&quot;top_p&quot;</span>: <span class="hljs-number">0.8</span>,<br>    <span class="hljs-string">&quot;temperature&quot;</span>: <span class="hljs-number">0.8</span>,<br>    <span class="hljs-string">&quot;do_sample&quot;</span>: <span class="hljs-literal">True</span>,<br>    <span class="hljs-string">&quot;repetition_penalty&quot;</span>: <span class="hljs-number">1.0</span><br>&#125;<br><br><span class="hljs-comment"># 以下内容可选，如果解除注释等待一段时间后可以看到模型输出</span><br><span class="hljs-comment"># output = model.generate(**inputs, **gen_kwargs)</span><br><span class="hljs-comment"># output = tokenizer.decode(output[0].tolist(), skip_special_tokens=True)</span><br><span class="hljs-comment"># print(output)</span><br></code></pre></td></tr></table></figure>
+
+<p>上述代码使用了internlm2_5-1_8b模型做了一个续写任务，输出如下：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031163330437.png" srcset="/img/loading.gif" lazyload alt="image-20241031163330437"></p>
+<h2 id="1-4-Hugging-Face-Spaces的使用"><a href="#1-4-Hugging-Face-Spaces的使用" class="headerlink" title="1.4 Hugging Face Spaces的使用"></a>1.4 Hugging Face Spaces的使用</h2><p>Spaces (<a target="_blank" rel="noopener" href="https://huggingface.co/spaces)%E4%BD%BF%E5%BE%97%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%AF%E4%BB%A5%E5%BF%AB%E9%80%9F%E5%B0%86%E6%88%91%E4%BB%AC%E7%9A%84%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E4%B8%BA%E5%8F%AF%E4%BA%A4%E4%BA%92%E7%9A%84">https://huggingface.co/spaces)使得开发者可以快速将我们的模型部署为可交互的</a> web 应用，且无需担心后端基础设施或部署的复杂性。</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165114773.png" srcset="/img/loading.gif" lazyload alt="image-20241031165114773"></p>
+<p>找到该目录文件夹下的index.html文件，修改我们的html代码:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span> /&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width&quot;</span> /&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>My static Space<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"></span><br><span class="language-css">    <span class="hljs-selector-tag">html</span>, <span class="hljs-selector-tag">body</span> &#123;</span><br><span class="language-css">      <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">      <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;</span><br><span class="language-css">      <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">    <span class="hljs-selector-tag">body</span> &#123;</span><br><span class="language-css">      <span class="hljs-attribute">display</span>: flex;</span><br><span class="language-css">      <span class="hljs-attribute">justify-content</span>: center;</span><br><span class="language-css">      <span class="hljs-attribute">align-items</span>: center;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">    <span class="hljs-selector-tag">iframe</span> &#123;</span><br><span class="language-css">      <span class="hljs-attribute">width</span>: <span class="hljs-number">430px</span>;</span><br><span class="language-css">      <span class="hljs-attribute">height</span>: <span class="hljs-number">932px</span>;</span><br><span class="language-css">      <span class="hljs-attribute">border</span>: none;</span><br><span class="language-css">    &#125;</span><br><span class="language-css">  </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://colearn.intern-ai.org.cn/cobuild&quot;</span> <span class="hljs-attr">title</span>=<span class="hljs-string">&quot;description&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>保存后就可以push到远程仓库上了，它会自动更新页面:</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">git <span class="hljs-keyword">add</span> .<br>git commit -m <span class="hljs-string">&quot;update: colearn page&quot;</span><br>git <span class="hljs-keyword">push</span><br></code></pre></td></tr></table></figure>
+
+<p>若报错：</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dsconfig"><span class="hljs-string">git</span> <span class="hljs-string">remote</span> <span class="hljs-built_in">set-url</span> <span class="hljs-string">origin</span> <span class="hljs-string">https</span>://<span class="hljs-string">wendyflv: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@</span><span class="hljs-string">huggingface</span>.<span class="hljs-string">co</span>/<span class="hljs-string">spaces</span>/<span class="hljs-string">wendyflv</span>/<span class="hljs-string">intern_cobuild</span>/<br></code></pre></td></tr></table></figure>
+
+<p>再次进入Space界面：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165637414.png" srcset="/img/loading.gif" lazyload alt="image-20241031165637414"></p>
+<h2 id="1-5-模型上传"><a href="#1-5-模型上传" class="headerlink" title="1.5 模型上传"></a>1.5 模型上传</h2><p>安装git lfs，对大文件系统支持：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165926736.png" srcset="/img/loading.gif" lazyload alt="image-20241031165926736"></p>
+<p>使用huggingface-cli login命令进行登录：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031165952802.png" srcset="/img/loading.gif" lazyload alt="image-20241031165952802"></p>
+<p>创建项目intern_study_L0_4：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170507586.png" srcset="/img/loading.gif" lazyload alt="image-20241031170507586"></p>
+<p>创建README.md文件：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170546156.png" srcset="/img/loading.gif" lazyload alt="image-20241031170546156"></p>
+<p>用git提交到远程仓库：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170631343.png" srcset="/img/loading.gif" lazyload alt="image-20241031170631343"></p>
+<p>前往HF：<a target="_blank" rel="noopener" href="https://huggingface.co/wendyflv/intern_study_L0_4">wendyflv&#x2F;intern_study_L0_4 · Hugging Face</a></p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031170703784.png" srcset="/img/loading.gif" lazyload alt="image-20241031170703784"></p>
+<h1 id="2-魔搭社区"><a href="#2-魔搭社区" class="headerlink" title="2. 魔搭社区"></a>2. 魔搭社区</h1><p><a target="_blank" rel="noopener" href="https://www.modelscope.cn/home">魔搭社区</a>旨在汇集来自AI社区的最先进的机器学习模型，并简化在实际应用中使用AI模型的流程。通过ModelScope，用户可以轻松地探索、推理、微调和部署各种AI模型。</p>
+<h2 id="2-1-下载模型"><a href="#2-1-下载模型" class="headerlink" title="2.1 下载模型"></a>2.1 下载模型</h2><p>安装下必要的包</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031180444568.png" srcset="/img/loading.gif" lazyload alt="image-20241031180444568"></p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031180505282.png" srcset="/img/loading.gif" lazyload alt="image-20241031180505282"></p>
+<p>使用modelscope的cli工具来下载internlm2_5-7b-chat</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031180604187.png" srcset="/img/loading.gif" lazyload alt="image-20241031180604187"></p>
+<h2 id="2-2-上传模型"><a href="#2-2-上传模型" class="headerlink" title="2.2 上传模型"></a>2.2 上传模型</h2><p>先在魔搭社区创建一个新模型，命名intern_study_L0_4</p>
+<p>下载该模型：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182307618.png" srcset="/img/loading.gif" lazyload alt="image-20241031182307618"></p>
+<p>进入README.md文件，修改</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182401288.png" srcset="/img/loading.gif" lazyload alt="image-20241031182401288"></p>
+<p>然后提交</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182428055.png" srcset="/img/loading.gif" lazyload alt="image-20241031182428055"></p>
+<p>这里报错，需要使用token作为密码</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031182450103.png" srcset="/img/loading.gif" lazyload alt="image-20241031182450103"></p>
+<p>上传成功！<a target="_blank" rel="noopener" href="https://www.modelscope.cn/models/wendyflv/intern_study_L0_4">https://www.modelscope.cn/models/wendyflv/intern_study_L0_4</a></p>
+<h1 id="3-魔乐社区"><a href="#3-魔乐社区" class="headerlink" title="3. 魔乐社区"></a>3. 魔乐社区</h1><p><a target="_blank" rel="noopener" href="https://modelers.cn/">魔乐社区</a>是一个提供多样化、开源模型的平台，旨在促进开发者和研究人员在最先进的模型和流行应用上进行协作。</p>
+<p>为模型文件创建目录：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031184423849.png" srcset="/img/loading.gif" lazyload alt="image-20241031184423849"></p>
+<p>下载模型：</p>
+<p><img src="/2024/10/31/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G4000%EF%BC%88%E7%8E%A9%E8%BD%ACHF-%E9%AD%94%E6%90%AD-%E9%AD%94%E4%B9%90%E7%A4%BE%E5%8C%BA%EF%BC%89/image-20241031184458874.png" srcset="/img/loading.gif" lazyload alt="image-20241031184458874"></p>
+<p>model-00001-of-00002.safetensors 这个文件没找到？</p>
+<p>尝试手动下载，也不行？</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>书生大模型实战营——L0G4000（玩转HF/魔搭/魔乐社区）</div>
+      <div>https://wendyflv.github.io/2024/10/31/书生大模型实战营——L0G4000（玩转HF-魔搭-魔乐社区）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月31日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/30/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L0G3000%EF%BC%88Git%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%89/" title="书生大模型实战营——L0G3000（Git基础知识）">
+                        <span class="hidden-mobile">书生大模型实战营——L0G3000（Git基础知识）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
