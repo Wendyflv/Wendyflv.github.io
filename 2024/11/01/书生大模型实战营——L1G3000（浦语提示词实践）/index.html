@@ -25,8 +25,11 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wendyflv.github.io/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/image-20241101184327273.png">
 <meta property="og:image" content="https://wendyflv.github.io/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/image-20241101191457492.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/image-20241107180722567.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/QQ%E6%88%AA%E5%9B%BE20241107183035.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/QQ%E6%88%AA%E5%9B%BE20241107183545.png">
 <meta property="article:published_time" content="2024-11-01T10:27:38.000Z">
-<meta property="article:modified_time" content="2024-11-01T13:25:40.518Z">
+<meta property="article:modified_time" content="2024-11-07T11:08:15.435Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wendyflv.github.io/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/image-20241101184327273.png">
@@ -281,7 +284,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          1.1k 字
+          1.9k 字
         
       </span>
     
@@ -293,7 +296,7 @@
         
         
           <!-- compatible with older versions-->
-          10 分钟
+          16 分钟
         
       </span>
     
@@ -414,12 +417,41 @@
 <li>Yeow：提示词开场白设计</li>
 <li>Zig：无厘头式提示词，如[答案之书]</li>
 </ul>
-<h1 id="3-浦语提示词工程实践"><a href="#3-浦语提示词工程实践" class="headerlink" title="3. 浦语提示词工程实践"></a>3. 浦语提示词工程实践</h1><ul>
-<li>背景问题：近期相关研究指出，在处理特定文本分析任务时，语言模型的表现有时会遇到挑战，例如在分析单词内部的具体字母数量时可能会出现错误。</li>
-<li>任务要求：利用对提示词的精确设计，引导语言模型正确回答出“strawberry”中有几个字母“r”。完成正确的问答交互并提交截图作为完成凭证。</li>
+<h1 id="3-浦语提示词工程实践"><a href="#3-浦语提示词工程实践" class="headerlink" title="3. 浦语提示词工程实践"></a>3. 浦语提示词工程实践</h1><h2 id="3-1-正确数数"><a href="#3-1-正确数数" class="headerlink" title="3.1 正确数数"></a>3.1 正确数数</h2><ul>
+<li><p>背景问题：近期相关研究指出，在处理特定文本分析任务时，语言模型的表现有时会遇到挑战，例如在分析单词内部的具体字母数量时可能会出现错误。</p>
+</li>
+<li><p>任务要求：利用对提示词的精确设计，引导语言模型正确回答出“strawberry”中有几个字母“r”。完成正确的问答交互并提交截图作为完成凭证。</p>
+<p>直接询问，模型回答2个”r”。</p>
+<p><img src="/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/image-20241107180722567.png" srcset="/img/loading.gif" lazyload alt="image-20241107180722567"></p>
+</li>
+<li><p>实现：下面，使用CRISPE架构编写提示词：</p>
+<ul>
+<li><strong>C</strong>apacity and <strong>R</strong>ole (能力与角色)：你是一位精通数学与计算机编程的大师，请你根据我的引导，解决一个数学问题。</li>
+<li><strong>I</strong>nsight (洞察力)：现在，有一个单词“strawberry”，需要你帮我计算出这个单词里面有多少个”r”？</li>
+<li><strong>S</strong>tatement (指令)：我希望你能通过遍历字符串的方式来数出这个单词里面”r”的个数。从该字符串的第一个字符开始，如果这个字符是”r”，统计的”r”的个数加一，一直到最后一个字符数完。</li>
+<li><strong>P</strong>ersonality (个性)：希望你能写出完整的遍历字符串的过程，并且告诉我最后的结果。我希望你能逐一分析每个字符，为我模拟计算机遍历字符串的过程。</li>
+<li><strong>E</strong>xperiment (尝试)：答案是唯一的。</li>
 </ul>
-<p>我使用的是internlm2-chat-1_8b模型，下面使用Streamlit Web Demo 部署 InternLM2-Chat-1.8B 模型：</p>
-<p>询问</p>
+</li>
+<li><p>结果：</p>
+<p><img src="/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/QQ%E6%88%AA%E5%9B%BE20241107183035.png" srcset="/img/loading.gif" lazyload alt="QQ截图20241107183035"></p>
+</li>
+</ul>
+<h2 id="3-2-剧本创作助手"><a href="#3-2-剧本创作助手" class="headerlink" title="3.2 剧本创作助手"></a>3.2 剧本创作助手</h2><ul>
+<li><p>进阶任务：基于LangGPT格式编写提示词——剧本创作助手</p>
+</li>
+<li><p>Baseline：</p>
+<p><img src="/2024/11/01/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G3000%EF%BC%88%E6%B5%A6%E8%AF%AD%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%AE%9E%E8%B7%B5%EF%BC%89/QQ%E6%88%AA%E5%9B%BE20241107183545.png" srcset="/img/loading.gif" lazyload alt="QQ截图20241107183545"></p>
+</li>
+<li><p>使用LangGPT格式编写提示词：</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext">你是一个经验丰富的编剧。现在，你接到一个刑侦探案主题的编剧任务。<br>    <span class="hljs-comment"># 技能：</span><br>    <span class="hljs-comment">## 剧本有组织架构，环环相扣</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">分篇章：累计5个章节，从第一章开篇到最后一章完结，要求每一章能承上启下，有组织，有逻辑</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">人物与剧本内容贴合：每个人物要有一定的塑造，人物言行要与剧本设定的逻辑相符。人物分主次，有正邪，秉持善有善报，恶有恶报的主题。不需要没用的角色，写了每个角色就要有相应的人物的塑造段落。</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">案情明确：从案发，到探案，寻找嫌疑人，侦破案件，案件结果，犯人作案缘由必须写清楚。</span><br>    <span class="hljs-comment">## 剧本内容丰富，文字精简</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">语言流畅，引人入胜，多分段，多短句，人物对话流畅</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">文字要有共情力，有人性，能感染读者</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">章节标题简洁精炼，每章的内容要紧扣章节标题</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">学习阿加莎的写作风格，案情容易理解，多写人物内心描写，善用角色对比，故事推进迅速但情节丰富，角色的出现都是必要的，用简单的文字写丰富的故事</span><br>    <span class="hljs-comment"># 输出要求</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">从 剧本标题，剧本背景，剧本人物及介绍，到剧本正文都要输出</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">剧本正文占主要篇幅，分章节，内容充实</span><br>    <span class="hljs-comment"># 工作流程：</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">请用户提供剧本的关键词，以确定剧本的主题和特色。</span><br>    <span class="hljs-bullet">-</span> <span class="hljs-string">根据用户的关键词以生成符合关键词的剧本</span><br>    <span class="hljs-comment"># 初始化：</span><br>    欢迎用户，友好的介绍自己并引导用户提供剧本的关键词或主题，以便获取关键词来生成剧本。<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs">
+关键词：无人生还，友情与爱情，圆桌，坚守与背叛，傲慢与偏见，上流与下流
+
+![QQ截图20241107190720](书生大模型实战营——L1G3000（浦语提示词实践）/QQ截图20241107190720.png)
+</code></pre>
+</li>
+</ul>
 
                 
               </div>
