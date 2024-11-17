@@ -1,0 +1,826 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Model I&#x2F;O模型的使用过程：输入提示 + 调用模型 + 输出解析   （Model I&#x2F;O）  1. 提示模板具体原则：  给予模型清晰明确的指示 让模型慢慢地思考   提示模板的生成： 12345678910# 导入LangChain中的提示模板from langchain.prompts import PromptTemplate# 创建原始模板template &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="青训营X豆包MarsCode-技术训练营——六大核心组件">
+<meta property="og:url" content="https://wendyflv.github.io/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="Model I&#x2F;O模型的使用过程：输入提示 + 调用模型 + 输出解析   （Model I&#x2F;O）  1. 提示模板具体原则：  给予模型清晰明确的指示 让模型慢慢地思考   提示模板的生成： 12345678910# 导入LangChain中的提示模板from langchain.prompts import PromptTemplate# 创建原始模板template &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241114184240348.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241116180908125.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241116181145311.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241117171132181.png">
+<meta property="article:published_time" content="2024-11-14T10:40:43.000Z">
+<meta property="article:modified_time" content="2024-11-17T09:29:20.578Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241114184240348.png">
+  
+  
+  
+  <title>青训营X豆包MarsCode-技术训练营——六大核心组件 - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="青训营X豆包MarsCode-技术训练营——六大核心组件"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-14 18:40" pubdate>
+          2024年11月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          5.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">青训营X豆包MarsCode-技术训练营——六大核心组件</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Model-I-O"><a href="#Model-I-O" class="headerlink" title="Model I&#x2F;O"></a>Model I&#x2F;O</h1><p>模型的使用过程：输入提示 + 调用模型 + 输出解析   （Model I&#x2F;O）</p>
+<p><img src="/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241114184240348.png" srcset="/img/loading.gif" lazyload alt="image-20241114184240348"></p>
+<h2 id="1-提示模板"><a href="#1-提示模板" class="headerlink" title="1. 提示模板"></a>1. 提示模板</h2><p>具体原则：</p>
+<ol>
+<li>给予模型清晰明确的指示</li>
+<li>让模型慢慢地思考</li>
+</ol>
+<ul>
+<li><p>提示模板的生成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 导入LangChain中的提示模板</span><br><span class="hljs-keyword">from</span> langchain.prompts <span class="hljs-keyword">import</span> PromptTemplate<br><span class="hljs-comment"># 创建原始模板</span><br>template = <span class="hljs-string">&quot;&quot;&quot;您是一位专业的鲜花店文案撰写员。\n</span><br><span class="hljs-string">对于售价为 &#123;price&#125; 元的 &#123;flower_name&#125; ，您能提供一个吸引人的简短描述吗？</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-comment"># 根据原始模板创建LangChain提示模板</span><br>prompt = PromptTemplate.from_template(template) <br><span class="hljs-comment"># 打印LangChain提示模板的内容</span><br><span class="hljs-built_in">print</span>(prompt)<br></code></pre></td></tr></table></figure>
+
+<p>提示模板输出：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">input_variables</span>=[<span class="hljs-string">&#x27;flower_name&#x27;</span>, <span class="hljs-string">&#x27;price&#x27;</span>] <br><span class="hljs-attr">template</span>=<span class="hljs-string">&#x27;您是一位专业的鲜花店文案撰写员。\n\n对于售价为 &#123;price&#125; 元</span><br><span class="hljs-string">的 &#123;flower_name&#125; ，您能提供一个吸引人的简短描述吗？\n&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>“模板”就是一段描述某种鲜花的文本格式，它是一个 f-string，其中有两个变量 {flower_name} 和 {price} 表示花的名称和价格，这两个值是模板里面的占位符，在实际使用模板生成提示时会被具体的值替换。</p>
+</li>
+</ul>
+<h2 id="2-语言模型"><a href="#2-语言模型" class="headerlink" title="2. 语言模型"></a>2. 语言模型</h2><ol>
+<li>大语言模型：Text Model，这些模型将文本字符串作为输入，并返回文本字符串作为输出。</li>
+<li>聊天模型：Chat Model，主要代表Open AI的ChatGPT系列模型。这些模型通常由语言模型支持，但它们的 API 更加结构化。具体来说，这些模型将聊天消息列表作为输入，并返回聊天消息。</li>
+<li>文本嵌入模型：Embedding Model，这些模型将文本作为输入并返回浮点数列表，也就是Embedding。</li>
+</ol>
+<p>下面调用语言模型，让模型帮助我们写文案。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain.prompts <span class="hljs-keyword">import</span> PromptTemplate<br><span class="hljs-keyword">import</span> os <br><span class="hljs-keyword">from</span> langchain_community.llms <span class="hljs-keyword">import</span> HuggingFaceHub<br><br><br>os.environ[<span class="hljs-string">&quot;http_proxy&quot;</span>] = <span class="hljs-string">&quot;http://localhost:7890&quot;</span><br>os.environ[<span class="hljs-string">&quot;https_proxy&quot;</span>] = <span class="hljs-string">&quot;http://localhost:7890&quot;</span><br><br><span class="hljs-comment"># 创建原始模板</span><br>template = <span class="hljs-string">&quot;&quot;&quot;您是一位专业的鲜花店文案撰写员。\n</span><br><span class="hljs-string">对于售价为 &#123;price&#125; 元的 &#123;flower_name&#125; ，您能提供一个吸引人的简短描述吗？</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-comment"># 根据原始模板创建LangChain提示模板</span><br>prompt = PromptTemplate.from_template(template) <br><span class="hljs-comment"># 打印LangChain提示模板的内容</span><br><span class="hljs-built_in">print</span>(prompt) <br><br><span class="hljs-comment"># 创建模型实例</span><br>llm = HuggingFaceHub(repo_id=<span class="hljs-string">&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;</span>, model_kwargs=&#123;<span class="hljs-string">&quot;temperature&quot;</span>: <span class="hljs-number">0.7</span>&#125;)<br><span class="hljs-comment"># 输入提示词</span><br><span class="hljs-built_in">input</span> = prompt.<span class="hljs-built_in">format</span>(flower_name = [<span class="hljs-string">&quot;杏花&quot;</span>], price = <span class="hljs-string">&#x27;30&#x27;</span>)<br><span class="hljs-comment"># 获取模型输出</span><br>output = llm.invoke(<span class="hljs-built_in">input</span>)<br><span class="hljs-built_in">print</span>(output)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">春日里，温柔的杏花轻轻绽放，每一朵都承载着诗意的期盼。选择一束这样的杏花，让春意盎然的气息伴随您的每一天。<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-输出解析"><a href="#3-输出解析" class="headerlink" title="3. 输出解析"></a>3. 输出解析</h2><p>在开发具体应用的过程中，很明显<strong>我们不仅仅需要文字，更多情况下我们需要的是程序能够直接处理的、结构化的数据</strong>。</p>
+<p>下面，我们就通过LangChain的输出解析器来重构程序，让模型有能力生成结构化的回应，同时对其进行解析，直接将解析好的数据存入CSV文档。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain.prompts <span class="hljs-keyword">import</span> PromptTemplate<br><span class="hljs-keyword">import</span> os <br><span class="hljs-keyword">from</span> langchain_community.llms <span class="hljs-keyword">import</span> HuggingFaceHub<br><span class="hljs-keyword">from</span> langchain_huggingface <span class="hljs-keyword">import</span> HuggingFaceEndpoint<br><span class="hljs-keyword">from</span> langchain.output_parsers <span class="hljs-keyword">import</span> StructuredOutputParser, ResponseSchema<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> json<br><br>os.environ[<span class="hljs-string">&quot;HUGGINGFACEHUB_API_TOKEN&quot;</span>] = <span class="hljs-string">&quot;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&quot;</span><br>os.environ[<span class="hljs-string">&quot;http_proxy&quot;</span>] = <span class="hljs-string">&quot;http://localhost:7890&quot;</span><br>os.environ[<span class="hljs-string">&quot;https_proxy&quot;</span>] = <span class="hljs-string">&quot;http://localhost:7890&quot;</span><br><br><span class="hljs-comment"># # 创建原始模板</span><br><span class="hljs-comment"># template = &quot;&quot;&quot;您是一位专业的鲜花店文案撰写员。\n</span><br><span class="hljs-comment"># 对于售价为 &#123;price&#125; 元的 &#123;flower_name&#125; ，您能提供一个吸引人的简短描述吗？</span><br><br><span class="hljs-comment"># &#123;format_instructions&#125;</span><br><span class="hljs-comment"># &quot;&quot;&quot;</span><br><br><br><br><br><span class="hljs-comment"># # 创建模型实例</span><br><span class="hljs-comment"># llm = HuggingFaceHub(repo_id=&quot;bigscience/bloom-1b7&quot;)</span><br><br><span class="hljs-comment"># # 定义我们想要接收的响应模式</span><br><span class="hljs-comment"># response_schemas = [</span><br><span class="hljs-comment">#     ResponseSchema(name = &quot;description&quot;, description = &quot;鲜花的描述文案&quot;),</span><br><span class="hljs-comment">#     ResponseSchema(name = &quot;reason&quot;, description = &quot;问什么要这样写这个文案&quot;),</span><br><span class="hljs-comment"># ]</span><br><span class="hljs-comment"># # 构造输出解析器</span><br><span class="hljs-comment"># output_parse = StructuredOutputParser.from_response_schemas(response_schemas)</span><br><br><span class="hljs-comment"># # 获取格式指示</span><br><span class="hljs-comment"># fromat_instructions = output_parse.get_format_instructions()</span><br><span class="hljs-comment"># # 根据原始模板创建提示，</span><br><span class="hljs-comment"># prompt = PromptTemplate.from_template(template,</span><br><span class="hljs-comment">#                                       partial_variables = &#123;&quot;format_instructions&quot;: fromat_instructions&#125;)</span><br><span class="hljs-comment"># flowers = [&quot;玫瑰&quot;, &quot;康乃馨&quot;, &quot;百合&quot;]</span><br><span class="hljs-comment"># prices = [&quot;50&quot;, &quot;20&quot;, &quot;30&quot;]</span><br><br><br><span class="hljs-comment"># df = pd.DataFrame(columns=[&quot;flower&quot;, &quot;price&quot;, &quot;description&quot;, &quot;reason&quot;])</span><br><br><span class="hljs-comment"># for flower, price in zip(flowers, prices):</span><br><span class="hljs-comment">#     # 根据提示准备模型的输入</span><br><span class="hljs-comment">#     input = prompt.format(flower_name = flower, price  = price)</span><br><span class="hljs-comment">#     # 获取输出</span><br><span class="hljs-comment">#     output = llm.invoke(input)</span><br><span class="hljs-comment">#     print(output)</span><br><br><span class="hljs-comment">#     print(type(output))</span><br>    <br><span class="hljs-comment">#     # 解析输出</span><br><span class="hljs-comment">#     parsed_output = output_parse.parse(output)</span><br><br><span class="hljs-comment">#     # 在解析后的输出中添加 &quot;flower&quot; &quot;price&quot;</span><br><span class="hljs-comment">#     parsed_output[&quot;flower&quot;] = flower</span><br><span class="hljs-comment">#     parsed_output[&quot;price&quot;]  = price</span><br><br><span class="hljs-comment">#     # 把解析后的输出添加到df中</span><br><span class="hljs-comment">#     df.loc[len(df)] = parsed_output</span><br><br><br><br><span class="hljs-comment"># print(df.to_dict(orient=&#x27;records&#x27;))</span><br><span class="hljs-comment"># # 保存DataFrame到CSV文件</span><br><span class="hljs-comment"># df.to_csv(&quot;flowers_with_descriptions.csv&quot;, index=False)</span><br><br><span class="hljs-comment"># 创建提示模板</span><br>prompt_template = <span class="hljs-string">&quot;&quot;&quot;您是一位专业的鲜花店文案撰写员。</span><br><span class="hljs-string">对于售价为 &#123;price&#125; 元的 &#123;flower_name&#125; ，您能提供一个吸引人的简短描述吗？</span><br><span class="hljs-string">output只需要回复一个json格式的数据即可</span><br><span class="hljs-string">&#123;format_instructions&#125;&quot;&quot;&quot;</span><br><br><br><span class="hljs-comment"># 创建模型实例</span><br><span class="hljs-comment"># model = OpenAI(model_name=&#x27;gpt-3.5-turbo-instruct&#x27;)</span><br>model = HuggingFaceEndpoint(repo_id=<span class="hljs-string">&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;</span>)<br><br><span class="hljs-comment"># 定义我们想要接收的响应模式</span><br>response_schemas = [<br>    ResponseSchema(name=<span class="hljs-string">&quot;description&quot;</span>, description=<span class="hljs-string">&quot;鲜花的描述文案&quot;</span>),<br>    ResponseSchema(name=<span class="hljs-string">&quot;reason&quot;</span>, description=<span class="hljs-string">&quot;问什么要这样写这个文案&quot;</span>),<br>]<br><span class="hljs-comment"># 创建输出解析器</span><br>output_parser = StructuredOutputParser.from_response_schemas(response_schemas)<br><br><span class="hljs-comment"># 获取格式指示</span><br>format_instructions = output_parser.get_format_instructions()<br><span class="hljs-comment"># 根据模板创建提示，同时在提示中加入输出解析器的说明</span><br>prompt = PromptTemplate.from_template(<br>    prompt_template, partial_variables=&#123;<span class="hljs-string">&quot;format_instructions&quot;</span>: format_instructions&#125;<br>)<br><br><span class="hljs-comment"># 数据准备</span><br>flowers = [<span class="hljs-string">&quot;玫瑰&quot;</span>, <span class="hljs-string">&quot;百合&quot;</span>, <span class="hljs-string">&quot;康乃馨&quot;</span>]<br>prices = [<span class="hljs-string">&quot;50&quot;</span>, <span class="hljs-string">&quot;30&quot;</span>, <span class="hljs-string">&quot;20&quot;</span>]<br><br><span class="hljs-comment"># 创建一个空的DataFrame用于存储结果</span><br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><br>df = pd.DataFrame(columns=[<span class="hljs-string">&quot;flower&quot;</span>, <span class="hljs-string">&quot;price&quot;</span>, <span class="hljs-string">&quot;description&quot;</span>, <span class="hljs-string">&quot;reason&quot;</span>])  <span class="hljs-comment"># 先声明列名</span><br><br><span class="hljs-keyword">for</span> flower, price <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(flowers, prices):<br>    <span class="hljs-comment"># 根据提示准备模型的输入</span><br>    <span class="hljs-built_in">input</span> = prompt.<span class="hljs-built_in">format</span>(flower_name=flower, price=price)<br><br>    <span class="hljs-comment"># 获取模型的输出</span><br>    output = model.invoke(<span class="hljs-built_in">input</span>)<br>    <span class="hljs-built_in">print</span>(output)<br>    <br>    <span class="hljs-comment"># 解析模型的输出（这是一个字典结构）</span><br>    parsed_output = output_parser.parse(output)<br><br>    <span class="hljs-comment"># 在解析后的输出中添加“flower”和“price”</span><br>    parsed_output[<span class="hljs-string">&quot;flower&quot;</span>] = flower<br>    parsed_output[<span class="hljs-string">&quot;price&quot;</span>] = price<br><br>    <span class="hljs-comment"># 将解析后的输出添加到DataFrame中</span><br>    df.loc[<span class="hljs-built_in">len</span>(df)] = parsed_output<br><br><span class="hljs-comment"># 打印字典</span><br><span class="hljs-built_in">print</span>(df.to_dict(orient=<span class="hljs-string">&quot;records&quot;</span>))<br><br><span class="hljs-comment"># 保存DataFrame到CSV文件</span><br>df.to_csv(<span class="hljs-string">&quot;flowers_with_descriptions.csv&quot;</span>, index=<span class="hljs-literal">False</span>)<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scheme">[&#123;<span class="hljs-symbol">&#x27;flower</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;玫瑰</span>&#x27;, <span class="hljs-symbol">&#x27;price</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;50</span>&#x27;, <span class="hljs-symbol">&#x27;description</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;这束由精选玫瑰打造的浪漫之作，不仅承载着无尽的爱意，更散发着迷人的香气，每一朵都如同精心雕琢的艺术品，定能让您的爱意传递得更加</span><br>深情。&#x27;, <span class="hljs-symbol">&#x27;reason</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;通过强调玫瑰的精选与艺术品般的特质，能够激发顾客对鲜花质量的关注，同时，提到无尽爱意和迷人香气，则能够触动顾客的情感，增加购买的欲望。</span>&#x27;&#125;,<br>&#123;<span class="hljs-symbol">&#x27;flower</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;百合</span>&#x27;, <span class="hljs-symbol">&#x27;price</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;30</span>&#x27;, <span class="hljs-symbol">&#x27;description</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;优雅绽放，30元即可将这束纯洁的百合带回家，为您的空间增添一抹宁静与高雅。</span>&#x27;, <span class="hljs-symbol">&#x27;reason</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;百合象征着纯洁与高雅，使用这些词汇可以吸引追求品质生活的顾客。</span><br>价格明确，让消费者一目了然，增加购买意愿。&#x27;&#125;,<br>&#123;<span class="hljs-symbol">&#x27;flower</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;康乃馨</span>&#x27;, <span class="hljs-symbol">&#x27;price</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;20</span>&#x27;, <span class="hljs-symbol">&#x27;description</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;每朵康乃馨都承载着温柔的祝福，它们不仅色彩丰富，更蕴含着深深的情感。以20元的价格</span><br>，让这份温馨与爱意轻松送达。&#x27;, <span class="hljs-symbol">&#x27;reason</span><span class="hljs-symbol">&#x27;:</span> <span class="hljs-symbol">&#x27;通过描述康乃馨的温柔与情感，能够吸引那些寻求表达情感的顾客。同时，提到价格，使顾客觉得这份情感的表达既贴心又经济实惠，增加购买欲望。</span>&#x27;&#125;] <br></code></pre></td></tr></table></figure>
+
+<p>首先定义输出结构，我们希望模型生成的答案包含两部分：鲜花的描述文案（description）和撰写这个文案的原因（reason）。所以我们定义了一个名为response_schemas的列表，其中包含两个ResponseSchema对象，分别对应这两部分的输出。</p>
+<p>然后，我们通过输出解析器对象的get_format_instructions()方法获取输出的格式说明（format_instructions），再根据原始的字符串模板和输出解析器格式说明创建新的提示模板（这个模板就整合了输出解析结构信息）。再通过新的模板生成模型的输入，得到模型的输出。此时模型的输出结构将尽最大可能遵循我们的指示，以便于输出解析器进行解析。</p>
+<h1 id="提示工程"><a href="#提示工程" class="headerlink" title="提示工程"></a>提示工程</h1><h2 id="1-提示的结构"><a href="#1-提示的结构" class="headerlink" title="1. 提示的结构"></a>1. 提示的结构</h2><p><img src="/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241116180908125.png" srcset="/img/loading.gif" lazyload alt="image-20241116180908125"></p>
+<ul>
+<li>指令：告诉模型这个任务大概要做什么、怎么做，比如如何使用提供的外部信息、如何处理查询以及如何构造输出。这通常是一个提示模板中比较固定的部分。一个常见用例是告诉模型“你是一个有用的XX助手”，这会让他更认真地对待自己的角色。</li>
+<li>上下文：充当模型的额外知识来源。这些信息可以手动插入到提示中，通过矢量数据库检索得来，或通过其他方式（如调用API、计算器等工具）拉入。一个常见的用例时是把从向量数据库查询到的知识作为上下文传递给模型。</li>
+<li>提示输入：具体的问题或者需要大模型做的具体事情，这个部分和“指令”部分其实也可以合二为一。但是拆分出来成为一个独立的组件，就更加结构化，便于复用模板。这通常是作为变量，在调用模型之前传递给提示模板，以形成具体的提示。</li>
+<li>输出指示器：标记要生成的文本的开始。这就像我们小时候的数学考卷，先写一个“解”，就代表你要开始答题了。如果生成 Python 代码，可以使用 “import” 向模型表明它必须开始编写 Python 代码（因为大多数 Python 脚本以import开头）。这部分在我们和ChatGPT对话时往往是可有可无的，当然LangChain中的代理在构建提示模板时，经常性的会用一个“Thought：”（思考）作为引导词，指示模型开始输出自己的推理（Reasoning）。</li>
+</ul>
+<h2 id="2-LangChain-提示模板的类型"><a href="#2-LangChain-提示模板的类型" class="headerlink" title="2. LangChain 提示模板的类型"></a>2. LangChain 提示模板的类型</h2><p><img src="/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241116181145311.png" srcset="/img/loading.gif" lazyload alt="image-20241116181145311"></p>
+<h3 id="2-1-使用-PromptTemplate"><a href="#2-1-使用-PromptTemplate" class="headerlink" title="2.1 使用 PromptTemplate"></a>2.1 使用 PromptTemplate</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain <span class="hljs-keyword">import</span> PromptTemplate<br><br>template = <span class="hljs-string">&quot;&quot;&quot;\</span><br><span class="hljs-string">你是一个业务咨询顾问。</span><br><span class="hljs-string">你给一个销售&#123;product&#125;的电商公司，其一个好名字？</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br>prompt = PromptTemplate.from_template(template)<br><br><span class="hljs-built_in">print</span>(prompt.<span class="hljs-built_in">format</span>(product = <span class="hljs-string">&quot;鲜花&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">你是一个业务咨询顾问。<br>你给一个销售鲜花的电商公司，其一个好名字？<br></code></pre></td></tr></table></figure>
+
+<p>这个程序的主要功能是生成适用于不同场景的提示，对用户定义的一种产品或服务提供公司命名建议。</p>
+<p>PromptTemplate的from_template方法，我们创建了一个提示模板对象，并通过prompt.format方法将模板中的 {product} 替换为 <code>&quot;鲜花&quot;</code>。</p>
+<p>在上面这个过程中，LangChain中的模板的一个方便之处是from_template方法可以从传入的字符串中自动提取变量名称（如product），而无需刻意指定。<strong>上面程序中的product自动成为了format方法中的一个参数</strong>。</p>
+<p>当然，也可以通过提示模板类的构造函数，在创建模板时手工指定input_variables，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># method2: 直接在创建模板时手工指定input_variables</span><br>prompt = PromptTemplate(<br>    input_variables = [<span class="hljs-string">&quot;product&quot;</span>],<br>    template = template<br>)<br><span class="hljs-built_in">print</span>(prompt.<span class="hljs-built_in">format</span>(product = <span class="hljs-string">&quot;鲜花&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-使用-ChatPromptTemplate"><a href="#2-2-使用-ChatPromptTemplate" class="headerlink" title="2.2 使用 ChatPromptTemplate"></a>2.2 使用 ChatPromptTemplate</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 导入聊天消息类模板</span><br><span class="hljs-keyword">from</span> langchain.prompts <span class="hljs-keyword">import</span> (<br>    ChatPromptTemplate,<br>    SystemMessagePromptTemplate,<br>    HumanMessagePromptTemplate,<br>)<br><span class="hljs-comment"># 模板的构建</span><br>template=<span class="hljs-string">&quot;你是一位专业顾问，负责为专注于&#123;product&#125;的公司起名。&quot;</span><br>system_message_prompt = SystemMessagePromptTemplate.from_template(template)<br>human_template=<span class="hljs-string">&quot;公司主打产品是&#123;product_detail&#125;。&quot;</span><br>human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)<br>prompt_template = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])<br><br><span class="hljs-comment"># 格式化提示消息生成提示</span><br>prompt = prompt_template.format_prompt(product=<span class="hljs-string">&quot;鲜花装饰&quot;</span>, product_detail=<span class="hljs-string">&quot;创新的鲜花设计。&quot;</span>).to_messages()<br><br><span class="hljs-comment"># 下面调用模型，把提示传入模型，生成结果</span><br><span class="hljs-keyword">import</span> os<br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&#x27;你的OpenAI Key&#x27;</span><br><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> ChatOpenAI<br>chat = ChatOpenAI()<br>result = chat(prompt)<br><span class="hljs-built_in">print</span>(result)<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-FewShot的思想"><a href="#3-FewShot的思想" class="headerlink" title="3. FewShot的思想"></a>3. FewShot的思想</h2><p>把Zero-Shot翻译为“顿悟”，聪明的大模型，某些情况下也是能够做到的。</p>
+<ul>
+<li>在Few-Shot学习设置中，模型会被给予几个示例，以帮助模型理解任务，并生成正确的响应。</li>
+<li>在Zero-Shot学习设置中，模型只根据任务的描述生成响应，不需要任何示例。</li>
+</ul>
+<h3 id="3-1-FewShotPromptTemplate"><a href="#3-1-FewShotPromptTemplate" class="headerlink" title="3.1 FewShotPromptTemplate"></a>3.1 FewShotPromptTemplate</h3><p>使用FewShotPromptTemplate创建模板，能够使用多个示例来指导模型生成对应的输出。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 1. 创建一些示例</span><br>samples = [<br>    &#123;<br>        <span class="hljs-string">&quot;flower_type&quot;</span>: <span class="hljs-string">&quot;玫瑰&quot;</span>,<br>        <span class="hljs-string">&quot;occasion&quot;</span>: <span class="hljs-string">&quot;爱情&quot;</span>,<br>        <span class="hljs-string">&quot;ad_copy&quot;</span>: <span class="hljs-string">&quot;玫瑰，浪漫的象征，是你向心爱的人表达爱意的最佳选择。&quot;</span>,<br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;flower_type&quot;</span>: <span class="hljs-string">&quot;康乃馨&quot;</span>,<br>        <span class="hljs-string">&quot;occasion&quot;</span>: <span class="hljs-string">&quot;母亲节&quot;</span>,<br>        <span class="hljs-string">&quot;ad_copy&quot;</span>: <span class="hljs-string">&quot;康乃馨代表着母爱的纯洁与伟大，是母亲节赠送给母亲的完美礼物。&quot;</span>,<br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;flower_type&quot;</span>: <span class="hljs-string">&quot;百合&quot;</span>,<br>        <span class="hljs-string">&quot;occasion&quot;</span>: <span class="hljs-string">&quot;庆祝&quot;</span>,<br>        <span class="hljs-string">&quot;ad_copy&quot;</span>: <span class="hljs-string">&quot;百合象征着纯洁与高雅，是你庆祝特殊时刻的理想选择。&quot;</span>,<br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;flower_type&quot;</span>: <span class="hljs-string">&quot;向日葵&quot;</span>,<br>        <span class="hljs-string">&quot;occasion&quot;</span>: <span class="hljs-string">&quot;鼓励&quot;</span>,<br>        <span class="hljs-string">&quot;ad_copy&quot;</span>: <span class="hljs-string">&quot;向日葵象征着坚韧和乐观，是你鼓励亲朋好友的最好方式。&quot;</span>,<br>    &#125;,<br>]<br><br><span class="hljs-keyword">from</span> langchain.prompts.prompt <span class="hljs-keyword">import</span> PromptTemplate<br>template=<span class="hljs-string">&quot;鲜花类型: &#123;flower_type&#125;\n场合: &#123;occasion&#125;\n文案: &#123;ad_copy&#125;&quot;</span><br>prompt_sample = PromptTemplate(input_variables = [<span class="hljs-string">&quot;flower_type&quot;</span>, <span class="hljs-string">&quot;occasion&quot;</span>, <span class="hljs-string">&quot;ad_copy&quot;</span>] ,<br>                               template = template)<br><span class="hljs-built_in">print</span>(prompt_sample.<span class="hljs-built_in">format</span>(**samples[<span class="hljs-number">0</span>]))<br><br><span class="hljs-comment"># FewShotPromptTemplate对a象</span><br><span class="hljs-keyword">from</span> langchain.prompts.few_shot <span class="hljs-keyword">import</span> FewShotPromptTemplate<br>prompt = FewShotPromptTemplate(<br>    examples = samples,<br>    example_prompt = prompt_sample,<br>    suffix = <span class="hljs-string">&quot;鲜花类型: &#123;flower_type&#125;\n场合: &#123;occasion&#125;&quot;</span>,<br>    input_variables = [<span class="hljs-string">&quot;flower_type&quot;</span>, <span class="hljs-string">&quot;occasion&quot;</span>]<br>)<br><span class="hljs-built_in">print</span>(prompt.<span class="hljs-built_in">format</span>(flower_type=<span class="hljs-string">&quot;野玫瑰&quot;</span>, occasion=<span class="hljs-string">&quot;爱情&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>使用大模型创建新文案：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain_huggingface <span class="hljs-keyword">import</span> HuggingFaceEndpoint<br>chat = HuggingFaceEndpoint(repo_id=<span class="hljs-string">&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;</span>)<br>result = chat.invoke(prompt.<span class="hljs-built_in">format</span>(flower_type=<span class="hljs-string">&quot;野玫瑰&quot;</span>, occasion=<span class="hljs-string">&quot;爱情&quot;</span>))<br><span class="hljs-built_in">print</span>(result)<br><br></code></pre></td></tr></table></figure>
+
+<p>文案: 野玫瑰虽然没有温室玫瑰那样娇艳，但它代表着自然的爱情，是送给爱人的一份惊喜。</p>
+<h3 id="3-2-使用示例选择器"><a href="#3-2-使用示例选择器" class="headerlink" title="3.2 使用示例选择器"></a>3.2 使用示例选择器</h3><p>示例选择器：来选择最合适的样本。</p>
+<p>SemanticSimilarityExampleSelector对象，这个对象可以根据语义相似性选择最相关的示例。然后，它创建了一个新的FewShotPromptTemplate对象，这个对象使用了上一步创建的选择器来选择最相关的示例生成提示。</p>
+<p>示例选择器example_selector会根据语义的相似度（余弦相似度）找到最相似的示例，也就是“玫瑰”，并用这个示例构建了FewShot模板。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> langchain.prompts.example_selector <span class="hljs-keyword">import</span> SemanticSimilarityExampleSelector<br><span class="hljs-keyword">from</span> langchain.vectorstores <span class="hljs-keyword">import</span> Chroma<br><span class="hljs-keyword">from</span> langchain.embeddings <span class="hljs-keyword">import</span> HuggingFaceEmbeddings<br><br><span class="hljs-comment"># 初始化示例选择器</span><br>example_selector = SemanticSimilarityExampleSelector.from_examples(<br>    samples,<br>    HuggingFaceEmbeddings(),<br>    Chroma,<br>    k=<span class="hljs-number">1</span>,<br>)<br>prompt = FewShotPromptTemplate(<br>    example_selector=example_selector, <br>    example_prompt=prompt_sample, <br>    suffix=<span class="hljs-string">&quot;鲜花类型: &#123;flower_type&#125;\n场合: &#123;occasion&#125;&quot;</span>, <br>    input_variables=[<span class="hljs-string">&quot;flower_type&quot;</span>, <span class="hljs-string">&quot;occasion&quot;</span>]<br>)<br><span class="hljs-built_in">print</span>(prompt.<span class="hljs-built_in">format</span>(flower_type=<span class="hljs-string">&quot;红玫瑰&quot;</span>, occasion=<span class="hljs-string">&quot;爱情&quot;</span>))<br>result = chat.invoke(prompt.<span class="hljs-built_in">format</span>(flower_type=<span class="hljs-string">&quot;野玫瑰&quot;</span>, occasion=<span class="hljs-string">&quot;爱情&quot;</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;--------------------&quot;</span>)<br><span class="hljs-built_in">print</span>(result)<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-CoT"><a href="#3-CoT" class="headerlink" title="3. CoT"></a>3. CoT</h2><p>CoT这个概念来源于学术界，是谷歌大脑的Jason Wei等人于2022年在论文《<a href="https://link.juejin.cn/?target=https://proceedings.neurips.cc/paper_files/paper/2022/file/9d5609613524ecf4f15af0f7b31abca4-Paper-Conference.pdf">Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</a>（自我一致性提升了语言模型中的思维链推理能力）》中提出来的概念。它提出，如果生成一系列的中间推理步骤，就能够显著提高大型语言模型进行复杂推理的能力。</p>
+<h3 id="3-1-Few-shot-CoT"><a href="#3-1-Few-shot-CoT" class="headerlink" title="3.1 Few-shot CoT"></a>3.1 Few-shot CoT</h3><p>简单的在提示中提供了一些链式思考示例（Chain-of-Thought Prompting），足够大的语言模型的推理能力就能够被增强。简单说，就是给出一两个示例，然后在示例中写清楚推导的过程。</p>
+<p>整体上，思维链引导AI从理解问题，到搜索信息，再到制定决策，最后生成销售列表。这种方法不仅使AI的推理过程更加清晰，也使得生成的销售列表更加符合用户的需求。具体到每一个步骤，也可以通过思维链来设计更为详细的提示模板，来引导模型每一步的思考都遵循清晰准确的逻辑。</p>
+<h3 id="3-2-Zero-Shot-CoT"><a href="#3-2-Zero-Shot-CoT" class="headerlink" title="3.2 Zero-Shot CoT"></a>3.2 Zero-Shot CoT</h3><p>在Zero-Shot CoT中，你只要简单地告诉模型“<strong>让我们*<em>**一步步的思考**</em>*（Let’s think step by step）</strong>”，模型就能够给出更好的答案！</p>
+<h3 id="3-3-CoT实战"><a href="#3-3-CoT实战" class="headerlink" title="3.3 CoT实战"></a>3.3 CoT实战</h3><p><strong>项目需求</strong>：在这个示例中，你正在开发一个AI运营助手，我们要展示AI如何根据用户的需求推理和生成答案。然后，AI根据当前的用户请求进行推理，提供了具体的花卉建议并解释了为什么选择这些建议。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-keyword">import</span> os<br>os.environ[<span class="hljs-string">&quot;HUGGINGFACEHUB_API_TOKEN&quot;</span>] = <span class="hljs-string">&quot;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&quot;</span><br>os.environ[<span class="hljs-string">&quot;http_proxy&quot;</span>] = <span class="hljs-string">&quot;http://localhost:7890&quot;</span><br>os.environ[<span class="hljs-string">&quot;https_proxy&quot;</span>] = <span class="hljs-string">&quot;http://localhost:7890&quot;</span><br><br><span class="hljs-keyword">from</span> langchain_huggingface <span class="hljs-keyword">import</span> HuggingFaceEndpoint<br>chat = HuggingFaceEndpoint(repo_id=<span class="hljs-string">&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;</span>)<br><br><span class="hljs-comment"># 设定 AI 的角色和目标</span><br>role_template = <span class="hljs-string">&quot;你是一个为花店电商公司工作的AI助手, 你的目标是帮助客户根据他们的喜好做出明智的决定&quot;</span><br><br><span class="hljs-comment"># AI解释推理过程，并加入先前的对话示例</span><br>cot_template = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">作为一个为花店电商公司工作的AI助手，我的目标是帮助客户根据他们的喜好做出明智的决定。 </span><br><span class="hljs-string"></span><br><span class="hljs-string">我会按部就班的思考，先理解客户的需求，然后考虑各种鲜花的涵义，最后根据这个需求，给出我的推荐。</span><br><span class="hljs-string">同时，我也会向客户解释我这样推荐的原因。</span><br><span class="hljs-string"></span><br><span class="hljs-string">示例 1:</span><br><span class="hljs-string">  人类：我想找一种象征爱情的花。</span><br><span class="hljs-string">  AI：首先，我理解你正在寻找一种可以象征爱情的花。在许多文化中，红玫瑰被视为爱情的象征，这是因为它们的红色通常与热情和浓烈的感情联系在一起。因此，考虑到这一点，我会推荐红玫瑰。红玫瑰不仅能够象征爱情，同时也可以传达出强烈的感情，这是你在寻找的。</span><br><span class="hljs-string"></span><br><span class="hljs-string">示例 2:</span><br><span class="hljs-string">  人类：我想要一些独特和奇特的花。</span><br><span class="hljs-string">  AI：从你的需求中，我理解你想要的是独一无二和引人注目的花朵。兰花是一种非常独特并且颜色鲜艳的花，它们在世界上的许多地方都被视为奢侈品和美的象征。因此，我建议你考虑兰花。选择兰花可以满足你对独特和奇特的要求，而且，兰花的美丽和它们所代表的力量和奢侈也可能会吸引你。</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><br><span class="hljs-keyword">from</span> langchain.prompts <span class="hljs-keyword">import</span> ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate<br>system_prompt_role = SystemMessagePromptTemplate.from_template(role_template)<br>system_prompt_cot = SystemMessagePromptTemplate.from_template(cot_template)<br><br><br>human_template = <span class="hljs-string">&quot;&#123;human_input&#125;&quot;</span><br>human_prompt = HumanMessagePromptTemplate.from_template(human_template)<br><br>chat_prompt = ChatPromptTemplate.from_messages([system_prompt_role, system_prompt_cot, human_prompt])<br>prompt = chat_prompt.format_prompt(human_input=<span class="hljs-string">&quot;我想为我的女朋友购买一些花。她喜欢粉色和紫色。你有什么建议吗?&quot;</span>).to_messages()<br><br><span class="hljs-comment"># 接收用户的询问，返回回答结果</span><br>response = chat.invoke(prompt)<br><span class="hljs-built_in">print</span>(response)<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs markdown">baby: 我想为我的女朋友购买一些花。她喜欢粉色和紫色。你有什么建议吗?<br> AI: 当然可以！根据你提供的信息，你的女朋友喜欢粉色和紫色。在这些颜色中，有很多花可以选择，每种花都有它独特的意义和美感。以下是我为你准备的一些推荐：<br><br><span class="hljs-bullet">1.</span> <span class="hljs-strong">**粉玫瑰和紫玫瑰**</span>：玫瑰是爱情的象征，而粉色和紫色玫瑰分别代表甜美、温柔的爱情和优雅、神秘的爱情。将这两种颜色的玫瑰混合在一起，可以传达出你对她既有温柔又充满神秘感的感情。   <br><br><span class="hljs-bullet">2.</span> <span class="hljs-strong">**紫罗兰**</span>：紫罗兰代表谦逊和纯真，同时也带有神秘的色彩。它们的紫色花瓣非常美丽，可以很好地融入你的主题颜色中。<br><br><span class="hljs-bullet">3.</span> <span class="hljs-strong">**粉绣球花**</span>：绣球花代表纯真和无辜，粉色绣球花则增添了一丝温柔和浪漫的感觉。它们的球形花朵非常独特，能够吸引人的眼球。<br><br><span class="hljs-bullet">4.</span> <span class="hljs-strong">**紫风铃草**</span>：紫风铃草象征着永恒的爱情和友谊，它们的紫色小花在微风中轻轻摇曳，营造出梦幻般的氛围。<br><br><span class="hljs-bullet">5.</span> <span class="hljs-strong">**粉蝴蝶兰**</span>：蝴蝶兰以其优雅的姿态和美丽的花朵而闻名。粉色蝴蝶兰既有高贵的气质，又不失温柔，非常适合用作装饰和礼物。<br><br>将这些花混合在一起，你可以为你的女朋友打造一个既浪漫又充满个性的花束，相信她会非常喜欢的。<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-4-Tree-of-Thought"><a href="#3-4-Tree-of-Thought" class="headerlink" title="3.4 Tree of Thought"></a>3.4 Tree of Thought</h3><p>思维树（Tree of Thoughts，ToT）框架，该框架基于思维链提示进行了总结，引导语言模型探索把思维作为中间步骤来解决通用问题。</p>
+<p>在需要多步骤推理的任务中，引导语言模型搜索一棵由连贯的语言序列（解决问题的中间步骤）组成的思维树，而不是简单地生成一个答案。ToT框架的核心思想是：让模型生成和评估其思维的能力，并将其与搜索算法（如广度优先搜索和深度优先搜索）结合起来，进行系统性地探索和验证。</p>
+<p><img src="/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/image-20241117171132181.png" srcset="/img/loading.gif" lazyload alt="image-20241117171132181"></p>
+<p>ToT 框架为每个任务定义具体的思维步骤和每个步骤的候选项数量。例如，要解决一个数学推理任务，先把它分解为3个思维步骤，</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs">假设一个顾客在鲜花网站上询问：“我想为我的妻子购买一束鲜花，但我不确定应该选择哪种鲜花。她喜欢淡雅的颜色和花香。”  <br><br>AI（使用ToT框架）：  <br><br>思维步骤1：理解顾客的需求。<br><br>顾客想为妻子购买鲜花。<br><br>顾客的妻子喜欢淡雅的颜色和花香。  <br><br>思维步骤2：考虑可能的鲜花选择。<br><br>候选1：百合，因为它有淡雅的颜色和花香。<br><br>候选2：玫瑰，选择淡粉色或白色，它们通常有花香。<br><br>候选3：紫罗兰，它有淡雅的颜色和花香。<br><br>候选4：桔梗，它的颜色淡雅但不一定有花香。<br><br>候选5：康乃馨，选择淡色系列，它们有淡雅的花香。  <br><br>思维步骤3：根据顾客的需求筛选最佳选择。<br><br>百合和紫罗兰都符合顾客的需求，因为它们都有淡雅的颜色和花香。<br><br>淡粉色或白色的玫瑰也是一个不错的选择。<br><br>桔梗可能不是最佳选择，因为它可能没有花香。<br><br>康乃馨是一个可考虑的选择。  <br><br>思维步骤4：给出建议。<br><br>“考虑到您妻子喜欢淡雅的颜色和花香，我建议您可以选择百合或紫罗兰。淡粉色或白色的玫瑰也是一个很好的选择。希望这些建议能帮助您做出决策！”<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>青训营X豆包MarsCode-技术训练营——六大核心组件</div>
+      <div>https://wendyflv.github.io/2024/11/14/青训营X豆包MarsCode-技术训练营——六大核心组件/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/" title="书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/07/JAVAWeb%E2%80%94%E2%80%94Web%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="JAVAWeb——Web的基本概念">
+                        <span class="hidden-mobile">JAVAWeb——Web的基本概念</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

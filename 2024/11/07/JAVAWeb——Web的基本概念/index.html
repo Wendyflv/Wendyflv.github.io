@@ -16,30 +16,23 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="书生大模型InternLM 主要由上海人工智能实验室开发。通过不断开源高质量的 LLM 以及用于开发和应用的全栈工具链。 模型：InternLM（多语言基础的聊天模型）、InternLM-Math（双语数学模型）、InternLM-XComposer（视觉语言大模型） 工具链：InternEvo（预训练和微调的轻量级框架）、XTuner（高效微调LLM工具包）、LMDeploy（压缩、部署、提供L">
+    <meta name="description" content="1. 基本概念Web开发：  Web：网页的意思 分类： 静态Web：如html css，提供给所有人看的数据始终不变 动态Web：提供给所有人看的数据都不一样，如Servlet&#x2F;ISP,ASP,PHP。   JAVA中，动态web资源开发的技术统称为javaweb  1.2 Web应用程序Web应用程序：可以提供浏览器访问的程序  a.html， b.html 等多个web资源，这些w">
 <meta property="og:type" content="article">
-<meta property="og:title" content="书生大模型实战营——L1G1000（书生大模型全链路开源体系）">
-<meta property="og:url" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/index.html">
+<meta property="og:title" content="JAVAWeb——Web的基本概念">
+<meta property="og:url" content="https://wendyflv.github.io/2024/11/07/JAVAWeb%E2%80%94%E2%80%94Web%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="书生大模型InternLM 主要由上海人工智能实验室开发。通过不断开源高质量的 LLM 以及用于开发和应用的全栈工具链。 模型：InternLM（多语言基础的聊天模型）、InternLM-Math（双语数学模型）、InternLM-XComposer（视觉语言大模型） 工具链：InternEvo（预训练和微调的轻量级框架）、XTuner（高效微调LLM工具包）、LMDeploy（压缩、部署、提供L">
+<meta property="og:description" content="1. 基本概念Web开发：  Web：网页的意思 分类： 静态Web：如html css，提供给所有人看的数据始终不变 动态Web：提供给所有人看的数据都不一样，如Servlet&#x2F;ISP,ASP,PHP。   JAVA中，动态web资源开发的技术统称为javaweb  1.2 Web应用程序Web应用程序：可以提供浏览器访问的程序  a.html， b.html 等多个web资源，这些w">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174109364.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174705450.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174902486.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175103714.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175156057.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175242229.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175319974.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175423765.png">
-<meta property="article:published_time" content="2024-11-07T09:23:54.000Z">
-<meta property="article:modified_time" content="2024-11-07T09:55:18.698Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/07/JAVAWeb%E2%80%94%E2%80%94Web%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20241116212213835.png">
+<meta property="article:published_time" content="2024-11-07T12:09:06.000Z">
+<meta property="article:modified_time" content="2024-11-16T13:42:44.549Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174109364.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/11/07/JAVAWeb%E2%80%94%E2%80%94Web%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20241116212213835.png">
   
   
   
-  <title>书生大模型实战营——L1G1000（书生大模型全链路开源体系） - Wendyflv的博客</title>
+  <title>JAVAWeb——Web的基本概念 - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -263,7 +256,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="书生大模型实战营——L1G1000（书生大模型全链路开源体系）"></span>
+            <span id="subtitle" data-typed-text="JAVAWeb——Web的基本概念"></span>
           
         </div>
 
@@ -274,8 +267,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-07 17:23" pubdate>
-          2024年11月7日 下午
+        <time datetime="2024-11-07 20:09" pubdate>
+          2024年11月7日 晚上
         </time>
       </span>
     
@@ -287,7 +280,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          634 字
+          714 字
         
       </span>
     
@@ -336,51 +329,106 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">书生大模型实战营——L1G1000（书生大模型全链路开源体系）</h1>
+            <h1 id="seo-header">JAVAWeb——Web的基本概念</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="书生大模型"><a href="#书生大模型" class="headerlink" title="书生大模型"></a>书生大模型</h1><p>InternLM 主要由上海人工智能实验室开发。通过不断开源高质量的 LLM 以及用于开发和应用的全栈工具链。</p>
-<p><strong>模型</strong>：InternLM（多语言基础的聊天模型）、InternLM-Math（双语数学模型）、InternLM-XComposer（视觉语言大模型）</p>
-<p><strong>工具链</strong>：InternEvo（预训练和微调的轻量级框架）、XTuner（高效微调LLM工具包）、LMDeploy（压缩、部署、提供LLM的工具包）、Lagent（轻量级框架，允许用户高效构建基于LLM的代理）、AgentLego、OpenCompass、OpenAOE。</p>
-<p><strong>应用</strong>：<a target="_blank" rel="noopener" href="https://github.com/InternLM/HuixiangDou">HuixiangDou</a>：基于 LLM 的领域专属助手，可以处理群聊中复杂的技术问题、<a target="_blank" rel="noopener" href="https://github.com/InternLM/MindSearch">MindSearch</a>：一个基于 LLM 的网络搜索引擎多代理框架。</p>
+                <h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h1><p>Web开发：</p>
+<ul>
+<li>Web：网页的意思</li>
+<li>分类：<ul>
+<li>静态Web：如html css，提供给所有人看的数据始终不变</li>
+<li>动态Web：提供给所有人看的数据都不一样，如Servlet&#x2F;ISP,ASP,PHP。</li>
+</ul>
+</li>
+<li>JAVA中，动态web资源开发的技术统称为javaweb</li>
+</ul>
+<h2 id="1-2-Web应用程序"><a href="#1-2-Web应用程序" class="headerlink" title="1.2 Web应用程序"></a>1.2 Web应用程序</h2><p>Web应用程序：可以提供浏览器访问的程序</p>
+<ul>
+<li>a.html， b.html 等多个web资源，这些web资源可以被外界访问，为外界资源提供服务</li>
+<li>一个web应用程序由多个部分组成<ul>
+<li>html css js</li>
+<li>jsp servlet</li>
+<li>java应用程序</li>
+<li>jar包</li>
+<li>配置文件(properities)</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-静态Web"><a href="#1-3-静态Web" class="headerlink" title="1.3 静态Web"></a>1.3 静态Web</h2><ul>
+<li>*.htm *.html都是网页的后缀，如果服务器上存在这些，就可以进行读取。</li>
+<li>缺点<ul>
+<li>无法动态更新，所有用户看到的都是一个页面</li>
+<li>无法与数据库交互</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-4-动态Web"><a href="#1-4-动态Web" class="headerlink" title="1.4 动态Web"></a>1.4 动态Web</h2><p>页面会动态展示：”Web的页面展示效果因人而异”</p>
+<p>缺点：</p>
+<ul>
+<li>假如服务器动态web资源出现错误，需要重新编写后台程序<ul>
+<li>停机维护</li>
+</ul>
+</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>可以动态更新</li>
+<li>可以与数据库交互（数据持久化：注册，商品信息，用户信息）</li>
+</ul>
+<h1 id="2-Web服务器"><a href="#2-Web服务器" class="headerlink" title="2. Web服务器"></a>2. Web服务器</h1><h2 id="2-1-技术讲解"><a href="#2-1-技术讲解" class="headerlink" title="2.1 技术讲解"></a>2.1 技术讲解</h2><p>ASP：</p>
+<ul>
+<li><p>微软：国内最早留下的就是ASP</p>
+</li>
+<li><p>在HTML中，嵌入了VB的脚本  ASP + COM</p>
+</li>
+<li><p>在ASP开发中，基本一个页面</p>
+</li>
+<li><p>C#</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span><br>        &lt;%<br>           System.out.println()<br>           %&gt;<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p> JSP&#x2F;Servlet：</p>
+<ul>
+<li>sun公司主推的B&#x2F;S架构</li>
+<li>基于JAVA语言（所有大公司）</li>
+<li>承载三高问题带来的影响</li>
+<li>语法像ASP</li>
+</ul>
+<p> php:</p>
+<ul>
+<li><p>开发速度快，功能强大，跨平台，代码简单</p>
+</li>
+<li><p>无法承载大访问量的情况</p>
+</li>
+</ul>
+<h2 id="2-2-Web服务器"><a href="#2-2-Web服务器" class="headerlink" title="2.2 Web服务器"></a>2.2 Web服务器</h2><p>服务器是一种被动的操作，用来处理用户的一些请求和给用户的一些响应。</p>
+<p><strong>IIS</strong>：微软 ASP… Windows自带的</p>
+<p><strong>Tomcat</strong>：免费的开发源代码的Web应用服务器，属于轻量级应用服务器</p>
+<h1 id="3-Tomcat"><a href="#3-Tomcat" class="headerlink" title="3. Tomcat"></a>3. Tomcat</h1><h2 id="3-1-安装"><a href="#3-1-安装" class="headerlink" title="3.1 安装"></a>3.1 安装</h2><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">bin:</span> 启动 关闭 脚本<br><br>conf：配置<br><br><span class="hljs-keyword">lib</span>：依赖包<br><br>logs：日志<br><br>webapps：存放网站<br></code></pre></td></tr></table></figure>
+
+<p>启动Tomcat： startup.bat   </p>
+<p><a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a></p>
+<p>关闭：shutdown.bat</p>
+<h2 id="3-2-配置"><a href="#3-2-配置" class="headerlink" title="3.2 配置"></a>3.2 配置</h2><p>server.xml：</p>
+<ul>
+<li>启动的端口号：默认 8080</li>
+<li>主机的名称：localhost -&gt; 127.0.0.1</li>
+</ul>
+<p><strong>网站是如何进行访问的？</strong></p>
 <ol>
-<li><p>开源数据处理工具箱</p>
-<p>MinerU是一站式开源高质量数据提取工具，支持多格式，智能萃取，生成高质量预训练&#x2F;微调预料。</p>
-<p>Label LLM致力于LLM对话标注，为大模型打造高质量标注数据。</p>
-<p>Label U轻量级标注工具，自由组合多样工具，无缝兼容多格式数据，支持载入预标注。</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174109364.png" srcset="/img/loading.gif" lazyload alt="image-20241107174109364"></p>
-</li>
-<li><p>预训练 Intern Evo</p>
-<p>预训练框架Intern Evo进行了显存优化和分布式训练通信优化。</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174705450.png" srcset="/img/loading.gif" lazyload alt="image-20241107174705450"></p>
-</li>
-<li><p>微调XTuner</p>
-<p>适配多种生态：支持多种微调算法，适配多种开源生态，自动优化加速</p>
-<p>适配多种操作：训练方案覆盖NVIDA 20系以上所有显卡，最低只需8GB显存即可微调7B模型</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107174902486.png" srcset="/img/loading.gif" lazyload alt="image-20241107174902486"></p>
-</li>
-<li><p>OenCompass测评体系</p>
-<p>OpenCompass是开源社区最完善的评测体系之一，提供高时效性的高质量评测机，支持高效评测和能力分析，发布权威榜单，助力通用人工智能发展。</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175103714.png" srcset="/img/loading.gif" lazyload alt="image-20241107175103714"></p>
-</li>
-<li><p>部署LMDeploy</p>
-<p>支持多种开源模型和国产大模型的部署，提供Python、RESTful、GRPC等推理接口，支持TurboMind和PyTorch推理引擎，以及LayOpenAI服务和Gradial、TreeTone推理服务。</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175156057.png" srcset="/img/loading.gif" lazyload alt="image-20241107175156057"></p>
-</li>
-<li><p>智能体</p>
-<p>Legend支持React、ReWoo和AutoGBT三种智能体框架，支持多种大语言模型，可以调用本地Intern LM或GBT。</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175242229.png" srcset="/img/loading.gif" lazyload alt="image-20241107175242229"></p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175319974.png" srcset="/img/loading.gif" lazyload alt="image-20241107175319974"></p>
-</li>
-<li><p>企业级知识库构建工具HuixiangDou</p>
-<p>HuixiangDou支持检索增强生成RAG和知识图谱的可解释行为，已构建1500多个知识库和500多个用户群，具有安全、简单、便宜、扩展性强等特点。</p>
-<p><img src="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/image-20241107175423765.png" srcset="/img/loading.gif" lazyload alt="image-20241107175423765"></p>
+<li>输入一个域名：回车</li>
+<li>检查本机的hosts配置下有无这个域名映射：<ul>
+<li>有： 直接返回对应的ip地址，这个地址里，有我们响应访问的web程序</li>
+<li>无：去DNS服务器找，找到就返回</li>
+</ul>
 </li>
 </ol>
-<p>书生·浦语致力于大模型研究与开发工具链的开源组织。为所有 AI 开发者提供高效、易用的开源平台，让最前沿的大模型与算法技术触手可及</p>
-<p><a target="_blank" rel="noopener" href="https://internlm-chat.intern-ai.org.cn/">体验浦语</a><a target="_blank" rel="noopener" href="https://github.com/InternLM">GitHub</a></p>
+<p><img src="/2024/11/07/JAVAWeb%E2%80%94%E2%80%94Web%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/image-20241116212213835.png" srcset="/img/loading.gif" lazyload alt="image-20241116212213835"></p>
+<h2 id="3-3-配置环境变量"><a href="#3-3-配置环境变量" class="headerlink" title="3.3 配置环境变量"></a>3.3 配置环境变量</h2><h2 id="3-4-发布一个web网站"><a href="#3-4-发布一个web网站" class="headerlink" title="3.4 发布一个web网站"></a>3.4 发布一个web网站</h2><p>把自己写的网站 放到服务器Tomcat指定的web应用的文件夹wenapps下，就可以访问了</p>
+<p>网站的结构：</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs nestedtext">--webapps:Tomcat服务器的web目录<br>	<span class="hljs-attribute">-ROOT</span><br><span class="hljs-attribute">	-study：网站的目录名</span><br><span class="hljs-attribute">		- WEB-INF：</span><br><span class="hljs-attribute">			- classes</span><span class="hljs-punctuation">:</span> <span class="hljs-string">java程序</span><br>			<span class="hljs-bullet">-</span> <span class="hljs-string">lib： web程序依赖的jar包</span><br>			<span class="hljs-bullet">-</span> <span class="hljs-string">web.xml: 网站配置文件</span><br>		<span class="hljs-bullet">-</span> <span class="hljs-string">index.html  默认的首页</span><br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -398,8 +446,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>书生大模型实战营——L1G1000（书生大模型全链路开源体系）</div>
-      <div>https://wendyflv.github.io/2024/11/07/书生大模型实战营——L1G1000（书生大模型全链路开源体系）/</div>
+      <div>JAVAWeb——Web的基本概念</div>
+      <div>https://wendyflv.github.io/2024/11/07/JAVAWeb——Web的基本概念/</div>
     </div>
     <div class="license-meta">
       
@@ -443,9 +491,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/07/JAVAWeb%E2%80%94%E2%80%94Web%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="JAVAWeb——Web的基本概念">
+                      <a href="/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/" title="青训营X豆包MarsCode-技术训练营——六大核心组件">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JAVAWeb——Web的基本概念</span>
+                        <span class="hidden-mobile">青训营X豆包MarsCode-技术训练营——六大核心组件</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -453,8 +501,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/05/JAVASE%E2%80%94%E2%80%94%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E3%80%81%E5%8F%91%E5%B0%84/" title="JAVASE——单元测试、发射">
-                        <span class="hidden-mobile">JAVASE——单元测试、发射</span>
+                      <a href="/2024/11/07/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G1000%EF%BC%88%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%85%A8%E9%93%BE%E8%B7%AF%E5%BC%80%E6%BA%90%E4%BD%93%E7%B3%BB%EF%BC%89/" title="书生大模型实战营——L1G1000（书生大模型全链路开源体系）">
+                        <span class="hidden-mobile">书生大模型实战营——L1G1000（书生大模型全链路开源体系）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

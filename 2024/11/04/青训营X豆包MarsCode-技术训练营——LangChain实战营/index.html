@@ -24,8 +24,10 @@
 <meta property="og:description" content="何为LangChain?LangChain：专为开发基于语言模型的应用而设计的框架，通过LangChain，不仅可以通过API调用如ChatGPT、GPT-4、Llama2等大语言模型，还可以实现更高级功能。  LangChain是一个基于大语言模型（LLMs）用于构建端到端语言模型应用的框架，它可以让开发者使用语言模型来实现各种复杂的任务，例如文本到图像的生成、文档问答、聊天机器人等。LangC">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wendyflv.github.io/2024/11/04/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94LangChain%E5%AE%9E%E6%88%98%E8%90%A5/image-20241104185730000.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/04/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94LangChain%E5%AE%9E%E6%88%98%E8%90%A5/image-20241113162412535.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/04/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94LangChain%E5%AE%9E%E6%88%98%E8%90%A5/image-20241113193828440.png">
 <meta property="article:published_time" content="2024-11-04T10:53:45.000Z">
-<meta property="article:modified_time" content="2024-11-04T12:29:52.814Z">
+<meta property="article:modified_time" content="2024-11-14T10:38:40.549Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://wendyflv.github.io/2024/11/04/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94LangChain%E5%AE%9E%E6%88%98%E8%90%A5/image-20241104185730000.png">
@@ -280,7 +282,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          271 字
+          2.3k 字
         
       </span>
     
@@ -292,7 +294,7 @@
         
         
           <!-- compatible with older versions-->
-          3 分钟
+          20 分钟
         
       </span>
     
@@ -343,12 +345,80 @@
 <li>应用篇：如何将LangChain组件应用到实际场景中</li>
 <li>动手篇：如何部署一个鲜花网络电商的人脉工具，并开发一个易速鲜花聊天客服机器人。</li>
 </ul>
-<h1 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h1><ul>
-<li><p><strong>应用1：情人节玫瑰宣传语</strong></p>
-<p>APIKEY：sk-aS7xqykImG1heiyxcR4lscLvz2DaomX7zuPsdGXcQH5hDMpT</p>
+<h1 id="两大模型"><a href="#两大模型" class="headerlink" title="两大模型"></a>两大模型</h1><ul>
+<li><p><strong>Chat Model</strong>：</p>
+<p>gpt-3.5-turbo（也就是ChatGPT）和GPT-4</p>
 </li>
-<li></li>
+<li><p><strong>Text Model</strong>：</p>
+<p>text-davinci-003（基于GPT3）</p>
+</li>
 </ul>
+<p>上面这两种模型，提供的功能类似，都是接收对话输入（input，也叫prompt），返回回答文本（output，也叫response）。但是，它们的调用方式和要求的输入格式是有区别的</p>
+<h2 id="调用-Text-模型"><a href="#调用-Text-模型" class="headerlink" title="调用 Text 模型"></a>调用 Text 模型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">client = OpenAI()<br><br>response = client.completions.create(<br>    model=os.environ.get(<span class="hljs-string">&quot;LLM_MODELEND&quot;</span>),<br>    temperature=<span class="hljs-number">0.5</span>,<br>    max_tokens=<span class="hljs-number">100</span>,<br>    prompt=<span class="hljs-string">&quot;请给我的花店起个名&quot;</span>,<br>)<br><br><span class="hljs-built_in">print</span>(response.choices[<span class="hljs-number">0</span>].text.strip())<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>choices字段是一个列表，因为在某些情况下，你可以要求模型生成多个可能的输出。每个选择都是一个字典，其中包含以下字段：</p>
+<ul>
+<li>text：模型生成的文本。</li>
+<li>finish_reason：模型停止生成的原因，可能的值包括 stop（遇到了停止标记）、length（达到了最大长度）或 temperature（根据设定的温度参数决定停止）。</li>
+</ul>
+<h2 id="调用-Chat-模型"><a href="#调用-Chat-模型" class="headerlink" title="调用 Chat 模型"></a>调用 Chat 模型</h2><ul>
+<li>messages：此处的messages参数是一个列表，包含了多个消息。每个消息都有一个role（可以是system、user或assistant）和content（消息的内容）。系统消息设定了对话的背景（你是一个很棒的智能助手），然后用户消息提出了具体请求（请给我的花店起个名）。模型的任务是基于这些消息来生成回复。</li>
+<li>role：在OpenAI的Chat模型中，system、user和assistant都是消息的角色。每一种角色都有不同的含义和作用。<ul>
+<li>system：系统消息主要用于设定对话的背景或上下文。这可以帮助模型理解它在对话中的角色和任务。例如，你可以通过系统消息来设定一个场景，让模型知道它是在扮演一个医生、律师或者一个知识丰富的AI助手。系统消息通常在对话开始时给出。</li>
+<li>user：用户消息是从用户或人类角色发出的。它们通常包含了用户想要模型回答或完成的请求。用户消息可以是一个问题、一段话，或者任何其他用户希望模型响应的内容。</li>
+<li>assistant：助手消息是模型的回复。例如，在你使用API发送多轮对话中新的对话请求时，可以通过助手消息提供先前对话的上下文。然而，请注意在对话的最后一条消息应始终为用户消息，因为模型总是要回应最后这条用户消息。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">client = OpenAI()<br><br><span class="hljs-comment"># text = client.invoke(&quot;请给我写一句情人节红玫瑰的中文宣传语&quot;)</span><br>response = client.chat.completions.create(<br>    model=os.environ.get(<span class="hljs-string">&quot;LLM_MODELEND&quot;</span>),<br>    messages=[<br>        &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;You are a creative AI.&quot;</span>&#125;,<br>        &#123;<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;请你为我想一个祝福文案&quot;</span>&#125;,<br>    ],<br>    temperature=<span class="hljs-number">0.8</span>,<br>    max_tokens=<span class="hljs-number">600</span>,<br>)<br><br><span class="hljs-built_in">print</span>(response.choices[<span class="hljs-number">0</span>].message.content)<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="通过LangChain调用Text和Chat模型"><a href="#通过LangChain调用Text和Chat模型" class="headerlink" title="通过LangChain调用Text和Chat模型"></a>通过LangChain调用Text和Chat模型</h1><ul>
+<li><p>调用Text模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br><span class="hljs-keyword">from</span> langchain.llms <span class="hljs-keyword">import</span> OpenAI<br>llm = OpenAI(  <br>    model=<span class="hljs-string">&quot;gpt-3.5-turbo-instruct&quot;</span>,<br>    temperature=<span class="hljs-number">0.8</span>,<br>    max_tokens=<span class="hljs-number">60</span>,)<br>response = llm.predict(<span class="hljs-string">&quot;请给我的花店起个名&quot;</span>)<br><span class="hljs-built_in">print</span>(response)<br><br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>调用Chat模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br>os.environ[<span class="hljs-string">&quot;OPENAI_API_KEY&quot;</span>] = <span class="hljs-string">&#x27;你的Open API Key&#x27;</span><br><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> ChatOpenAI<br>chat = ChatOpenAI(model=<span class="hljs-string">&quot;gpt-4&quot;</span>,<br>                    temperature=<span class="hljs-number">0.8</span>,<br>                    max_tokens=<span class="hljs-number">60</span>)<br><span class="hljs-keyword">from</span> langchain.schema <span class="hljs-keyword">import</span> (<br>    HumanMessage,<br>    SystemMessage<br>)<br>messages = [<br>    SystemMessage(content=<span class="hljs-string">&quot;你是一个很棒的智能助手&quot;</span>),<br>    HumanMessage(content=<span class="hljs-string">&quot;请给我的花店起个名&quot;</span>)<br>]<br>response = chat(messages)<br><span class="hljs-built_in">print</span>(response)<br><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="“易速鲜花”内部员工知识库问答系统"><a href="#“易速鲜花”内部员工知识库问答系统" class="headerlink" title="“易速鲜花”内部员工知识库问答系统"></a>“易速鲜花”内部员工知识库问答系统</h1><p><strong>项目介绍：</strong>开发一套基于各种内部知识手册的 “Doc-QA” 系统。这个系统将充分利用LangChain框架，处理从员工手册中产生的各种问题。这个问答系统能够理解员工的问题，并基于最新的员工手册，给出精准的答案。</p>
+<p> <img src="/2024/11/04/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94LangChain%E5%AE%9E%E6%88%98%E8%90%A5/image-20241113162412535.png" srcset="/img/loading.gif" lazyload alt="image-20241113162412535"></p>
+<ul>
+<li>数据源：非结构化数据、结构化数据、代码</li>
+<li>大模型应用：以大模型为逻辑引擎，生成我们所需要的回答。</li>
+<li>用例：大模型生成的回答可以构建出QA&#x2F;聊天机器人等系统</li>
+</ul>
+<p><strong>核心实现机制：</strong></p>
+<p><img src="/2024/11/04/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94LangChain%E5%AE%9E%E6%88%98%E8%90%A5/image-20241113193828440.png" srcset="/img/loading.gif" lazyload alt="image-20241113193828440"></p>
+<ol>
+<li>Loading：文档加载器把Documents <strong>加载</strong>为以LangChain能够读取的形式。</li>
+<li>Splitting：文本分割器把Documents <strong>切分</strong>为指定大小的分割，我把它们称为“文档块”或者“文档片”。</li>
+<li>Storage：：将上一步中分割好的“文档块”以“嵌入”（Embedding）的形式<strong>存储</strong>到向量数据库（Vector DB）中，形成一个个的“嵌入片”。</li>
+<li>Retrieval：应用程序从存储中<strong>检索</strong>分割后的文档</li>
+<li>Output：把问题和相似的嵌入片传递给语言模型（LLM），使用包含问题和检索到的分割的提示<strong>生成答案</strong>。</li>
+</ol>
+<h2 id="1-数据的准备和载入"><a href="#1-数据的准备和载入" class="headerlink" title="1. 数据的准备和载入"></a>1. 数据的准备和载入</h2><p>读取文本(pdf, txt, docx) 到一个列表里面</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br><span class="hljs-keyword">from</span> langchain.document_loaders <span class="hljs-keyword">import</span> PyPDFLoader<br><span class="hljs-keyword">from</span> langchain.document_loaders <span class="hljs-keyword">import</span> Docx2txtLoader<br><span class="hljs-keyword">from</span> langchain.document_loaders <span class="hljs-keyword">import</span> TextLoader<br><br><br><br>base_dir = <span class="hljs-string">&quot;OneFlower&quot;</span><br>documents = []<br><span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> os.listdir(base_dir):<br>    file_path = os.path.join(base_dir, file)<br>    <span class="hljs-keyword">if</span> file.endswith(<span class="hljs-string">&quot;.pdf&quot;</span>):<br>        loader = PyPDFLoader(file_path)<br>        documents.extend(loader.load())<br>    <span class="hljs-keyword">elif</span> file.endswith(<span class="hljs-string">&quot;.docx&quot;</span>):<br>        loader = Docx2txtLoader(file_path)<br>        documents.extend(loader.load())<br>    <span class="hljs-keyword">elif</span> file.endswith(<span class="hljs-string">&quot;.txt&quot;</span>):<br>        loader = TextLoader(file_path)<br>        documents.extend(loader.load())<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-文本的分割"><a href="#2-文本的分割" class="headerlink" title="2. 文本的分割"></a>2. 文本的分割</h2><p>将加载的文本分割成更小的块，以便进行嵌入和向量存储。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    step2: 对文本做分割，chunk(文本块)</span><br><span class="hljs-string">           chunk_size:每个文本块的目标大小</span><br><span class="hljs-string">           chunk_overlap: 相邻文本块之间的重叠字符数 </span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>text_splitter = RecursiveCharacterTextSplitter(chunk_size = <span class="hljs-number">200</span>, chunk_overlap=<span class="hljs-number">10</span>)<br>chunked_documnets = text_splitter.split_documents(documents)<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-向量数据库存储"><a href="#3-向量数据库存储" class="headerlink" title="3. 向量数据库存储"></a>3. 向量数据库存储</h2><p>将这些分割后的文本转换成嵌入的形式，并将其存储在一个向量数据库中</p>
+<p><strong>词嵌入：</strong>一个为每个词分配的数字列表</p>
+<p><strong>向量数据库：</strong>一种专门用于存储和搜索向量形式的数据的数据库，如Pinecone、Chroma和Qdrant。这里我们选择的是开源向量数据库Qdrant。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    step3: 把分割文本 嵌入 并 存储到矢量数据库Qdrant中</span><br><span class="hljs-string">           embedding:用OpenAI的Embedding Model做嵌入</span><br><span class="hljs-string">           location:存储方式</span><br><span class="hljs-string">           collection_name:集合名称 </span><br><span class="hljs-string"></span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>vectorstore = Qdrant.from_documents(<br>    documents = chunked_documnets,<br>    embedding = OpenAIEmbeddings(),<br>    location = <span class="hljs-string">&quot;:memory:&quot;</span>,<br>    collection_name = <span class="hljs-string">&quot;my_documents&quot;</span>,<br>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-相关信息获取"><a href="#4-相关信息获取" class="headerlink" title="4. 相关信息获取"></a>4. 相关信息获取</h2><p>当内部文档存储到向量数据库之后，我们需要根据问题和任务来提取最相关的信息。此时，信息提取的基本方式就是把问题也转换为向量，然后去和向量数据库中的各个向量进行比较，提取最接近的信息。</p>
+<p>在高维空间中，常用的向量距离或相似度计算方法有欧氏距离和余弦相似度。</p>
+<p><strong>欧氏距离：</strong>度量的是绝对距离，它能很好地反映出向量的绝对差异。当我们关心数据的绝对大小，例如在物品推荐系统中，用户的购买量可能反映他们的偏好强度，此时可以考虑使用欧氏距离。同样，在数据集中各个向量的大小相似，且数据分布大致均匀时，使用欧氏距离也比较适合。</p>
+<p><strong>余弦相似度：</strong>度量的是方向的相似性，它更关心的是两个向量的角度差异，而不是它们的大小差异。在处理文本数据或者其他高维稀疏数据的时候，余弦相似度特别有用。比如在信息检索和文本分类等任务中，文本数据往往被表示为高维的词向量，词向量的方向更能反映其语义相似性，此时可以使用余弦相似度。</p>
+<p>建议使用余弦相似度作为度量标准。通过比较问题和答案向量在语义空间中的方向，可以找到与提出的问题最匹配的答案。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 4. Retrieval 准备模型和Retrieval链</span><br><span class="hljs-keyword">import</span> logging <span class="hljs-comment"># 导入Logging工具</span><br><span class="hljs-keyword">from</span> langchain.chat_models <span class="hljs-keyword">import</span> ChatOpenAI <span class="hljs-comment"># ChatOpenAI模型</span><br><span class="hljs-keyword">from</span> langchain.retrievers.multi_query <span class="hljs-keyword">import</span> MultiQueryRetriever <span class="hljs-comment"># MultiQueryRetriever工具</span><br><span class="hljs-keyword">from</span> langchain.chains <span class="hljs-keyword">import</span> RetrievalQA <span class="hljs-comment"># RetrievalQA链</span><br><br><span class="hljs-comment"># 设置Logging</span><br>logging.basicConfig()<br>logging.getLogger(<span class="hljs-string">&#x27;langchain.retrievers.multi_query&#x27;</span>).setLevel(logging.INFO)<br><br><span class="hljs-comment"># 实例化一个大模型工具 - OpenAI的GPT-3.5</span><br>llm = ChatOpenAI(model_name=<span class="hljs-string">&quot;gpt-3.5-turbo&quot;</span>, temperature=<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 实例化一个MultiQueryRetriever</span><br>retriever_from_llm = MultiQueryRetriever.from_llm(retriever=vectorstore.as_retriever(), llm=llm)<br><br><span class="hljs-comment"># 实例化一个RetrievalQA链</span><br>qa_chain = RetrievalQA.from_chain_type(llm,retriever=retriever_from_llm)<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-生成回答"><a href="#5-生成回答" class="headerlink" title="5. 生成回答"></a>5. 生成回答</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 5. Output 问答系统的UI实现</span><br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request, render_template<br>app = Flask(__name__) <span class="hljs-comment"># Flask APP</span><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span>, methods=[<span class="hljs-string">&#x27;GET&#x27;</span>, <span class="hljs-string">&#x27;POST&#x27;</span>]</span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">home</span>():<br>    <span class="hljs-keyword">if</span> request.method == <span class="hljs-string">&#x27;POST&#x27;</span>:<br><br>        <span class="hljs-comment"># 接收用户输入作为问题</span><br>        question = request.form.get(<span class="hljs-string">&#x27;question&#x27;</span>)        <br>        <br>        <span class="hljs-comment"># RetrievalQA链 - 读入问题，生成答案</span><br>        result = qa_chain(&#123;<span class="hljs-string">&quot;query&quot;</span>: question&#125;)<br>        <br>        <span class="hljs-comment"># 把大模型的回答结果返回网页进行渲染</span><br>        <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>, result=result)<br>    <br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&#x27;index.html&#x27;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    app.run(host=<span class="hljs-string">&#x27;0.0.0.0&#x27;</span>,debug=<span class="hljs-literal">True</span>,port=<span class="hljs-number">5000</span>)<br><br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
