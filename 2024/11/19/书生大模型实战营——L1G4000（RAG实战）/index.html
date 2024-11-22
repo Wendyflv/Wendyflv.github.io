@@ -16,31 +16,23 @@
   <meta name="author" content="Wendyflv">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1. 书生产品矩阵1.1 书生·浦语· 对话 进入 书生浦语: 可进行对话  · 调用API  API文档 提供了 API URL, API Auth，调用示例，请求参数、返回参数说明  API Tokens 调用浦语 API 时需要在请求 Header 内传入 Authorization Tokens 参数用于用户身份验证。我们需要在 API Tokens 模块内创建此 API Tokens 。">
+    <meta name="description" content="1. 前置知识给模型注入新知识分两种方式：  改变模型权重 给模型注入格外的上下文或者说外部信息，不改变它的的权重。  对比两种注入知识方式，第二种更容易实现。RAG 正是这种方式。它能够让基础模型实现非参数知识更新，无需训练就可以掌握新领域的知识。 LlamaIndex 是一个上下文增强的 LLM 框架，旨在通过将其与特定上下文数据集集成，增强大型语言模型（LLMs）的能力。它允许您构建应用程序">
 <meta property="og:type" content="article">
-<meta property="og:title" content="书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）">
-<meta property="og:url" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/index.html">
+<meta property="og:title" content="书生大模型实战营——L1G4000（RAG实战）">
+<meta property="og:url" content="https://wendyflv.github.io/2024/11/19/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G4000%EF%BC%88RAG%E5%AE%9E%E6%88%98%EF%BC%89/index.html">
 <meta property="og:site_name" content="Wendyflv的博客">
-<meta property="og:description" content="1. 书生产品矩阵1.1 书生·浦语· 对话 进入 书生浦语: 可进行对话  · 调用API  API文档 提供了 API URL, API Auth，调用示例，请求参数、返回参数说明  API Tokens 调用浦语 API 时需要在请求 Header 内传入 Authorization Tokens 参数用于用户身份验证。我们需要在 API Tokens 模块内创建此 API Tokens 。">
+<meta property="og:description" content="1. 前置知识给模型注入新知识分两种方式：  改变模型权重 给模型注入格外的上下文或者说外部信息，不改变它的的权重。  对比两种注入知识方式，第二种更容易实现。RAG 正是这种方式。它能够让基础模型实现非参数知识更新，无需训练就可以掌握新领域的知识。 LlamaIndex 是一个上下文增强的 LLM 框架，旨在通过将其与特定上下文数据集集成，增强大型语言模型（LLMs）的能力。它允许您构建应用程序">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122192915548.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122195510403.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122195641939.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194209057.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194459536.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194519466.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194535513.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194846765.png">
-<meta property="og:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122195923690.png">
-<meta property="article:published_time" content="2024-11-16T14:16:31.000Z">
-<meta property="article:modified_time" content="2024-11-22T12:09:47.034Z">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/19/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G4000%EF%BC%88RAG%E5%AE%9E%E6%88%98%EF%BC%89/image-20241119212100577.png">
+<meta property="article:published_time" content="2024-11-19T13:08:31.000Z">
+<meta property="article:modified_time" content="2024-11-20T10:11:12.816Z">
 <meta property="article:author" content="Wendyflv">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://wendyflv.github.io/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122192915548.png">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/11/19/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G4000%EF%BC%88RAG%E5%AE%9E%E6%88%98%EF%BC%89/image-20241119212100577.png">
   
   
   
-  <title>书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品） - Wendyflv的博客</title>
+  <title>书生大模型实战营——L1G4000（RAG实战） - Wendyflv的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -264,7 +256,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）"></span>
+            <span id="subtitle" data-typed-text="书生大模型实战营——L1G4000（RAG实战）"></span>
           
         </div>
 
@@ -275,8 +267,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-16 22:16" pubdate>
-          2024年11月16日 晚上
+        <time datetime="2024-11-19 21:08" pubdate>
+          2024年11月19日 晚上
         </time>
       </span>
     
@@ -288,7 +280,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          725 字
+          189 字
         
       </span>
     
@@ -300,7 +292,7 @@
         
         
           <!-- compatible with older versions-->
-          7 分钟
+          2 分钟
         
       </span>
     
@@ -337,79 +329,21 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）</h1>
+            <h1 id="seo-header">书生大模型实战营——L1G4000（RAG实战）</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="1-书生产品矩阵"><a href="#1-书生产品矩阵" class="headerlink" title="1. 书生产品矩阵"></a>1. 书生产品矩阵</h1><h2 id="1-1-书生·浦语"><a href="#1-1-书生·浦语" class="headerlink" title="1.1 书生·浦语"></a>1.1 书生·浦语</h2><p><strong>· 对话</strong></p>
-<p>进入 <a target="_blank" rel="noopener" href="https://internlm-chat.intern-ai.org.cn/">书生浦语</a>: 可进行对话</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122192915548.png" srcset="/img/loading.gif" lazyload alt="image-20241122192915548"></p>
-<p><strong>· 调用API</strong></p>
+                <h1 id="1-前置知识"><a href="#1-前置知识" class="headerlink" title="1. 前置知识"></a>1. 前置知识</h1><p>给模型注入新知识分两种方式：</p>
 <ul>
-<li><p>API文档</p>
-<p>提供了 API URL, API Auth，调用示例，请求参数、返回参数说明</p>
-</li>
-<li><p>API Tokens</p>
-<p>调用浦语 API 时需要在请求 Header 内传入 Authorization Tokens 参数用于用户身份验证。我们需要在 <a target="_blank" rel="noopener" href="https://internlm.intern-ai.org.cn/api/tokens">API Tokens 模块</a>内创建此 API Tokens 。</p>
-</li>
-<li><p>查看API可用Models</p>
-<p>目前 Chat API 仅支持以 <code>internlm2.5-latest</code> 作为 model ID，它将默认指向我们最新的 InternLM2.5 模型 <code>internlm2.5-20b-0719</code> 。</p>
-</li>
-<li><p>查看API Usage 与 API Rate Limits</p>
-<p>在 <a target="_blank" rel="noopener" href="https://internlm.intern-ai.org.cn/api/strategy">API 限流策略</a>模块可以查询到我们对这个账户调用 API 频率的流控限制，所有新注册的社区用户默认值为：</p>
-<ul>
-<li>RPM (Requests per Minute)：10</li>
-<li>TPM (Tokens per Minute)：5000</li>
+<li>改变模型权重</li>
+<li>给模型注入格外的上下文或者说外部信息，不改变它的的权重。</li>
 </ul>
-</li>
-</ul>
-<p>选择逻代码编程、文章创作、灵感创意、角色扮演、语言翻译、逻辑推理以上任意一个场景或者你自己感兴趣的话题与浦语进行对话 (轮次不限)。</p>
-<p>User：帮我创作一个乙女游戏的脚本</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122195510403.png" srcset="/img/loading.gif" lazyload alt="image-20241122195510403"></p>
-<p>只有一个男主角，太少啦</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122195641939.png" srcset="/img/loading.gif" lazyload alt="image-20241122195641939"></p>
-<h2 id="1-2-MindSearch"><a href="#1-2-MindSearch" class="headerlink" title="1.2 MindSearch"></a>1.2 MindSearch</h2><p><a target="_blank" rel="noopener" href="https://internlm-chat.intern-ai.org.cn/suggestion/oVmlpR34V9U6v9KBQ1TN7IpPQh1Z89ONciSGUKmgFFA=">MindSearch</a> 是一个开源的 AI 搜索引擎。它会对你提出的问题进行分析并拆解为数个子问题，在互联网上搜索、总结得到各个子问题的答案，最后通过模型总结得到最终答案。</p>
-<ul>
-<li><p>拆解问题</p>
-<p>问题：目前生成式AI在学术和工业界有什么最新进展？</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194209057.png" srcset="/img/loading.gif" lazyload alt="image-20241122194209057"></p>
-</li>
-<li><p>解决子问题</p>
-<ul>
-<li><p>思考：我需要在互联网上搜索什么资料来回答这个问题？子节点总结搜索关键词调用搜索引擎搜索到海量参考网页。</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194459536.png" srcset="/img/loading.gif" lazyload alt="image-20241122194459536"></p>
-</li>
-<li><p>信息来源：根据首次搜索到的网页摘要，子节点决定知否对网页进行全文精读。</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194519466.png" srcset="/img/loading.gif" lazyload alt="image-20241122194519466"></p>
-</li>
-<li><p>信息整合：整合精读网页的所有信息形成子节点的结论。</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194535513.png" srcset="/img/loading.gif" lazyload alt="image-20241122194535513"></p>
-</li>
-</ul>
-</li>
-<li><p>总结子节点结论</p>
-<p>一般情况下主节点会根据子节点得出的结论，总结形成最终回复</p>
-<p>部分情况下，主节点会根据子节点得到的结论进一步拆解子问题回到步骤 (1) 直到得到最终结论。</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122194846765.png" srcset="/img/loading.gif" lazyload alt="image-20241122194846765"></p>
-</li>
-</ul>
-<p>知乎上基础任务中的三个问题回答。</p>
-<ol>
-<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/1841339763">目前生成式AI在学术和工业界有什么最新进展？</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/1841339763/answer/38229627072">https://www.zhihu.com/question/1841339763/answer/38229627072</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/1915470960">2024 年诺贝尔物理学奖为何会颁发给人工智能领域，这一举动对这两个领域的从业人员会有什么影响？</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/1915470960/answer/38231201353">https://www.zhihu.com/question/1915470960/answer/38231201353</a></p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/1915582405">最近大火的中国 3A 大作《黑神话·悟空》里有什么让你难忘的精彩故事情节？</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/1915582405/answer/38232059085">https://www.zhihu.com/question/1915582405/answer/38232059085</a></p>
-</li>
-</ol>
-<h2 id="1-3-书生·万象"><a href="#1-3-书生·万象" class="headerlink" title="1.3 书生·万象"></a>1.3 书生·万象</h2><p><a target="_blank" rel="noopener" href="https://internvl.opengvlab.com/">书生·万象</a>是InternVL 开源的视觉语言模型官方的对话产品</p>
-<p>体验书生·万象模型多模态能力，从图片 OCR、图片内容理解等方面与书生·万象展开一次包含图片内容的对话</p>
-<p><img src="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/image-20241122195923690.png" srcset="/img/loading.gif" lazyload alt="image-20241122195923690"></p>
-
+<p>对比两种注入知识方式，第二种更容易实现。RAG 正是这种方式。它能够让基础模型实现非参数知识更新，无需训练就可以掌握新领域的知识。</p>
+<p>LlamaIndex 是一个上下文增强的 LLM 框架，旨在通过将其与特定上下文数据集集成，增强大型语言模型（LLMs）的能力。它允许您构建应用程序，既利用 LLMs 的优势，又融入您的私有或领域特定信息。</p>
+<p><strong>RAG原理</strong>：</p>
+<p><img src="/2024/11/19/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G4000%EF%BC%88RAG%E5%AE%9E%E6%88%98%EF%BC%89/image-20241119212100577.png" srcset="/img/loading.gif" lazyload alt="image-20241119212100577"></p>
+<h1 id="2-浦语-API-LlamaIndex-实践"><a href="#2-浦语-API-LlamaIndex-实践" class="headerlink" title="2.  浦语 API+LlamaIndex 实践"></a>2.  浦语 API+LlamaIndex 实践</h1>
                 
               </div>
             
@@ -426,8 +360,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）</div>
-      <div>https://wendyflv.github.io/2024/11/16/书生大模型实战营——L1G2000（玩转书生-多模态对话-与-AI搜索-产品）/</div>
+      <div>书生大模型实战营——L1G4000（RAG实战）</div>
+      <div>https://wendyflv.github.io/2024/11/19/书生大模型实战营——L1G4000（RAG实战）/</div>
     </div>
     <div class="license-meta">
       
@@ -439,7 +373,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月16日</div>
+          <div>2024年11月19日</div>
         </div>
       
       
@@ -471,18 +405,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/19/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G4000%EF%BC%88RAG%E5%AE%9E%E6%88%98%EF%BC%89/" title="书生大模型实战营——L1G4000（RAG实战）">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">书生大模型实战营——L1G4000（RAG实战）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/14/%E9%9D%92%E8%AE%AD%E8%90%A5X%E8%B1%86%E5%8C%85MarsCode-%E6%8A%80%E6%9C%AF%E8%AE%AD%E7%BB%83%E8%90%A5%E2%80%94%E2%80%94%E5%85%AD%E5%A4%A7%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6/" title="青训营X豆包MarsCode-技术训练营——六大核心组件">
-                        <span class="hidden-mobile">青训营X豆包MarsCode-技术训练营——六大核心组件</span>
+                      <a href="/2024/11/16/%E4%B9%A6%E7%94%9F%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AE%9E%E6%88%98%E8%90%A5%E2%80%94%E2%80%94L1G2000%EF%BC%88%E7%8E%A9%E8%BD%AC%E4%B9%A6%E7%94%9F-%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D-%E4%B8%8E-AI%E6%90%9C%E7%B4%A2-%E4%BA%A7%E5%93%81%EF%BC%89/" title="书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）">
+                        <span class="hidden-mobile">书生大模型实战营——L1G2000（玩转书生[多模态对话]与[AI搜索]产品）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
