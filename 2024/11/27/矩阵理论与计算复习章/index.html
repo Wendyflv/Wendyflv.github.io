@@ -1,0 +1,1043 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/bg/bg2.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Wendyflv">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1. 代数与矩阵运算1.1 向量范数与矩阵范数1.1.1 向量范数1.1.2 矩阵范数 向量范数 与 矩阵范数 相容 ： $||Ax|| \leq ||A|| ||x||$ 如：矩阵范数$m_1$与向量范数$l_1$相容 ； 矩阵范数$m_2$与向量范数$l_2$相容   对于一个向量范数，一定能找到一个与之相容的矩阵范数： $||A|| &#x3D; \underset{||x||&#x3D;1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵理论与计算复习章">
+<meta property="og:url" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/index.html">
+<meta property="og:site_name" content="Wendyflv的博客">
+<meta property="og:description" content="1. 代数与矩阵运算1.1 向量范数与矩阵范数1.1.1 向量范数1.1.2 矩阵范数 向量范数 与 矩阵范数 相容 ： $||Ax|| \leq ||A|| ||x||$ 如：矩阵范数$m_1$与向量范数$l_1$相容 ； 矩阵范数$m_2$与向量范数$l_2$相容   对于一个向量范数，一定能找到一个与之相容的矩阵范数： $||A|| &#x3D; \underset{||x||&#x3D;1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/caf3bc8d946a744e02432eee6913c831_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/2b2d3f532265eb0beaa1d516ea836540_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/64c876c6634ccee3a8edb90e99743f46_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/864fde8af3042ee5036de17e9ebe479b_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/b34b717194808c3a3730a78bf54d2506_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/8c4e7ec05dc521ab289fbeb1e9ed4bb4.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/a5114f595e30d76626bcfc27aaa0fc80_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/232fb561112648f255db8dcc2360f336_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/aff715c5014421fb538f703726993770_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/dbd3d59fc4c6604e2dc66320cbedec48_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/7ddd7a2276d7326e0253d2508cfb24dd_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/7ddd7a2276d7326e0253d2508cfb24dd_720-17328696385191.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/ad2c9397b594d4e5a3e8161a60a4ce30_720.png">
+<meta property="og:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/49a79df4ee74d7fc832e9664cba56790_720.png">
+<meta property="article:published_time" content="2024-11-27T08:31:48.000Z">
+<meta property="article:modified_time" content="2024-12-01T08:46:16.281Z">
+<meta property="article:author" content="Wendyflv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://wendyflv.github.io/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/caf3bc8d946a744e02432eee6913c831_720.png">
+  
+  
+  
+  <title>矩阵理论与计算复习章 - Wendyflv的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_3846514_kabxni94auf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"wendyflv.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Wendyflv 的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-books"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories" target="_self">
+                <i class="iconfont icon-th-large"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bg/bg1.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="矩阵理论与计算复习章"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-27 16:31" pubdate>
+          2024年11月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">矩阵理论与计算复习章</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-代数与矩阵运算"><a href="#1-代数与矩阵运算" class="headerlink" title="1. 代数与矩阵运算"></a>1. 代数与矩阵运算</h1><h2 id="1-1-向量范数与矩阵范数"><a href="#1-1-向量范数与矩阵范数" class="headerlink" title="1.1 向量范数与矩阵范数"></a>1.1 向量范数与矩阵范数</h2><h3 id="1-1-1-向量范数"><a href="#1-1-1-向量范数" class="headerlink" title="1.1.1 向量范数"></a>1.1.1 向量范数</h3><h3 id="1-1-2-矩阵范数"><a href="#1-1-2-矩阵范数" class="headerlink" title="1.1.2 矩阵范数"></a>1.1.2 矩阵范数</h3><ul>
+<li><p><strong>向量范数 与 矩阵范数 相容</strong> ：</p>
+<p>$||Ax|| \leq ||A|| ||x||$</p>
+<p>如：矩阵范数$m_1$与向量范数$l_1$相容 ； 矩阵范数$m_2$与向量范数$l_2$相容 </p>
+</li>
+<li><p>对于一个向量范数，一定能找到一个<strong>与之相容的矩阵范数</strong>：</p>
+<p>$||A|| &#x3D; \underset{||x||&#x3D;1}{\max} ||Ax||$</p>
+</li>
+<li><p>两种矩阵范数：</p>
+<ul>
+<li>非从属矩阵范数：$m_1$, $m_2$等</li>
+<li>算子范数：由向量范数诱导得到的矩阵范数<ul>
+<li>极大的列和范数：$||A||<em>{1} &#x3D; \underset{1 \leq j \leq n}{\max} \sum</em>{i&#x3D;1}^{m} |a_{ij}|$ 所有列和里面最大的</li>
+<li>谱范数：$||A||_2 &#x3D; (\lambda ^{\frac{1}{2}} (A^HA))$  （取$A^HA$的最大的特征值）</li>
+<li>极大的行和范数：$||A||<em>{\infty} &#x3D; \underset{1 \leq i \leq m}{\max} \sum</em>{j&#x3D;1}^{n} |a_{ij}|$</li>
+</ul>
+</li>
+</ul>
+<p>两者的区别：非从属矩阵范数有$||I|| \geq 1$ ； 而算子范数 $||I|| &#x3D; 1$</p>
+<p><strong>例题</strong></p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/caf3bc8d946a744e02432eee6913c831_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>F范数的酉不变性：$A$普通矩阵，$P,Q$都是酉矩阵($P^HP &#x3D; I$)</p>
+<p>$||A|| &#x3D; ||PA|| &#x3D; ||AQ|| &#x3D; ||PAQ||$</p>
+</li>
+<li><p>矩阵范数等价性：如果能找到$C_1, C_2$</p>
+<p>$C_1||A||_s \leq ||A||_t \leq C_2||A||_s$ ， 则$||\cdot||_s $与$||\cdot||$等价</p>
+<p>比如 $\frac{1}{\sqrt{n}}||A||_F \leq ||A||_2 \leq ||A||_F$</p>
+</li>
+<li><p><strong>谱半径</strong>：</p>
+<ul>
+<li>定义：$\rho(A) &#x3D; \underset{1 \leq i \leq n}{\max} | \lambda_i| $ ， 其中$\lambda$为$A$的特征值</li>
+<li>与矩阵范数的关系：$\rho(A) \leq ||A||$  但是，存在一种矩阵范数使得$||A||_{\epsilon} &lt; \rho(A) + \epsilon$</li>
+</ul>
+</li>
+<li><p>谱范数的性质：</p>
+<ul>
+<li>$||A||_2 &#x3D; \underset{||x||_2 &#x3D; 1, ||y||_2 &#x3D; 1}{\max} ||y^HAx|| $ </li>
+<li>$||A^H||_2 &#x3D; ||A||_2 &#x3D; ||A^T||_2$</li>
+<li>$||A^HA|| &#x3D; ||A||_2^{2}$</li>
+<li>对正规矩阵A有：$\rho(A) &#x3D; ||A||_2$</li>
+<li>对非奇异矩阵A有：$||A||_2 &#x3D; \rho(A^HA)^{\frac{1}{2}}$</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-1-3-范数的应用"><a href="#1-1-3-范数的应用" class="headerlink" title="1.1.3 范数的应用"></a>1.1.3 范数的应用</h3><ul>
+<li><p>衡量 $A^{-1}$与$(A + \delta A)$的误差：</p>
+<p>要求 $||A^{-1} \delta A || &lt; 1$， 则。。。</p>
+</li>
+<li><p><strong>条件数</strong>：$cond(A) &#x3D; ||A||||A^{-1}||$</p>
+</li>
+<li><p>病态方程：$Ax&#x3D;b$如果$A$发生微小变化时，解发生巨大变化</p>
+</li>
+<li></li>
+</ul>
+<h1 id="2-特殊矩阵"><a href="#2-特殊矩阵" class="headerlink" title="2. 特殊矩阵"></a>2. 特殊矩阵</h1><h2 id="2-1-置换矩阵"><a href="#2-1-置换矩阵" class="headerlink" title="2.1 置换矩阵"></a>2.1 置换矩阵</h2><h3 id="2-1-1-Hermite矩阵"><a href="#2-1-1-Hermite矩阵" class="headerlink" title="2.1.1 Hermite矩阵"></a>2.1.1 Hermite矩阵</h3><ul>
+<li>对称矩阵：$A^T &#x3D; A, A \in R^{n \times n}$</li>
+<li>Hermite矩阵：$A^H &#x3D; A, A \in C^{n \times n}$<ul>
+<li>A为Hermite矩阵，$A+A^H, AA^H, A^HA ，A^{-1}$也是Hermite矩阵</li>
+<li>A,B为Hermite矩阵， $\alpha A + \beta B$也是Hermite矩阵</li>
+</ul>
+</li>
+<li>Hermite矩阵正定的条件：<ul>
+<li>A所有特征值大于0</li>
+<li>存在一个非奇异R，使得$A &#x3D; R^HR$</li>
+<li>对任意非奇异P，有$P^HAP$正定</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-2-置换矩阵"><a href="#2-1-2-置换矩阵" class="headerlink" title="2.1.2 置换矩阵"></a>2.1.2 置换矩阵</h3><ul>
+<li>置换矩阵：方阵，每行每列只有一个1，其余全为0</li>
+<li>性质：<ul>
+<li>$P^T$也是置换矩阵</li>
+<li>$P^T  P &#x3D; PP^T &#x3D; I$</li>
+<li>$P^T &#x3D; P^{-1}$</li>
+</ul>
+</li>
+<li>移位矩阵：$p_{i, i+1} &#x3D; 1, p_{n1} &#x3D; 1$，其余为0， $P_n &#x3D; (e_n, e_1, ..,e_{n-1})$</li>
+</ul>
+<h3 id="2-1-3-广义置换矩阵"><a href="#2-1-3-广义置换矩阵" class="headerlink" title="2.1.3 广义置换矩阵"></a>2.1.3 广义置换矩阵</h3><ul>
+<li><p>定义：每行每列仅有一个非0元素</p>
+</li>
+<li><p>$G &#x3D; P D$,$G$为广义置换矩阵，$P$为置换矩阵，$D$为非奇异的对角阵</p>
+</li>
+<li><p>选择矩阵：对矩阵的某些行或者某些列进行选择</p>
+<p>$J_1 &#x3D; (I_{m-1}, 0_{m-1}), J_1x &#x3D; (x_1, x_2,..,x_{m-1})^T$， 选择了前m-1行</p>
+</li>
+</ul>
+<h2 id="2-2-正交矩阵与酉矩阵"><a href="#2-2-正交矩阵与酉矩阵" class="headerlink" title="2.2 正交矩阵与酉矩阵"></a>2.2 正交矩阵与酉矩阵</h2><ul>
+<li>正交矩阵：$Q^TQ &#x3D; QQ^T &#x3D; I$</li>
+<li>酉矩阵：$U^H U &#x3D; U U^H &#x3D; I$</li>
+<li>A与B酉相似：$B &#x3D; U^HAU &#x3D; U^{-1}AU$</li>
+<li>性质：</li>
+</ul>
+<h2 id="2-3-三角矩阵"><a href="#2-3-三角矩阵" class="headerlink" title="2.3 三角矩阵"></a>2.3 三角矩阵</h2><ul>
+<li>性质：<ul>
+<li>上三角矩阵乘积为上三角矩阵</li>
+<li>上三角矩阵行列式是对角线元素乘积</li>
+<li>上三角矩阵逆也是上三角矩阵</li>
+<li>正定的Hermite矩阵，能$A &#x3D; T^H DT$, $T$单位上三角</li>
+<li>正定矩阵A ，能有$AA &#x3D; L L^T$</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<h2 id="2-4-Hardmard矩阵"><a href="#2-4-Hardmard矩阵" class="headerlink" title="2.4 Hardmard矩阵"></a>2.4 Hardmard矩阵</h2><h2 id="2-5-Toplitz矩阵与Hankel矩阵"><a href="#2-5-Toplitz矩阵与Hankel矩阵" class="headerlink" title="2.5 Toplitz矩阵与Hankel矩阵"></a>2.5 Toplitz矩阵与Hankel矩阵</h2><h1 id="3-矩阵变换与分解"><a href="#3-矩阵变换与分解" class="headerlink" title="3. 矩阵变换与分解"></a>3. 矩阵变换与分解</h1><h2 id="3-1-酉变换（正交变换）"><a href="#3-1-酉变换（正交变换）" class="headerlink" title="3.1 酉变换（正交变换）"></a>3.1 酉变换（正交变换）</h2><h3 id="3-1-1-酉等价（酉相似）"><a href="#3-1-1-酉等价（酉相似）" class="headerlink" title="3.1.1 酉等价（酉相似）"></a>3.1.1 酉等价（酉相似）</h3><ul>
+<li>定义：</li>
+<li>性质：<ul>
+<li>酉等价 —&gt; 相似</li>
+<li>对酉变换$y &#x3D; Ux$ ，不改变向量长度</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-1-2-Givens变换（初等旋转变换）"><a href="#3-1-2-Givens变换（初等旋转变换）" class="headerlink" title="3.1.2 Givens变换（初等旋转变换）"></a>3.1.2 Givens变换（初等旋转变换）</h3><ul>
+<li><p>定义</p>
+</li>
+<li><p>性质</p>
+</li>
+<li><p>求Givens矩阵</p>
+</li>
+<li><p>例题</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/2b2d3f532265eb0beaa1d516ea836540_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ul>
+<h3 id="3-1-3-Householder变换（初等反射变换）"><a href="#3-1-3-Householder变换（初等反射变换）" class="headerlink" title="3.1.3 Householder变换（初等反射变换）"></a>3.1.3 Householder变换（初等反射变换）</h3><ul>
+<li><p>定义</p>
+</li>
+<li><p>性质</p>
+</li>
+<li><p>求取Householder矩阵</p>
+</li>
+<li><p>例题</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/64c876c6634ccee3a8edb90e99743f46_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>Givens变换 是 两个 Householder变换 的乘积</p>
+</li>
+</ul>
+<h2 id="3-2-QR分解"><a href="#3-2-QR分解" class="headerlink" title="3.2 QR分解"></a>3.2 QR分解</h2><ul>
+<li><p>定义：把矩阵分解成 正交矩阵 和 上三角矩阵 的乘积</p>
+</li>
+<li><p>使用Givens变换做矩阵的QR分解</p>
+</li>
+<li><p>使用Householder变换做矩阵QR分解</p>
+</li>
+<li><p>例题1</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/864fde8af3042ee5036de17e9ebe479b_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>例题2</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/b34b717194808c3a3730a78bf54d2506_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p><strong>Hessenberg正交相似</strong>：</p>
+</li>
+<li><p>上H矩阵：对任意的$i\geq j+2$， $h_{ij} &#x3D; 0$</p>
+</li>
+<li><p>对任意方阵$A$，存在正交矩阵$P$，使得$P^{-1}AP &#x3D; H$</p>
+</li>
+</ul>
+<h2 id="3-3-Schur分解"><a href="#3-3-Schur分解" class="headerlink" title="3.3 Schur分解"></a>3.3 Schur分解</h2><ul>
+<li><p>Schur定理： 矩阵A 能 酉相似于 上三角矩阵   即（$U^H A U &#x3D; T$）</p>
+</li>
+<li><p>正规矩阵：$AA^H &#x3D; A^HA$</p>
+<p>与正规矩阵酉等价的矩阵都是正规矩阵</p>
+<p>如：Hermite矩阵 、反Hermit矩阵、 酉矩阵</p>
+</li>
+<li><p>定理1： A酉相似于对角矩阵 等价于 A是正规矩阵</p>
+</li>
+<li><p>各类正规矩阵的特征值：</p>
+<ul>
+<li>Hermite矩阵（$A^H &#x3D; A$）：实数</li>
+<li>反Hermite矩阵（$A^H &#x3D;-A$）：0或者纯虚数</li>
+<li>实对称矩阵（$A^T &#x3D; A$）：实数</li>
+<li>反实对称矩阵（$A^T &#x3D;-A$）：0或者纯虚数</li>
+</ul>
+</li>
+<li><p>正规矩阵$A^H$的特征值为$\bar{\lambda}$，特征向量为$x$</p>
+</li>
+<li><p>正规矩阵的特征向量两两正交</p>
+</li>
+<li><p>正规矩阵的相似对角化：利用原理$Au_i &#x3D; \lambda_iu_i$，$U$的每列就是$A$的特征值对应的特征向量</p>
+<p>例题：</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/8c4e7ec05dc521ab289fbeb1e9ed4bb4.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ul>
+<h2 id="3-4-Jordan标准型与谱分解"><a href="#3-4-Jordan标准型与谱分解" class="headerlink" title="3.4 Jordan标准型与谱分解"></a>3.4 Jordan标准型与谱分解</h2><h3 id="3-4-1-预备知识"><a href="#3-4-1-预备知识" class="headerlink" title="3.4.1 预备知识"></a>3.4.1 预备知识</h3><ul>
+<li>特征值与特征向量<ul>
+<li>-A的特征值为$-\lambda$，特征向量为$x$</li>
+<li>设$B$与$A$相似，有$P^{-1}AP &#x3D;B$，则B的特征值也是$\lambda$，特征向量为$P^{-1}x$</li>
+<li>AB 与 BA 具有相同的特征值</li>
+</ul>
+</li>
+<li>若A能相似对角化 等价于 A与对角阵 相似</li>
+</ul>
+<h3 id="3-4-2-Jordan标准型"><a href="#3-4-2-Jordan标准型" class="headerlink" title="3.4.2 Jordan标准型"></a>3.4.2 Jordan标准型</h3><ul>
+<li><p>Jordan标准型定义：对矩阵$A \in C^{n * n}$，存在非奇异的$P$，使得$P^{-1}AP &#x3D; diag(J_1, J_2,…,J_s)$，$J_i$为Jordan块。</p>
+<p>若 $J_i$都是一阶的，则A非亏损，否则 亏损</p>
+</li>
+<li><p>$\lambda$矩阵与特征矩阵：</p>
+<p>$\lambda$矩阵：$A(\lambda)&#x3D;(a_{ij}(\lambda))$</p>
+<p>特征矩阵：$\lambda I - A$</p>
+<ul>
+<li><p>$\lambda$矩阵的秩：$\lambda$矩阵的不为0的子式的最大阶数</p>
+</li>
+<li><p>$\lambda$矩阵的三种初等变换：</p>
+<ul>
+<li>任意两行或者两列位置互换</li>
+<li>某一列或行 乘以 非0常数</li>
+<li>某一列或行 乘以 $\phi(\lambda)$加到某列或行</li>
+</ul>
+</li>
+<li><p>$\lambda$矩阵的等价：$A(\lambda)$可以经过一系列初等变换为$B(\lambda)$</p>
+</li>
+<li><p>$\lambda$矩阵的标准形：把$A(\lambda)$通过若干初等变换成$diag(d_1(\lambda), d_2(\lambda), …,d_r(\lambda),0,,,0 )$，且$d_i(\lambda)| d_i+1(\lambda)$，$d_i(\lambda)$叫做<strong>不变因子,</strong> 如$d_1(\lambda)&#x3D; 1, d_2(\lambda)&#x3D; \lambda,d_3(\lambda)&#x3D; \lambda^2 + \lambda$</p>
+</li>
+<li><p>例题</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/a5114f595e30d76626bcfc27aaa0fc80_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p>$\lambda$矩阵的k阶行列式因子：$\lambda$矩阵的所有$k$阶子式的行列式的首一的最大公因式</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/232fb561112648f255db8dcc2360f336_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>且 $D_k(\lambda) &#x3D; d_1(\lambda)…d_k(\lambda)$， $d_k(\lambda) &#x3D; \frac{D_k(\lambda)}{D_{k-1}(\lambda)}$</p>
+</li>
+<li><p>$A(\lambda)$等价于$B(\lambda)$  当且仅当 两者有<strong>相同的 行列式因子 和 不变因子</strong></p>
+</li>
+<li><p>$\lambda$矩阵的初等因子：把次数大于0的不变因子 分解成 互不相同的首1的不可约因式的乘积</p>
+<p>例题：</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/aff715c5014421fb538f703726993770_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>Jordan标准型的全部初等因子 等于 每个Jordan块的初等因子 $(\lambda - \lambda_1)^{k_1}, (\lambda - \lambda_2)^{k_2}, ,,,(\lambda - \lambda_s)^{k_s}$</p>
+</li>
+<li><p>已知初等因子 反推其Jordan块：</p>
+<ul>
+<li>求$\lambda I - A$的全部初等因子  $(\lambda - \lambda_1)^{k_1}, (\lambda - \lambda_2)^{k_2}, ,,,(\lambda - \lambda_s)^{k_s}$</li>
+<li>求每一个Jordan块</li>
+<li>组合全部的Jordan块得到Jordan标准型</li>
+</ul>
+</li>
+<li><p>例题</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/dbd3d59fc4c6604e2dc66320cbedec48_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>谱分解：一个n阶方阵可对角化 等价于 A有n个线性无关特征向量</p>
+<p>$A &#x3D; \sum_{i&#x3D;1}^n \lambda_i x_i y_i^T$  （$x_i$为特征值$\lambda_i$对应右特征向量， $y_i$是左特征向量 $A^T y_i &#x3D; \lambda_i y_i$）</p>
+</li>
+</ul>
+<h2 id="3-5-Gauss变换与三角分解"><a href="#3-5-Gauss变换与三角分解" class="headerlink" title="3.5 Gauss变换与三角分解"></a>3.5 Gauss变换与三角分解</h2><h3 id="3-5-1-Gauss变换"><a href="#3-5-1-Gauss变换" class="headerlink" title="3.5.1 Gauss变换"></a>3.5.1 Gauss变换</h3><ul>
+<li>Gauss向量与Gauss矩阵：<ul>
+<li>Gauss向量：$g^{(k)} &#x3D; (0,0,…0,g_{(k+1)k},..,g_{nk})^T$</li>
+<li>Gauss矩阵：$G_k &#x3D; I - g^{(k)}e_k^{T}$ （初等下三角矩阵）</li>
+<li>Gauss矩阵逆矩阵：$G_k^{-1} &#x3D; I + g^{(k)}e_k^{T}$</li>
+</ul>
+</li>
+<li>性质：<ul>
+<li>$G_k x &#x3D; (x_1, x_2,…,x_k,0,…,0)$</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-5-2-Gauss消元与三角分解"><a href="#3-5-2-Gauss消元与三角分解" class="headerlink" title="3.5.2 Gauss消元与三角分解"></a>3.5.2 Gauss消元与三角分解</h3><ul>
+<li><p>Gauss消元：</p>
+<p>$Ax &#x3D; b$ </p>
+<ul>
+<li>step1：$L_1 &#x3D; I - l^{(1)}e_1^{T} ， (l_{i1} &#x3D; \frac{a_{i1}^{(1)}}{a_{11}^{(1)}})$， $A^{(2)} &#x3D; L_1 A^{(1)}$， $b^{(2)} &#x3D; L_1 b^{(1)}$  此时$A^{(2)}$的第一列的对角线下方全为0</li>
+<li>step2：$L_2 &#x3D; I - l^{(2)}e_2^{T} ， (l_{i2} &#x3D; \frac{a_{i2}^{(2)}}{a_{22}^{(2)}})$， $A^{(3)} &#x3D; L_2 A^{(2)}$， $b^{(3)} &#x3D; L_2 b^{(2)}$  此时$A^{(3)}$的第一，二列的对角线下方全为0</li>
+<li>一直做n-1次</li>
+</ul>
+</li>
+<li><p>三角分解：n阶方阵分解成一个下三角矩阵L和一个上三角矩阵U的乘积 $A &#x3D; LU$</p>
+<ul>
+<li>分类：<ul>
+<li>Doolittle分解：$A &#x3D; LU$ （$L$是单位下三角，U上三角）</li>
+<li>Crout分解：$A &#x3D; LU$ （$L$是下三角，U单位上三角）</li>
+</ul>
+</li>
+<li>LU分解不唯一 $A &#x3D; LU &#x3D; LDD^{-1}U &#x3D; L^{‘}U^{‘}$， $D$为对角矩阵  </li>
+<li>定理1：对非奇异的n阶方阵，其各阶顺序主子式不为0，则A可以做三角分解，且分解唯一 ， $A &#x3D; LDU$， $d_k &#x3D; \frac{\triangle_k}{\triangle_{k-1}}$</li>
+</ul>
+</li>
+<li><p>例题：</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/7ddd7a2276d7326e0253d2508cfb24dd_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>Cholesky（平方根分解）</p>
+<ul>
+<li><p>定理：对对称正定的$A$，存在唯一的对角线为正的下三角矩阵$L$，使得$A &#x3D; L L ^T$</p>
+</li>
+<li><p>例题：</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/7ddd7a2276d7326e0253d2508cfb24dd_720-17328696385191.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-6-最大秩分解"><a href="#3-6-最大秩分解" class="headerlink" title="3.6 最大秩分解"></a>3.6 最大秩分解</h2><ul>
+<li><p>最大秩矩阵：$A &#x3D; (a_{ij})_{m \cdot n}$， 若$m \leq n, Rank(A) &#x3D; m$，被称作行最大秩矩阵； 若$m \geq n, Rank(A) &#x3D; n$，被称作列最大秩矩阵</p>
+</li>
+<li><p>满秩分解：$A &#x3D; (a_{ij})_{m \cdot n}, rank(A) &#x3D; r$，一定存在$B \in C^{m \cdot r}_r, C \in C^{r \cdot n}_r$，使得$A &#x3D; BC$</p>
+</li>
+<li><p>举例：</p>
+<p><img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/ad2c9397b594d4e5a3e8161a60a4ce30_720.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ul>
+<h2 id="3-7-奇异值分解"><a href="#3-7-奇异值分解" class="headerlink" title="3.7 奇异值分解"></a>3.7 奇异值分解</h2><ul>
+<li>定义：对矩阵$A$，存在正交矩阵或酉矩阵$U,V$，使得$$A &#x3D; U \begin{bmatrix} \Sigma_r &amp; 0 \ 0 &amp; 0 \end{bmatrix} V^{T}$$, 其中$\Sigma_r &#x3D; diag(\sigma_1,..,\sigma_r)$</li>
+<li>例题：<img src="/2024/11/27/%E7%9F%A9%E9%98%B5%E7%90%86%E8%AE%BA%E4%B8%8E%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E7%AB%A0/49a79df4ee74d7fc832e9664cba56790_720.png" srcset="/img/loading.gif" lazyload alt="img"></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>矩阵理论与计算复习章</div>
+      <div>https://wendyflv.github.io/2024/11/27/矩阵理论与计算复习章/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Wendyflv</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/26/java%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%A4%8D%E4%B9%A0%E7%AB%A0/" title="java程序设计复习章">
+                        <span class="hidden-mobile">java程序设计复习章</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
